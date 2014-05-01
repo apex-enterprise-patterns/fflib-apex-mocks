@@ -1,9 +1,6 @@
 FinancialForce ApexMocks Framework
 ==================================
 
-This Library
-============
-
 ApexMocks is a mocking framework for the Force.com Apex language.
 
 It derives it's inspiration from the well known Java mocking framework [Mockito](https://code.google.com/p/mockito/)
@@ -11,7 +8,26 @@ It derives it's inspiration from the well known Java mocking framework [Mockito]
 Using ApexMocks on Force.com
 ============================
 
-ApexMocks allows you to write tests to both verify behaviour and stub dependencies:
+ApexMocks allows you to write tests to both verify behaviour and stub dependencies.
+
+An assumption is made that you are using some form of [Dependency Injection](http://en.wikipedia.org/wiki/Dependency_injection) - for example passing dependencies via a constructor:
+
+	public MyClass(ClassA.IClassA dependencyA, ClassB.IClassB depdenceyB)
+	
+This allows you to pass mock implementations of depdencies A and B when you want to unit test MyClass.
+
+Lets assume we've written our own list interface MyList.IList that we want to either verify or stub:
+
+public class fflib_MyList implements IList
+{
+	public interface IList
+	{
+		void add(String value);
+		String get(Integer index);
+		void clear();
+		Boolean isEmpty();
+	}
+}
 
 ### verify() behvariour verification
 
@@ -33,6 +49,7 @@ ApexMocks allows you to write tests to both verify behaviour and stub dependenci
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob');
+		mocks.when(mockList.get(1)).thenReturn('fred');
 		mocks.stopStubbing();
 		
 		
