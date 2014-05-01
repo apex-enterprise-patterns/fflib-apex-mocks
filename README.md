@@ -18,16 +18,16 @@ This allows you to pass mock implementations of depdencies A and B when you want
 
 Lets assume we've written our own list interface MyList.IList that we want to either verify or stub:
 
-public class fflib_MyList implements IList
-{
-	public interface IList
+	public class fflib_MyList implements IList
 	{
-		void add(String value);
-		String get(Integer index);
-		void clear();
-		Boolean isEmpty();
+		public interface IList
+		{
+			void add(String value);
+			String get(Integer index);
+			void clear();
+			Boolean isEmpty();
+		}
 	}
-}
 
 ### verify() behvariour verification
 
