@@ -56,7 +56,7 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 Documentation
 =============
 
-Full documentation for ApexMocks can be found at the [Code4Clode](http://code4cloud.wordpress.com/) blog:
+Full documentation for ApexMocks can be found at [Code4Clode](http://code4cloud.wordpress.com/):
 
 * http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/
 * http://code4cloud.wordpress.com/2014/05/09/simple-dependency-injection/
