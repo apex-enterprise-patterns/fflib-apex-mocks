@@ -53,15 +53,11 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 		mocks.stopStubbing();
 		
 		
-The basic steps involved in using this framework are as follows:
+Documentation
+=============
 
-  * Define your component interface IMyComponent
-  * Define your implementation class MyClass implements IMyComponent
-  * Create your unit test class MyClassTest
-  * Inject the mock implementation of your interface into your unit test class using apex-mocks-generator
-  * Start mocking!
+Full documentation for ApexMocks can be found at the [Code4Clode](http://code4cloud.wordpress.com/) blog:
 
-Code4Clode
-----------
-
-See the [Code4Clode](http://code4cloud.wordpress.com/) blog for further information regarding the ApexMocks framework, including full instructions of how to use it.
+* http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/
+* http://code4cloud.wordpress.com/2014/05/09/simple-dependency-injection/
+* 
