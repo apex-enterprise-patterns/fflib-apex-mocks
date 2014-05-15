@@ -58,6 +58,9 @@ Documentation
 
 Full documentation for ApexMocks can be found at [Code4Clode](http://code4cloud.wordpress.com/):
 
-* http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/
-* http://code4cloud.wordpress.com/2014/05/09/simple-dependency-injection/
-* 
+* [ApexMocks Framework Tutorial](http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/)
+* [Simple Dependency Injection](http://code4cloud.wordpress.com/2014/05/09/simple-dependency-injection/)
+* [ApexMocks Generator](http://code4cloud.wordpress.com/2014/05/15/using-apex-mocks-generator-to-create-mock-class-definitions/)
+* [Behaviour Verification](http://code4cloud.wordpress.com/2014/05/15/writing-behaviour-verification-unit-tests/)
+* [Stubbing Dependencies](http://code4cloud.wordpress.com/2014/05/15/stubbing-dependencies-in-a-unit-test/)
+* [Supported Features](http://code4cloud.wordpress.com/2014/05/15/apexmocks-supported-features/)
