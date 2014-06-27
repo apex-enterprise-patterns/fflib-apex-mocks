@@ -13,7 +13,7 @@ ApexMocks allows you to write tests to both verify behaviour and stub dependenci
 An assumption is made that you are using some form of [Dependency Injection](http://en.wikipedia.org/wiki/Dependency_injection) - for example passing dependencies via a constructor:
 
 	public MyClass(ClassA.IClassA dependencyA, ClassB.IClassB depdenceyB)
-	
+
 This allows you to pass mock implementations of depdencies A and B when you want to unit test MyClass.
 
 Lets assume we've written our own list interface MyList.IList that we want to either verify or stub:
@@ -41,7 +41,7 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
 		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).clear();
-		
+
 ### when() dependency stubbing
 
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
@@ -51,8 +51,8 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 		mocks.when(mockList.get(0)).thenReturn('bob');
 		mocks.when(mockList.get(1)).thenReturn('fred');
 		mocks.stopStubbing();
-		
-		
+
+
 Documentation
 =============
 
@@ -64,3 +64,4 @@ Full documentation for ApexMocks can be found at [Code4Clode](http://code4cloud.
 * [Behaviour Verification](http://code4cloud.wordpress.com/2014/05/15/writing-behaviour-verification-unit-tests/)
 * [Stubbing Dependencies](http://code4cloud.wordpress.com/2014/05/15/stubbing-dependencies-in-a-unit-test/)
 * [Supported Features](http://code4cloud.wordpress.com/2014/05/15/apexmocks-supported-features/)
+* [New Improved apex-mocks-generator](http://code4cloud.wordpress.com/2014/06/27/new-improved-apex-mocks-generator/)
