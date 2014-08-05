@@ -14,7 +14,7 @@ An assumption is made that you are using some form of [Dependency Injection](htt
 
 	public MyClass(ClassA.IClassA dependencyA, ClassB.IClassB depdenceyB)
 
-This allows you to pass mock implementations of depdencies A and B when you want to unit test MyClass.
+This allows you to pass mock implementations of dependencies A and B when you want to unit test MyClass.
 
 Lets assume we've written our own list interface MyList.IList that we want to either verify or stub:
 
@@ -29,7 +29,7 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 		}
 	}
 
-### verify() behvariour verification
+### verify() behaviour verification
 
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
