@@ -1,6 +1,8 @@
 FinancialForce ApexMocks Framework
 ==================================
 
+[Deploy to Salesforce](https://githubsfdeploy.herokuapp.com/app/githubdeploy/financialforcedev/fflib-apex-mocks)
+
 ApexMocks is a mocking framework for the Force.com Apex language.
 
 It derives it's inspiration from the well known Java mocking framework [Mockito](https://code.google.com/p/mockito/)
