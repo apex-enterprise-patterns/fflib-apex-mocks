@@ -70,3 +70,7 @@ Full documentation for ApexMocks can be found at [Code4Clode](http://code4cloud.
 * [Stubbing Dependencies](http://code4cloud.wordpress.com/2014/05/15/stubbing-dependencies-in-a-unit-test/)
 * [Supported Features](http://code4cloud.wordpress.com/2014/05/15/apexmocks-supported-features/)
 * [New Improved apex-mocks-generator](http://code4cloud.wordpress.com/2014/06/27/new-improved-apex-mocks-generator/)
+ 
+Documentation from Jesse Altman
+
+* [ApexMock blogs from Jesse Altman](http://jessealtman.com/tag/apexmocks/)
