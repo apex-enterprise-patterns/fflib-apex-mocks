@@ -50,6 +50,19 @@ public with sharing class fflib_ApexMocks
 		private set;
 	}
 
+	public Exception DoThrowWhenException
+	{
+		get
+		{
+			return methodReturnValueRecorder.DoThrowWhenException;
+		}
+
+		set
+		{
+			methodReturnValueRecorder.DoThrowWhenException = value;
+		}
+	}
+
 	/**
 	 * Construct an ApexMocks instance.
 	 */
@@ -144,9 +157,9 @@ public with sharing class fflib_ApexMocks
 	 * @param methodName The method for which to prepare a return value.
 	 * @param methodArg The method argument for which to prepare a return value.
 	 */
-	public void prepareMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
+	public fflib_MethodReturnValue prepareMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
 	{
-		methodReturnValueRecorder.prepareMethodReturnValue(mockInstance, methodName, methodArg);
+		return methodReturnValueRecorder.prepareMethodReturnValue(mockInstance, methodName, methodArg);
 	}
 
 	/**
@@ -159,5 +172,84 @@ public with sharing class fflib_ApexMocks
 	public fflib_MethodReturnValue getMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
 	{
 		return methodReturnValueRecorder.getMethodReturnValue(mockInstance, methodName, methodArg);
+	}
+
+	/**
+	 * Setup exception stubbing for a void method.
+	 * @param e The exception to throw.
+	 * @param mockInstance The mock object instance.
+	 */
+	public Object doThrowWhen(Exception e, Object mockInstance)
+	{
+		methodReturnValueRecorder.prepareDoThrowWhenException(e);
+		return mockInstance;
+	}
+
+	/**
+	 * Mock a void method. Called by generated mock instance classes, not directly by a developers
+	 * code.
+	 * @param mockInstance The mock object instance.
+	 * @param methodName The method for which to prepare a return value.
+	 * @param methodArg The method argument for which to prepare a return value.
+	 */
+	public void mockVoidMethod(Object mockInstance, String methodName, Object methodArg)
+	{
+		if (Verifying)
+		{
+			verifyMethodCall(mockInstance, methodName, methodArg);
+		}
+		else if (Stubbing)
+		{
+			prepareMethodReturnValue(mockInstance, methodName, methodArg).thenThrow(DoThrowWhenException);
+		}
+		else
+		{
+			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(mockInstance, methodName, methodArg);
+
+			if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
+			{
+				throw ((Exception) methodReturnValue.ReturnValue);
+			}
+
+			recordMethod(mockInstance, methodName, methodArg);
+		}
+	}
+
+	/**
+	 * Mock a non-void method. Called by generated mock instance classes, not directly by a developers
+	 * code.
+	 * @param mockInstance The mock object instance.
+	 * @param methodName The method for which to prepare a return value.
+	 * @param methodArg The method argument for which to prepare a return value.
+	 */
+	public Object mockNonVoidMethod(Object mockInstance, String methodName, Object methodArg)
+	{
+		if (Verifying)
+		{
+			verifyMethodCall(mockInstance, methodName, methodArg);
+		}
+		else if (Stubbing)
+		{
+			prepareMethodReturnValue(mockInstance, methodName, methodArg);
+			return null;
+		}
+		else
+		{
+			recordMethod(mockInstance, methodName, methodArg);
+
+			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(mockInstance, methodName, methodArg);
+
+			if (methodReturnValue != null)
+			{
+				if (methodReturnValue.ReturnValue instanceof Exception)
+				{
+					throw ((Exception) methodReturnValue.ReturnValue);
+				}
+
+				return methodReturnValue.ReturnValue;
+			}
+		}
+
+		return null;
 	}
 }

@@ -225,6 +225,108 @@ private class fflib_ApexMocksTest
 	}
 
 	@isTest
+	static void whenStubVoidMethodWithExceptionThenExceptionShouldBeThrown()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		mocks.startStubbing();
+		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('Stubbed exception.'), mockList)).clear();
+		mocks.stopStubbing();
+
+		// When
+		try
+		{
+			mockList.clear();
+			System.assert(false, 'Stubbed exception should have been thrown.');
+		}
+		catch(Exception e)
+		{
+			// Then
+			System.assert(e instanceof MyException);
+			System.assertEquals('Stubbed exception.', e.getMessage());
+		}
+	}
+
+	@isTest
+	static void whenStubMultipleVoidMethodsWithExceptionsThenExceptionsShouldBeThrown()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		mocks.startStubbing();
+		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('clear stubbed exception.'), mockList)).clear();
+		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('add stubbed exception.'), mockList)).add('bob');
+		mocks.stopStubbing();
+
+		// When
+		try
+		{
+			mockList.clear();
+			System.assert(false, 'Stubbed exception should have been thrown.');
+		}
+		catch(Exception e)
+		{
+			// Then
+			System.assert(e instanceof MyException);
+			System.assertEquals('clear stubbed exception.', e.getMessage());
+		}
+
+		// When
+		try
+		{
+			mockList.add('bob');
+			System.assert(false, 'Stubbed exception should have been thrown.');
+		}
+		catch(Exception e)
+		{
+			// Then
+			System.assert(e instanceof MyException);
+			System.assertEquals('add stubbed exception.', e.getMessage());
+		}
+	}
+
+	@isTest
+	static void whenStubVoidMethodWithExceptionAndCallMethodTwiceThenExceptionShouldBeThrownTwice()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		mocks.startStubbing();
+		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('clear stubbed exception.'), mockList)).clear();
+		mocks.stopStubbing();
+
+		// When
+		try
+		{
+			mockList.clear();
+			System.assert(false, 'Stubbed exception should have been thrown.');
+		}
+		catch(Exception e)
+		{
+			// Then
+			System.assert(e instanceof MyException);
+			System.assertEquals('clear stubbed exception.', e.getMessage());
+		}
+
+		// When
+		try
+		{
+			mockList.clear();
+			System.assert(false, 'Stubbed exception should have been thrown.');
+		}
+		catch(Exception e)
+		{
+			// Then
+			System.assert(e instanceof MyException);
+			System.assertEquals('clear stubbed exception.', e.getMessage());
+		}
+	}
+
+	@isTest
 	static void verifyMethodCallWhenNoCallsBeenMadeForType()
 	{
 		// Given
