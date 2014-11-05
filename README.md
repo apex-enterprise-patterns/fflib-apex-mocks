@@ -12,7 +12,7 @@ ApexMocks allows you to write tests to both verify behaviour and stub dependenci
 
 An assumption is made that you are using some form of [Dependency Injection](http://en.wikipedia.org/wiki/Dependency_injection) - for example passing dependencies via a constructor:
 
-	public MyClass(ClassA.IClassA dependencyA, ClassB.IClassB depdenceyB)
+	public MyClass(ClassA.IClassA dependencyA, ClassB.IClassB dependencyB)
 
 This allows you to pass mock implementations of dependencies A and B when you want to unit test MyClass.
 
