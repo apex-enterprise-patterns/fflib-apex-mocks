@@ -27,6 +27,8 @@ public with sharing class fflib_MethodReturnValueRecorder
 {
 	public Boolean Stubbing { get; set; }
 
+	public Exception DoThrowWhenException { get; set; }
+
 	/**
 	 * Map of method return values by type name.
 	 *
@@ -52,7 +54,7 @@ public with sharing class fflib_MethodReturnValueRecorder
 	 * @param methodName The method for which to prepare a return value.
 	 * @param methodArg The method argument for which to prepare a return value.
 	 */
-	public void prepareMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
+	public fflib_MethodReturnValue prepareMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
 	{
 		String typeName = fflib_ApexMocks.extractTypeName(mockInstance);
 
@@ -71,6 +73,8 @@ public with sharing class fflib_MethodReturnValueRecorder
 		}
 
 		methodReturnValues.get(methodName).put(methodArg, MethodReturnValue);
+
+		return MethodReturnValue;
 	}
 
 	/**
@@ -90,5 +94,14 @@ public with sharing class fflib_MethodReturnValueRecorder
 		}
 
 		return null;
+	}
+
+	/**
+	 * Prepare a stubbed exception for a void method.
+	 * @param e The exception to throw.
+	 */
+	public void prepareDoThrowWhenException(Exception e)
+	{
+		DoThrowWhenException = e;
 	}
 }
