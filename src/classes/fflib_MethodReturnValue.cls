@@ -42,6 +42,14 @@ public with sharing class fflib_MethodReturnValue
 		}
 	}
 
+	public boolean MatcherSet
+	{
+		get
+		{
+			return m_matcherSet;
+		}
+	}
+
 	public List<fflib_ArgumentMatcher> Matchers
 	{
 		get

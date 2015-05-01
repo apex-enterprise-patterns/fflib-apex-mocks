@@ -1,7 +1,5 @@
 public with sharing class Is {
 
-	static final fflib_ArgumentMatcher m_notSetInstance = new ArgumentMatcherNotSet();
-
 	static public fflib_ArgumentMatcher anyString()
 	{
 		return new ArgumentMatcherAnyString();
@@ -15,11 +13,6 @@ public with sharing class Is {
 	static public fflib_ArgumentMatcher exactValue()
 	{
 		return new ArgumentMatcherExactValue();
-	}
-
-	static public fflib_ArgumentMatcher notSet()
-	{
-		return m_notSetInstance;
 	}
 
 	static public fflib_ArgumentMatcher withinRange(Integer min, Integer max)
@@ -72,15 +65,6 @@ public with sharing class Is {
 			if(!(valueToCheck instanceof Integer)) return false;
 			Integer myCheckValue = (Integer)valueToCheck;
 			return myCheckValue >= m_min && myCheckValue <= m_max;
-		}
-	}
-
-	private class ArgumentMatcherNotSet extends fflib_ArgumentMatcher
-	{
-		public override boolean matches(Object valueToCheck)
-		{
-			// Special case
-			return true;
 		}
 	}
 

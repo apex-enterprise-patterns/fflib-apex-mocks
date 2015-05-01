@@ -108,7 +108,7 @@ public with sharing class fflib_MethodReturnValueRecorder
 	{
 		List<fflib_ArgumentMatcher> matcherList = currentMethodReturnValue.Matchers;
 		// This makes all the mock's work from before custom matches
-		if(matcherList[0] instanceof Is.ArgumentMatcherExactValue){
+		if(!currentMethodReturnValue.MatcherSet){
 			return (returnValueKey == methodArg);
 		}
 		else
