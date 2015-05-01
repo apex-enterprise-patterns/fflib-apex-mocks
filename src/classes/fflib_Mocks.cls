@@ -26,6 +26,11 @@ public class fflib_Mocks
 			return (String) mocks.mockNonVoidMethod(this, 'get2', new List<Object> {index, value});
 		}
 
+		public String get3(Integer index, String value, Integer index2)
+		{
+			return (String) mocks.mockNonVoidMethod(this, 'get3', new List<Object> {index, value, index2});
+		}
+
 		public void clear()
 		{
 			mocks.mockVoidMethod(this, 'clear', new List<Object> {});

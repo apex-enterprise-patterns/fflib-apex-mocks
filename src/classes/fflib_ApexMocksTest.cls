@@ -437,6 +437,23 @@ private class fflib_ApexMocksTest
 		System.assertEquals('fred', mockList.get2(9, 'foo'));
 	}
 
+	@isTest
+	static void testTwoRangeMatchers()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get3(0, '', 0)).it(Is.withinRange(2, 4), Is.anyString(), Is.withinRange(20, 40)).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get3(3, 'foo', 30));
+		System.assertEquals(null, mockList.get3(8, 'foo', 30));
+	}
+
 	private class MyException extends Exception
 	{
 	}
