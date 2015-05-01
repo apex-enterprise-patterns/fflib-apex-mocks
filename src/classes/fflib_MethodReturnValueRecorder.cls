@@ -90,10 +90,57 @@ public with sharing class fflib_MethodReturnValueRecorder
 
 		if (methodReturnValuesByTypeName.get(typeName) != null && methodReturnValuesByTypeName.get(typeName).get(methodName) != null)
 		{
-			return methodReturnValuesByTypeName.get(typeName).get(methodName).get(methodArg);
-		}
+			Map<Object, fflib_MethodReturnValue> foundMethod = methodReturnValuesByTypeName.get(typeName).get(methodName);
+			for(Object key : foundMethod.keySet())
+			{
+				fflib_MethodReturnValue currentMethodReturnValue = foundMethod.get(key);
 
+				if(testMatches(key, currentMethodReturnValue, methodArg))
+				{
+					return currentMethodReturnValue;
+				}
+			}
+		}
 		return null;
+	}
+
+	private boolean testMatches(Object returnValueKey, fflib_MethodReturnValue currentMethodReturnValue, Object methodArg)
+	{
+		List<fflib_ArgumentMatcher> matcherList = currentMethodReturnValue.Matchers;
+		// This makes all the mock's work from before custom matches
+		if(matcherList[0] instanceof Is.ArgumentMatcherExactValue){
+			return (returnValueKey == methodArg);
+		}
+		else
+		{
+			List<Object> myListOfArgs;
+			// No idea if everyone will pass a list
+			try
+			{
+				myListOfArgs = (List<Object>)methodArg;
+			}
+			catch(Exception e)
+			{
+				myListOfArgs = new List<Object>();
+				myListOfArgs.add(methodArg);
+			}
+			// For now, assume they need to have one matcher per property.
+			Integer matcherListSize = currentMethodReturnValue.Matchers.size();
+			if(myListOfArgs.size() == matcherListSize)
+			{
+				Boolean myCheck = true;
+				for(Integer i = 0 ; i < matcherListSize ; i ++)
+				{
+					if(!currentMethodReturnValue.Matchers[i].matches(myListOfArgs[i]))
+					{
+						myCheck = false;
+						break;
+					}
+				}
+				return myCheck;
+			}
+			return false;
+		}
 	}
 
 	/**
