@@ -113,8 +113,10 @@ public with sharing class fflib_MethodReturnValueRecorder
 		}
 		else
 		{
-			List<Object> myListOfArgs;
 			// No idea if everyone will pass a list
+			// This will sort out so all the data is lists of objects
+			List<Object> myListOfArgs;
+			List<Object> myListOfValueKeys;
 			try
 			{
 				myListOfArgs = (List<Object>)methodArg;
@@ -124,6 +126,17 @@ public with sharing class fflib_MethodReturnValueRecorder
 				myListOfArgs = new List<Object>();
 				myListOfArgs.add(methodArg);
 			}
+
+			try
+			{
+				myListOfValueKeys = (List<Object>)returnValueKey;
+			}
+			catch(Exception e)
+			{
+				myListOfValueKeys = new List<Object>();
+				myListOfValueKeys.add(returnValueKey);
+			}
+
 			// For now, assume they need to have one matcher per property.
 			Integer matcherListSize = currentMethodReturnValue.Matchers.size();
 			if(myListOfArgs.size() == matcherListSize)
@@ -131,11 +144,20 @@ public with sharing class fflib_MethodReturnValueRecorder
 				Boolean myCheck = true;
 				for(Integer i = 0 ; i < matcherListSize ; i ++)
 				{
-					if(!currentMethodReturnValue.Matchers[i].matches(myListOfArgs[i]))
+					if(currentMethodReturnValue.Matchers[i] instanceof Is.ArgumentMatcherExactValue)
+					{
+						if(myListOfArgs[i] != myListOfValueKeys[i])
+						{
+							myCheck = false;
+							break;
+						}
+					}
+					else if(!currentMethodReturnValue.Matchers[i].matches(myListOfArgs[i]))
 					{
 						myCheck = false;
 						break;
 					}
+
 				}
 				return myCheck;
 			}

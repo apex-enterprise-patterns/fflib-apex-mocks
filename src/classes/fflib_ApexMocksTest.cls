@@ -446,12 +446,16 @@ private class fflib_ApexMocksTest
 
 		// When
 		mocks.startStubbing();
-		mocks.when(mockList.get3(0, '', 0)).it(Is.withinRange(2, 4), Is.anyString(), Is.withinRange(20, 40)).thenReturn('fred');
+		mocks.when(mockList.get3(0, '', 0)).it(Is.withinRange(2, 4), Is.exactValue(), Is.withinRange(20, 40)).thenReturn('fred');
 		mocks.stopStubbing();
 
 		// Then
-		System.assertEquals('fred', mockList.get3(3, 'foo', 30));
-		System.assertEquals(null, mockList.get3(8, 'foo', 30));
+		// Should pass
+		System.assertEquals('fred', mockList.get3(3, '', 30));
+		// Fail because 'foo' is not the exact value
+		System.assertEquals(null, mockList.get3(3, 'foo', 30));
+		// Fail because 8 is out of range
+		System.assertEquals(null, mockList.get3(8, '', 30));
 	}
 
 	private class MyException extends Exception
