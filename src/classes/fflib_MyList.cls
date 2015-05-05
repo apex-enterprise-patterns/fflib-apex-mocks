@@ -31,7 +31,8 @@ public with sharing class fflib_MyList implements IList
 		String get(Integer index);
 		// The following are method signatures to allow us to test stubbing a method with multiple arguments
 		String get2(Integer index, String value);
-		String get3(Integer index, String value, Integer index2);
+		String get3(Integer index, String value, Boolean aBool);
+		String get4(Integer index, String value, Boolean aBool, SObject aSObject);
 		void clear();
 		Boolean isEmpty();
 		void set(Integer index, Object value);
@@ -61,11 +62,16 @@ public with sharing class fflib_MyList implements IList
 
 	public String get2(Integer index, String value)
 	{
-		return 'mary';
+		return 'Mary';
 	}
 
-	public String get3(Integer index, String value, Integer index2)
+	public String get3(Integer index, String value, Boolean aBool)
 	{
-		return 'betty';
+		return 'Betty';
+	}
+
+	public String get4(Integer index, String value, Boolean aBool, SObject aSObject)
+	{
+		return 'Holly';
 	}
 }

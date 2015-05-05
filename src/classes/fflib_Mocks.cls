@@ -26,9 +26,14 @@ public class fflib_Mocks
 			return (String) mocks.mockNonVoidMethod(this, 'get2', new List<Object> {index, value});
 		}
 
-		public String get3(Integer index, String value, Integer index2)
+		public String get3(Integer index, String value, Boolean aBool)
 		{
-			return (String) mocks.mockNonVoidMethod(this, 'get3', new List<Object> {index, value, index2});
+			return (String) mocks.mockNonVoidMethod(this, 'get3', new List<Object> {index, value, aBool});
+		}
+
+		public String get4(Integer index, String value, Boolean aBool, SObject aSObject)
+		{
+			return (String) mocks.mockNonVoidMethod(this, 'get3', new List<Object> {index, value, aBool, aSObject});
 		}
 
 		public void clear()

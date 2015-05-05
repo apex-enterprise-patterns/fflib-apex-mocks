@@ -20,29 +20,70 @@ public with sharing class Is {
 		return new ArgumentMatcherWithinIntegerRange(min, max);
 	}
 
+	static public fflib_ArgumentMatcher anyBoolean()
+	{
+		return new ArgumentMatcherAnyBoolean();
+	}
+
+	static public fflib_ArgumentMatcher anyThing()
+	{
+		return new ArgumentMatcherAnyThing();
+	}
+
+	static public fflib_ArgumentMatcher anySObject()
+	{
+		return new ArgumentMatcherAnySObject();
+	}
+
 	public class ArgumentMatcherAnyString extends fflib_ArgumentMatcher
 	{
-		public override boolean matches(Object valueToCheck)
+		public override boolean matches()
 		{
-			if(valueToCheck == null) return false;
-			return valueToCheck instanceof String;
+			if(RecievedArgument == null) return false;
+			return RecievedArgument instanceof String;
 		}
 	}
 
 	public class ArgumentMatcherAnyInteger extends fflib_ArgumentMatcher
 	{
-		public override boolean matches(Object valueToCheck)
+		public override boolean matches()
 		{
-			if(valueToCheck == null) return false;
-			return valueToCheck instanceof Integer;
+			if(RecievedArgument == null) return false;
+			return RecievedArgument instanceof Integer;
+		}
+	}
+
+	public class ArgumentMatcherAnyBoolean extends fflib_ArgumentMatcher
+	{
+		public override boolean matches()
+		{
+			if(RecievedArgument == null) return false;
+			return RecievedArgument instanceof Boolean;
+		}
+	}
+
+	public class ArgumentMatcherAnyThing extends fflib_ArgumentMatcher
+	{
+		public override boolean matches()
+		{
+			return true;
+		}
+	}
+
+	public class ArgumentMatcherAnySObject extends fflib_ArgumentMatcher
+	{
+		public override boolean matches()
+		{
+			if(RecievedArgument == null) return false;
+			return RecievedArgument instanceof SObject;
 		}
 	}
 
 	public class ArgumentMatcherExactValue extends fflib_ArgumentMatcher
 	{
-		public override boolean matches(Object valueToCheck)
+		public override boolean matches()
 		{
-			// Special case
+			// Special case as the logic is not done here
 			return true;
 		}
 	}
@@ -59,11 +100,11 @@ public with sharing class Is {
 			m_max = max;
 		}
 
-		public override boolean matches(Object valueToCheck)
+		public override boolean matches()
 		{
-			if(valueToCheck == null) return false;
-			if(!(valueToCheck instanceof Integer)) return false;
-			Integer myCheckValue = (Integer)valueToCheck;
+			if(RecievedArgument == null) return false;
+			if(!(RecievedArgument instanceof Integer)) return false;
+			Integer myCheckValue = (Integer)RecievedArgument;
 			return myCheckValue >= m_min && myCheckValue <= m_max;
 		}
 	}

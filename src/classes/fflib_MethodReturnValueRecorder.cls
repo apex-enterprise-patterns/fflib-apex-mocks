@@ -144,6 +144,7 @@ public with sharing class fflib_MethodReturnValueRecorder
 				Boolean myCheck = true;
 				for(Integer i = 0 ; i < matcherListSize ; i ++)
 				{
+					currentMethodReturnValue.Matchers[i].RecievedArgument = myListOfArgs[i];
 					if(currentMethodReturnValue.Matchers[i] instanceof Is.ArgumentMatcherExactValue)
 					{
 						if(myListOfArgs[i] != myListOfValueKeys[i])
@@ -152,7 +153,7 @@ public with sharing class fflib_MethodReturnValueRecorder
 							break;
 						}
 					}
-					else if(!currentMethodReturnValue.Matchers[i].matches(myListOfArgs[i]))
+					else if(!currentMethodReturnValue.Matchers[i].matches())
 					{
 						myCheck = false;
 						break;

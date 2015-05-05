@@ -438,7 +438,7 @@ private class fflib_ApexMocksTest
 	}
 
 	@isTest
-	static void testTwoRangeMatchers()
+	static void testRangeMatchers()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
@@ -446,17 +446,53 @@ private class fflib_ApexMocksTest
 
 		// When
 		mocks.startStubbing();
-		mocks.when(mockList.get3(0, '', 0)).it(Is.withinRange(2, 4), Is.exactValue(), Is.withinRange(20, 40)).thenReturn('fred');
+		mocks.when(mockList.get(0)).it(Is.withinRange(2, 4)).thenReturn('fred');
 		mocks.stopStubbing();
 
 		// Then
 		// Should pass
-		System.assertEquals('fred', mockList.get3(3, '', 30));
-		// Fail because 'foo' is not the exact value
-		System.assertEquals(null, mockList.get3(3, 'foo', 30));
+		System.assertEquals('fred', mockList.get(3));
 		// Fail because 8 is out of range
-		System.assertEquals(null, mockList.get3(8, '', 30));
+		System.assertEquals(null, mockList.get(8));
 	}
+
+	@isTest
+	static void testSObjectMatcher()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get4(0, '', true, new Account())).it(Is.anyThing(), Is.anyThing(), Is.anyThing(), Is.anySObject()).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get4(3, '', false, new Contact()));
+	}
+
+	@isTest
+	static void testSObjectCanBeRetrievedFromMatcher()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		Contract myTestContract = new Contract();
+		fflib_ArgumentMatcher mySObjectMatcher = Is.anySObject();
+
+		mocks.startStubbing();
+		mocks.when(mockList.get4(0, '', true, new Account())).it(Is.anyThing(), Is.anyThing(), Is.anyThing(), mySObjectMatcher).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get4(3, '', false, myTestContract));
+		System.assertEquals(mySObjectMatcher.RecievedArgument, myTestContract);
+	}
+
+
 
 	private class MyException extends Exception
 	{
