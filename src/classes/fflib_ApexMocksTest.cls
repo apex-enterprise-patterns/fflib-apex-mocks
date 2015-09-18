@@ -381,6 +381,119 @@ private class fflib_ApexMocksTest
 		System.assertEquals(null, actualValueArg4);
 	}
 
+	@isTest
+	static void whenChainStubbingSingleCallsWithSameArgumentShouldReturnChainedStubbedValues()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		mocks.startStubbing();
+		mocks.when(mockList.get(0)).thenReturn('bob').thenReturn('fred');
+		mocks.stopStubbing();
+
+		// When
+		String actualValueArg0 = mockList.get(0);
+		String actualValueArg1 = mockList.get(0);
+		String actualValueArg2 = mockList.get(0);
+		String actualValueArg3 = mockList.get(0);
+
+		// Then
+		System.assertEquals('bob', actualValueArg0);
+		System.assertEquals('fred', actualValueArg1);
+		System.assertEquals('fred', actualValueArg2);
+		System.assertEquals('fred', actualValueArg3);
+	}
+
+	@isTest
+	static void testSingleIntegerMatcher()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get(0)).it(Is.anyInteger()).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get(9));
+	}
+
+	@isTest
+	static void testTwoSimpleMatchers()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get2(0, '')).it(Is.anyInteger(), Is.anyString()).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get2(9, 'foo'));
+	}
+
+	@isTest
+	static void testRangeMatchers()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get(0)).it(Is.withinRange(2, 4)).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		// Should pass
+		System.assertEquals('fred', mockList.get(3));
+		// Fail because 8 is out of range
+		System.assertEquals(null, mockList.get(8));
+	}
+
+	@isTest
+	static void testSObjectMatcher()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get4(0, '', true, new Account())).it(Is.anyThing(), Is.anyThing(), Is.anyThing(), Is.anySObject()).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get4(3, '', false, new Contact()));
+	}
+
+	@isTest
+	static void testSObjectCanBeRetrievedFromMatcher()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		Contract myTestContract = new Contract();
+		fflib_ArgumentMatcher mySObjectMatcher = Is.anySObject();
+
+		mocks.startStubbing();
+		mocks.when(mockList.get4(0, '', true, new Account())).it(Is.anyThing(), Is.anyThing(), Is.anyThing(), mySObjectMatcher).thenReturn('fred');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals('fred', mockList.get4(3, '', false, myTestContract));
+		System.assertEquals(mySObjectMatcher.RecievedArgument, myTestContract);
+	}
+
+
+
 	private class MyException extends Exception
 	{
 	}

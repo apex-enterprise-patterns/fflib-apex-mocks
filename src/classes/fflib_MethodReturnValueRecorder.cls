@@ -90,10 +90,80 @@ public with sharing class fflib_MethodReturnValueRecorder
 
 		if (methodReturnValuesByTypeName.get(typeName) != null && methodReturnValuesByTypeName.get(typeName).get(methodName) != null)
 		{
-			return methodReturnValuesByTypeName.get(typeName).get(methodName).get(methodArg);
-		}
+			Map<Object, fflib_MethodReturnValue> foundMethod = methodReturnValuesByTypeName.get(typeName).get(methodName);
+			for(Object key : foundMethod.keySet())
+			{
+				fflib_MethodReturnValue currentMethodReturnValue = foundMethod.get(key);
 
+				if(testMatches(key, currentMethodReturnValue, methodArg))
+				{
+					return currentMethodReturnValue;
+				}
+			}
+		}
 		return null;
+	}
+
+	private boolean testMatches(Object returnValueKey, fflib_MethodReturnValue currentMethodReturnValue, Object methodArg)
+	{
+		List<fflib_ArgumentMatcher> matcherList = currentMethodReturnValue.Matchers;
+		// This makes all the mock's work from before custom matches
+		if(!currentMethodReturnValue.MatcherSet){
+			return (returnValueKey == methodArg);
+		}
+		else
+		{
+			// No idea if everyone will pass a list
+			// This will sort out so all the data is lists of objects
+			List<Object> myListOfArgs;
+			List<Object> myListOfValueKeys;
+			try
+			{
+				myListOfArgs = (List<Object>)methodArg;
+			}
+			catch(Exception e)
+			{
+				myListOfArgs = new List<Object>();
+				myListOfArgs.add(methodArg);
+			}
+
+			try
+			{
+				myListOfValueKeys = (List<Object>)returnValueKey;
+			}
+			catch(Exception e)
+			{
+				myListOfValueKeys = new List<Object>();
+				myListOfValueKeys.add(returnValueKey);
+			}
+
+			// For now, assume they need to have one matcher per property.
+			Integer matcherListSize = currentMethodReturnValue.Matchers.size();
+			if(myListOfArgs.size() == matcherListSize)
+			{
+				Boolean myCheck = true;
+				for(Integer i = 0 ; i < matcherListSize ; i ++)
+				{
+					currentMethodReturnValue.Matchers[i].RecievedArgument = myListOfArgs[i];
+					if(currentMethodReturnValue.Matchers[i] instanceof Is.ArgumentMatcherExactValue)
+					{
+						if(myListOfArgs[i] != myListOfValueKeys[i])
+						{
+							myCheck = false;
+							break;
+						}
+					}
+					else if(!currentMethodReturnValue.Matchers[i].matches())
+					{
+						myCheck = false;
+						break;
+					}
+
+				}
+				return myCheck;
+			}
+			return false;
+		}
 	}
 
 	/**

@@ -206,9 +206,11 @@ public with sharing class fflib_ApexMocks
 		{
 			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(mockInstance, methodName, methodArg);
 
-			if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
+			Object nextReturnValue = methodReturnValue == null ? null : methodReturnValue.ReturnValue;
+
+			if (nextReturnValue != null && nextReturnValue instanceof Exception)
 			{
-				throw ((Exception) methodReturnValue.ReturnValue);
+				throw ((Exception) nextReturnValue);
 			}
 
 			recordMethod(mockInstance, methodName, methodArg);
@@ -241,15 +243,19 @@ public with sharing class fflib_ApexMocks
 
 			if (methodReturnValue != null)
 			{
-				if (methodReturnValue.ReturnValue instanceof Exception)
+
+				Object nextReturnValue = methodReturnValue == null ? null : methodReturnValue.ReturnValue;
+
+				if (nextReturnValue instanceof Exception)
 				{
-					throw ((Exception) methodReturnValue.ReturnValue);
+					throw ((Exception) nextReturnValue);
 				}
 
-				return methodReturnValue.ReturnValue;
+				return nextReturnValue;
 			}
 		}
 
 		return null;
 	}
+
 }
