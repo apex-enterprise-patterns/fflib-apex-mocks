@@ -30,21 +30,20 @@ public with sharing class fflib_MethodReturnValueRecorder
 	public Exception DoThrowWhenException { get; set; }
 
 	/**
-	 * Map of method return values by type name.
+	 * Map of matchers by method.
 	 *
 	 * Key: qualifiedMethod
 	 * Object: map of method return values by method.
-	 *
-	 * Key: methodArgValues
-	 * Object: map of MethodReturnValue by method call argument.
 	 */
-	private Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, fflib_MethodReturnValue>> methodReturnValuesByTypeName;
+	
+	private Map<fflib_QualifiedMethod, List<fflib_MatchersReturnValue>> matcherReturnValuesByMethod;
 
 	public fflib_MethodReturnValue MethodReturnValue { get; private set; }
 
 	public fflib_MethodReturnValueRecorder()
 	{
-		methodReturnValuesByTypeName = new Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, fflib_MethodReturnValue>>();
+		matcherReturnValuesByMethod = new Map<fflib_QualifiedMethod, List<fflib_MatchersReturnValue>>();
+		
 		MethodReturnValue = null;
 	}
 
@@ -56,16 +55,26 @@ public with sharing class fflib_MethodReturnValueRecorder
 	 */
 	public fflib_MethodReturnValue prepareMethodReturnValue(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
-		Map<fflib_MethodArgValues, fflib_MethodReturnValue> methodReturnValues = methodReturnValuesByTypeName.get(qm);
-		if (methodReturnValues == null)
-		{
-			methodReturnValues = new Map<fflib_MethodArgValues, fflib_MethodReturnValue>();
-			methodReturnValuesByTypeName.put(qm, methodReturnValues);
-		}
-
 		MethodReturnValue = new fflib_MethodReturnValue();
 
-		methodReturnValues.put(methodArg, MethodReturnValue);
+		List<fflib_MatchersReturnValue> matcherReturnValues = matcherReturnValuesByMethod.get(qm);
+		if (matcherReturnValues == null)
+		{
+			matcherReturnValues = new List<fflib_MatchersReturnValue>();
+			matcherReturnValuesByMethod.put(qm, matcherReturnValues);
+		}
+		
+		//Register explicit arg values as 'equals' matchers, to preserve old behaviour
+		if (!fflib_Match.Matching)
+		{
+			for (Object arg : methodArg.argValues)
+			{
+				fflib_Match.eq(arg);
+			}
+		}
+		
+		List<fflib_IMatcher> matchers = fflib_Match.getAndClearMatchers(methodArg.argValues.size());
+		matcherReturnValues.add(new fflib_MatchersReturnValue(matchers, MethodReturnValue));
 
 		return MethodReturnValue;
 	}
@@ -79,9 +88,17 @@ public with sharing class fflib_MethodReturnValueRecorder
 	 */
 	public fflib_MethodReturnValue getMethodReturnValue(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
-		if (methodReturnValuesByTypeName.get(qm) != null)
+		List<fflib_MatchersReturnValue> matchersForMethods = matcherReturnValuesByMethod.get(qm);
+		if (matchersForMethods != null)
 		{
-			return methodReturnValuesByTypeName.get(qm).get(methodArg);
+			for (Integer i = matchersForMethods.size() - 1; i >= 0; i--)
+			{
+				fflib_MatchersReturnValue matchersReturnValue = (fflib_MatchersReturnValue)matchersForMethods.get(i);
+				if (fflib_Match.matchesAllArgs(methodArg, matchersReturnValue.matchers))
+				{
+					return matchersReturnValue.returnValue;
+				}
+			}
 		}
 
 		return null;

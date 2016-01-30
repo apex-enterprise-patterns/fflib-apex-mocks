@@ -80,12 +80,28 @@ public with sharing class fflib_MethodCountRecorder
 	private Integer getMethodCount(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
 		Integer retval = 0;
-		
 		Map<fflib_MethodArgValues, Integer> methodCountByArgs = methodCountsByTypeName.get(qm);
-		if (methodCountByArgs != null
-			&& methodCountByArgs.get(methodArg) != null)
+		if (methodCountByArgs != null)
 		{
-			return methodCountByArgs.get(methodArg);
+			if (fflib_Match.Matching)
+			{
+				List<fflib_IMatcher> matchers = fflib_Match.getAndClearMatchers(methodArg.argValues.size());
+				
+				for (fflib_MethodArgValues args : methodCountByArgs.keySet())
+				{
+					if (fflib_Match.matchesAllArgs(args, matchers))
+					{
+						retval += methodCountByArgs.get(args);
+					}
+				}
+			}
+			else
+			{
+				if (methodCountByArgs.get(methodArg) != null)
+				{
+					return methodCountByArgs.get(methodArg);
+				}
+			}
 		}
 		
 		return retval;
