@@ -204,14 +204,14 @@ public with sharing class fflib_ApexMocks
 		}
 		else
 		{
+			recordMethod(mockInstance, methodName, methodArg);
+			
 			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(mockInstance, methodName, methodArg);
 
 			if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
 			{
 				throw ((Exception) methodReturnValue.ReturnValue);
 			}
-
-			recordMethod(mockInstance, methodName, methodArg);
 		}
 	}
 
