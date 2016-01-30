@@ -45,6 +45,24 @@ private class fflib_ApexMocksTest
 	}
 
 	@isTest
+	static void whenStubSingleCallWithNullReturnValueItShouldReturnNull()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		mocks.startStubbing();
+		mocks.when(mockList.get(0)).thenReturn(null);
+		mocks.stopStubbing();
+
+		// When
+		String actualValue = mockList.get(0);
+
+		// Then
+		System.assertEquals(null, actualValue);
+	}
+
+	@isTest
 	static void whenStubMultipleCallsWithSingleArgumentShouldReturnStubbedValues()
 	{
 		// Given
@@ -161,6 +179,26 @@ private class fflib_ApexMocksTest
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
 		((fflib_MyList.IList) mocks.verify(mockList)).add('fred');
+	}
+
+	@isTest
+	static void verifyMethodCallsWithSameNameButDifferentArgumentTypes()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mockList.add('bob');
+		mockList.add(new String[] {'bob'});
+		mockList.add((String)null);
+		mockList.add((String[])null);
+
+		// Then
+		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
+		((fflib_MyList.IList) mocks.verify(mockList)).add(new String[] {'bob'});
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String)null);
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String[])null);
 	}
 
 	@isTest
