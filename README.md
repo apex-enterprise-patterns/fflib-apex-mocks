@@ -57,6 +57,20 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 		mocks.when(mockList.get(1)).thenReturn('fred');
 		mocks.stopStubbing();
 
+Generating Mock files
+=====================
+
+Run the apex mocks generator from the command line.
+
+		java -jar apex-mocks-generator-4.0.0.jar
+			<Filepath to source files>
+			<Filepath to interface properties file>
+			<Name of generated mocks class>
+			<Filepath to target files - can be the same as filepath to source files>
+			<API version of generated mocks class - optional argument, 31.0 by default>
+
+		//E.g. the command used to generate the current version of fflib_Mocks.
+		java -jar apex-mocks-generator-4.0.0.jar "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "/Users/jbloggs/Dev/fflib-apex-mocks/interfacemocks.properties" "fflib_Mocks" "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "30.0"
 
 Documentation
 =============
