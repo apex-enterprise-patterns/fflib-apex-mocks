@@ -16,6 +16,11 @@ public class fflib_Mocks
 			mocks.mockVoidMethod(this, 'add', new List<Type> {String.class}, new List<Object> {value});
 		}
 
+		public void add(String[] value)
+		{
+			mocks.mockVoidMethod(this, 'add', new List<Type> {String[].class}, new List<Object> {value});
+		}
+
 		public String get(Integer index)
 		{
 			return (String) mocks.mockNonVoidMethod(this, 'get', new List<Type> {Integer.class}, new List<Object> {index});
