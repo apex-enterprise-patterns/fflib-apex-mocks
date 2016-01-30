@@ -24,7 +24,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @isTest
-private class fflib_ApexMocksUtilsTest
+public class fflib_ApexMocksUtilsTest
 {
 	public static Schema.FieldSet findAnyFieldSet()
 	{
