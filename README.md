@@ -67,7 +67,7 @@ Run the apex mocks generator from the command line.
 			<Filepath to interface properties file>
 			<Name of generated mocks class>
 			<Filepath to target files - can be the same as filepath to source files>
-			<API version of generated mocks class - optional argument, 31.0 by default>
+			<API version of generated mocks class - optional argument, 30.0 by default>
 
 		//E.g. the command used to generate the current version of fflib_Mocks.
 		java -jar apex-mocks-generator-4.0.0.jar "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "/Users/jbloggs/Dev/fflib-apex-mocks/interfacemocks.properties" "fflib_Mocks" "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "30.0"
