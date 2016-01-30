@@ -324,6 +324,8 @@ private class fflib_ApexMocksTest
 			System.assert(e instanceof MyException);
 			System.assertEquals('clear stubbed exception.', e.getMessage());
 		}
+
+		((fflib_MyList.IList)mocks.verify(mockList, 2)).clear();
 	}
 
 	@isTest
