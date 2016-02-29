@@ -260,4 +260,7 @@ public with sharing class fflib_ApexMocks
 
 		return null;
 	}
+	
+	public class ApexMocksException extends Exception
+	{}
 }
