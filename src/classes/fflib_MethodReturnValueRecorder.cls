@@ -32,47 +32,40 @@ public with sharing class fflib_MethodReturnValueRecorder
 	/**
 	 * Map of method return values by type name.
 	 *
-	 * Key: typeName
-	 * Object: map of method return values by methodName.
+	 * Key: qualifiedMethod
+	 * Object: map of method return values by method.
 	 *
-	 * Key: methodName
-	 * Object: map of MethodReturnVakue by method call argument.
+	 * Key: methodArgValues
+	 * Object: map of MethodReturnValue by method call argument.
 	 */
-	private Map<String, Map<String, Map<Object, fflib_MethodReturnValue>>> methodReturnValuesByTypeName;
+	private Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, fflib_MethodReturnValue>> methodReturnValuesByTypeName;
 
 	public fflib_MethodReturnValue MethodReturnValue { get; private set; }
 
 	public fflib_MethodReturnValueRecorder()
 	{
-		methodReturnValuesByTypeName = new Map<String, Map<String, Map<Object, fflib_MethodReturnValue>>>();
+		methodReturnValuesByTypeName = new Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, fflib_MethodReturnValue>>();
 		MethodReturnValue = null;
 	}
 
 	/**
 	 * Prepare a stubbed method return value.
 	 * @param mockInstance The mock object instance.
-	 * @param methodName The method for which to prepare a return value.
+	 * @param qm The method for which to prepare a return value.
 	 * @param methodArg The method argument for which to prepare a return value.
 	 */
-	public fflib_MethodReturnValue prepareMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
+	public fflib_MethodReturnValue prepareMethodReturnValue(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
-		String typeName = fflib_ApexMocks.extractTypeName(mockInstance);
-
-		if (methodReturnValuesByTypeName.get(typeName) == null)
+		Map<fflib_MethodArgValues, fflib_MethodReturnValue> methodReturnValues = methodReturnValuesByTypeName.get(qm);
+		if (methodReturnValues == null)
 		{
-			methodReturnValuesByTypeName.put(typeName, new Map<String, Map<Object, fflib_MethodReturnValue>>());
+			methodReturnValues = new Map<fflib_MethodArgValues, fflib_MethodReturnValue>();
+			methodReturnValuesByTypeName.put(qm, methodReturnValues);
 		}
-
-		Map<String, Map<Object, fflib_MethodReturnValue>> methodReturnValues = methodReturnValuesByTypeName.get(typeName);
 
 		MethodReturnValue = new fflib_MethodReturnValue();
 
-		if (methodReturnValues.get(methodName) == null)
-		{
-			methodReturnValues.put(methodName, new Map<Object, fflib_MethodReturnValue>());
-		}
-
-		methodReturnValues.get(methodName).put(methodArg, MethodReturnValue);
+		methodReturnValues.put(methodArg, MethodReturnValue);
 
 		return MethodReturnValue;
 	}
@@ -80,17 +73,15 @@ public with sharing class fflib_MethodReturnValueRecorder
 	/**
 	 * Get the method return value for the given method call.
 	 * @param mockInstance The mock object instance.
-	 * @param methodName The method for which to prepare a return value.
+	 * @param qm The method for which to prepare a return value.
 	 * @param methodArg The method argument for which to prepare a return value.
 	 * @return The MethodReturnValue instance.
 	 */
-	public fflib_MethodReturnValue getMethodReturnValue(Object mockInstance, String methodName, Object methodArg)
+	public fflib_MethodReturnValue getMethodReturnValue(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
-		String typeName = fflib_ApexMocks.extractTypeName(mockInstance);
-
-		if (methodReturnValuesByTypeName.get(typeName) != null && methodReturnValuesByTypeName.get(typeName).get(methodName) != null)
+		if (methodReturnValuesByTypeName.get(qm) != null)
 		{
-			return methodReturnValuesByTypeName.get(typeName).get(methodName).get(methodArg);
+			return methodReturnValuesByTypeName.get(qm).get(methodArg);
 		}
 
 		return null;
