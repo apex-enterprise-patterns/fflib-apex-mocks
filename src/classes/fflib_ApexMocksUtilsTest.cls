@@ -24,47 +24,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @isTest
-public with sharing class fflib_MyList implements IList
+public class fflib_ApexMocksUtilsTest
 {
-	public interface IList
+	public static Schema.FieldSet findAnyFieldSet()
 	{
-		void add(String value);
-		void add(String[] value); // Test methods with the same name and number of params
-		String get(Integer index);
-		String get2(Integer index, String value); // This is just a method signature to allow me to test stubbing a method with multiple arguments
-		void clear();
-		Boolean isEmpty();
-		void set(Integer index, Object value);
-	}
+		for (Schema.SObjectType objectType : Schema.getGlobalDescribe().values())
+		{
+			for (Schema.FieldSet fs : objectType.getDescribe().FieldSets.getMap().values())
+			{
+				return fs;
+			}
+		}
 
-	public void add(String[] value)
-	{
-	}
-
-	public void add(String value)
-	{
-	}
-
-	public String get(Integer index)
-	{
-		return 'fred';
-	}
-
-	public void clear()
-	{
-	}
-
-	public Boolean isEmpty()
-	{
-		return true;
-	}
-
-	public void set(Integer index, Object value)
-	{
-	}
-
-	public String get2(Integer index, String value)
-	{
-		return 'mary';
+		return null;
 	}
 }
