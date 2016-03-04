@@ -69,7 +69,14 @@ public with sharing class fflib_MethodReturnValueRecorder
 		{
 			for (Object arg : methodArg.argValues)
 			{
-				fflib_Match.eq(arg);
+				if (arg == null)
+				{
+					fflib_Match.isNull();
+				}
+				else
+				{
+					fflib_Match.eq(arg);
+				}
 			}
 		}
 		
