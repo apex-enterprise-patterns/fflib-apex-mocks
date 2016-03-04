@@ -684,6 +684,26 @@ private class fflib_ApexMocksTest
 	}
 
 	@isTest
+	static void whenStubNullConcreteArgValueCorrectValueIsReturned()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		String expected = 'hello';
+
+		mocks.startStubbing();
+		mocks.when(mockList.get(null)).thenReturn(expected);
+		mocks.stopStubbing();
+
+		// When
+		String actual = mockList.get(null);
+
+		// Then
+		System.assertEquals(expected, actual);
+	}
+
+	@isTest
 	static void whenSetDoThrowWhenExceptionValueIsSet()
 	{
 		//Given
