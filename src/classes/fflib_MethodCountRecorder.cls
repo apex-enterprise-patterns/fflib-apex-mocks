@@ -79,14 +79,14 @@ public with sharing class fflib_MethodCountRecorder
 
 	private Integer getMethodCount(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
+		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
+
 		Integer retval = 0;
 		Map<fflib_MethodArgValues, Integer> methodCountByArgs = methodCountsByTypeName.get(qm);
 		if (methodCountByArgs != null)
 		{
-			if (fflib_Match.Matching)
+			if (matchers != null)
 			{
-				List<fflib_IMatcher> matchers = fflib_Match.getAndClearMatchers(methodArg.argValues.size());
-				
 				for (fflib_MethodArgValues args : methodCountByArgs.keySet())
 				{
 					if (fflib_Match.matchesAllArgs(args, matchers))
@@ -95,12 +95,9 @@ public with sharing class fflib_MethodCountRecorder
 					}
 				}
 			}
-			else
+			else if (methodCountByArgs.get(methodArg) != null)
 			{
-				if (methodCountByArgs.get(methodArg) != null)
-				{
-					return methodCountByArgs.get(methodArg);
-				}
+				return methodCountByArgs.get(methodArg);
 			}
 		}
 		
