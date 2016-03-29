@@ -719,6 +719,21 @@ private class fflib_ApexMocksTest
 		System.assert(e === mocks.DoThrowWhenException);
 	}
 
+	@isTest
+	static void whenVerifyMethodNeverCalledMatchersAreReset()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mockList.add('bob');
+		
+		// Then
+		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).get(fflib_Match.anyInteger());
+		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.anyString());
+	}
+
 	private class MyException extends Exception
 	{
 	}
