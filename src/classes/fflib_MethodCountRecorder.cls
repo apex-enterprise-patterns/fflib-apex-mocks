@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014, FinancialForce.com, inc
  * All rights reserved.
  *
@@ -23,12 +23,16 @@
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * @group Core
+ */
 public with sharing class fflib_MethodCountRecorder
 {
 	public Boolean Verifying { get; set; }
 	public Integer VerifyCount { get; set; }
 
-	/**
+	/*
 	 * Map of method counts by type name.
 	 *
 	 * Key: qualifiedMethod
@@ -46,7 +50,6 @@ public with sharing class fflib_MethodCountRecorder
 
 	/**
 	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
 	 * @param qm The method you expect to have been called.
 	 * @param methodArg The argument you expect to have been passed to the method being verified.
 	 */
@@ -58,7 +61,6 @@ public with sharing class fflib_MethodCountRecorder
 
 	/**
 	 * Record a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
 	 * @param qm The method to be recorded.
 	 * @param methodArg The method argument to be recorded.
 	 */
@@ -70,17 +72,16 @@ public with sharing class fflib_MethodCountRecorder
 			methodCountByArgs = new Map<fflib_MethodArgValues, Integer>();
 			methodCountsByTypeName.put(qm, methodCountByArgs);
 		}
-		
+
 		Integer currentCount = methodCountByArgs.get(methodArg);
 		Integer newCount = currentCount == null ? 1 : ++currentCount;
-		
+
 		methodCountByArgs.put(methodArg, newCount);
 	}
 
 	private Integer getMethodCount(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
 		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
-
 		Integer retval = 0;
 		Map<fflib_MethodArgValues, Integer> methodCountByArgs = methodCountsByTypeName.get(qm);
 		if (methodCountByArgs != null)
@@ -91,6 +92,8 @@ public with sharing class fflib_MethodCountRecorder
 				{
 					if (fflib_Match.matchesAllArgs(args, matchers))
 					{
+						capture(matchers);
+
 						retval += methodCountByArgs.get(args);
 					}
 				}
@@ -100,7 +103,18 @@ public with sharing class fflib_MethodCountRecorder
 				return methodCountByArgs.get(methodArg);
 			}
 		}
-		
+
 		return retval;
+	}
+
+	private void capture(List<fflib_IMatcher> matchers)
+	{
+		for(fflib_IMatcher matcher : matchers)
+		{
+			if( matcher instanceof fflib_ArgumentCaptor.AnyObject )
+			{
+				((fflib_ArgumentCaptor.AnyObject)matcher).storeArgument();
+			}
+		}
 	}
 }
