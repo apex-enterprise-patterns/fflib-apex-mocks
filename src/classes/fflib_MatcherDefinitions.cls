@@ -897,7 +897,7 @@ public with sharing class fflib_MatcherDefinitions
 	{		
 		public Boolean matches(Object arg)
 		{
-			return arg instanceof String ? !String.isBlank((String)arg) : false;
+			return arg == NULL || arg instanceof String ? !String.isBlank((String)arg) : false;
 		}
 	}
 
