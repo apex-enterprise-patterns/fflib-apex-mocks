@@ -23,7 +23,7 @@
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-public with sharing class fflib_ApexMocks
+public with sharing class fflib_ApexMocks implements StubProvider
 {
 	public static final Integer NEVER = 0;
 
@@ -262,4 +262,30 @@ public with sharing class fflib_ApexMocks
 	
 	public class ApexMocksException extends Exception
 	{}
+
+	/**
+	 * Stub API changes
+	 */
+	public Object factory(Type targetClass)
+	{
+		//return Test.createStub(targetClass, this);
+		return null;
+	}
+
+	public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+		List<type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs)
+    {
+        return mockNonVoidMethod(stubbedObject, stubbedMethodName, listOfParamTypes, listOfArgs);
+    }
+
+	public interface StubProvider //Shadowing System.StubProvider to allow compilation in orgs without the perm switched on
+	{
+		Object handleMethodCall(
+			Object stubbedObject,
+			String stubbedMethodName,
+			Type returnType,
+			List<type> listOfParamTypes,
+			List<String> listOfParamNames,
+			List<Object> listOfArgs);
+	}
 }
