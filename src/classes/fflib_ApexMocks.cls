@@ -248,7 +248,8 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		}
 		else if (Stubbing)
 		{
-			prepareMethodReturnValue(qm, argValues);
+			prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
+			DoThrowWhenException = null;
 			return null;
 		}
 		else
