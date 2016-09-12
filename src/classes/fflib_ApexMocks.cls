@@ -195,27 +195,9 @@ public with sharing class fflib_ApexMocks
 	 */
 	public void mockVoidMethod(Object mockInstance, String methodName, List<Type> methodArgTypes, List<Object> methodArgValues)
 	{
-		fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes);
-		fflib_MethodArgValues argValues = new fflib_MethodArgValues(methodArgValues);
-		
-		if (Verifying)
-		{
-			verifyMethodCall(qm, argValues);
-		}
-		else if (Stubbing)
-		{
-			prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
-		}
-		else
-		{
-			recordMethod(qm, argValues);
-			
-			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(qm, argValues);
-			if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
-			{
-				throw ((Exception) methodReturnValue.ReturnValue);
-			}
-		}
+		//Ideally, we would supersede all calls to mockVoidMethod with mockNonVoidMethod and ignore the return value.
+		//However, retaining mockVoidMethod for backwards compatibility.
+		mockNonVoidMethod(mockInstance, methodName, methodArgTypes, methodArgValues);
 	}
 
 	/**
@@ -237,7 +219,8 @@ public with sharing class fflib_ApexMocks
 		}
 		else if (Stubbing)
 		{
-			prepareMethodReturnValue(qm, argValues);
+			prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
+			DoThrowWhenException = null;
 			return null;
 		}
 		else
