@@ -1,0 +1,23 @@
+<project xmlns:sf="antlib:com.salesforce" basedir="."  default="deploy">
+	
+	<property name="sf.server" value="https://login.salesforce.com"/>
+	<import file="${basedir}/lib/exec_anon.xml"/> 
+	<import file="${basedir}/lib/undeploy.xml"/>
+
+	<!--  Downloaded from Salesforce Tools page under Setup -->
+	<typedef 
+		uri="antlib:com.salesforce" 
+		resource="com/salesforce/antlib.xml" 
+		classpath="${basedir}/lib/ant-salesforce.jar"/>
+	
+	<!-- Deploy -->
+	<target name="deploy" depends="undeploy">
+		<sf:deploy 
+	        username="${sf.username}" 
+	        password="${sf.password}" 
+	        serverurl="${sf.server}"
+	        testLevel="RunLocalTests" 
+	        deployRoot="${basedir}/src"/>
+	</target>
+		
+</project>
