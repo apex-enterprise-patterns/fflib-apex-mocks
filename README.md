@@ -1,7 +1,7 @@
 FinancialForce ApexMocks Framework
 ==================================
 
-[![Build Status](https://travis-ci.org/financialforce/fflib-apex-mocks.svg)](https://travis-ci.org/afawcett/financialforce/fflib-apex-mocks)
+[![Build Status](https://travis-ci.org/financialforce/fflib-apex-mocks.svg)](https://travis-ci.org/financialforce/fflib-apex-mocks)
 
 ApexMocks is a mocking framework for the Force.com Apex language.
 
