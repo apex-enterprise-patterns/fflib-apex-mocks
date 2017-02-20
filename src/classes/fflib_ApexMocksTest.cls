@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014, FinancialForce.com, inc
  * All rights reserved.
  *
@@ -23,6 +23,10 @@
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * @nodoc
+ */
 @isTest
 private class fflib_ApexMocksTest
 {
@@ -44,7 +48,7 @@ private class fflib_ApexMocksTest
 		// Then
 		System.assertEquals('hello', actualValue);
 	}
-	
+
 	@isTest
 	static void whenVerifyMultipleCallsWithMatchersShouldReturnCorrectMethodCallCounts()
 	{
@@ -61,7 +65,7 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add('fred');
 		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.stringContains('fred'));
 	}
-	
+
 	@isTest
 	static void whenStubExceptionWithMatchersShouldThrowException()
 	{
@@ -75,7 +79,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		mockList.add('Hi');
-		
+
 		try
 		{
 			mockList.add('Hi Hello Hi');
@@ -87,7 +91,7 @@ private class fflib_ApexMocksTest
 			System.assertEquals('Matcher Exception', e.getMessage());
 		}
 	}
-	
+
 	@isTest
 	static void whenVerifyWithCombinedMatchersShouldReturnCorrectMethodCallCounts()
 	{
@@ -103,30 +107,30 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList, 0)).add(
 			(String)fflib_Match.allOf(fflib_Match.eq('bob'), fflib_Match.stringContains('re'))
 		);
-		
+
 		((fflib_MyList.IList) mocks.verify(mockList)).add(
 			(String)fflib_Match.allOf(fflib_Match.eq('fred'), fflib_Match.stringContains('re'))
 		);
-		
+
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
 			(String)fflib_Match.anyOf(fflib_Match.eq('bob'), fflib_Match.eq('fred'))
 		);
-		
+
 		((fflib_MyList.IList) mocks.verify(mockList, 1)).add(
 			(String)fflib_Match.anyOf(fflib_Match.eq('bob'), fflib_Match.eq('jack'))
 		);
-		
+
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
 			(String)fflib_Match.noneOf(fflib_Match.eq('jack'), fflib_Match.eq('tim'))
 		);
-		
+
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
 			(String)fflib_Match.noneOf(
 				fflib_Match.anyOf(fflib_Match.eq('jack'), fflib_Match.eq('jill')),
 				fflib_Match.allOf(fflib_Match.eq('tim'), fflib_Match.stringContains('i'))
 			)
 		);
-		
+
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
 			(String)fflib_Match.isNot(fflib_Match.eq('jack'))
 		);
@@ -237,13 +241,13 @@ private class fflib_ApexMocksTest
 		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
 
 		mocks.startStubbing();
-		
+
 		mocks.when(mockList.get2(1, 'Non-matcher first')).thenReturn('Bad'); //Set the return value using the non-matcher arguments
 		mocks.when(mockList.get2(fflib_Match.eqInteger(1), fflib_Match.stringContains('Non-matcher first'))).thenReturn('Good'); //Override the return value using matcher arguments
 
 		mocks.when(mockList.get2(fflib_Match.eqInteger(1), fflib_Match.stringContains('Matcher first'))).thenReturn('Bad'); //Set the return value using the matcher arguments
 		mocks.when(mockList.get2(1, 'Matcher first')).thenReturn('Good'); //Override the return value using non-matcher arguments
-		
+
 		mocks.stopStubbing();
 
 		// When/Thens
@@ -259,13 +263,13 @@ private class fflib_ApexMocksTest
 		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
 
 		mocks.startStubbing();
-		
+
 		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Bad'), mockList)).add('Non-matcher first'); //Set the exception value using the non-matcher arguments
 		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Good'), mockList)).add(fflib_Match.stringContains('Non-matcher first')); //Override the exception value using matcher arguments
 
 		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Bad'), mockList)).add(fflib_Match.stringContains('Matcher first')); //Set the exception value using the matcher arguments
 		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Good'), mockList)).add('Matcher first'); //Override the exception value using non-matcher arguments
-		
+
 		mocks.stopStubbing();
 
 		// When/Thens
@@ -289,7 +293,7 @@ private class fflib_ApexMocksTest
 			System.assertEquals('Good', e.getMessage());
 		}
 	}
-	
+
 	@isTest
 	static void whenStubSingleCallWithSingleArgumentShouldReturnStubbedValue()
 	{
@@ -626,8 +630,6 @@ private class fflib_ApexMocksTest
 			System.assert(e instanceof MyException);
 			System.assertEquals('clear stubbed exception.', e.getMessage());
 		}
-
-		((fflib_MyList.IList)mocks.verify(mockList, 2)).clear();
 	}
 
 	@isTest
@@ -686,32 +688,12 @@ private class fflib_ApexMocksTest
 	}
 
 	@isTest
-	static void whenStubNullConcreteArgValueCorrectValueIsReturned()
-	{
-		// Given
-		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
-
-		String expected = 'hello';
-
-		mocks.startStubbing();
-		mocks.when(mockList.get(null)).thenReturn(expected);
-		mocks.stopStubbing();
-
-		// When
-		String actual = mockList.get(null);
-
-		// Then
-		System.assertEquals(expected, actual);
-	}
-
-	@isTest
 	static void whenSetDoThrowWhenExceptionValueIsSet()
 	{
 		//Given
 		MyException e = new MyException('Test');
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		
+
 		//When
 		mocks.DoThrowWhenException = e;
 
@@ -728,7 +710,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		mockList.add('bob');
-		
+
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).get(fflib_Match.anyInteger());
 		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.anyString());
