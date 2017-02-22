@@ -35,7 +35,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -52,7 +52,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		//When
 		TestInnerClass testValue = new TestInnerClass();
@@ -82,7 +82,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -104,7 +104,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		List<String> stringList = new List<String> {'3'};
 		// When
@@ -133,7 +133,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred', 'Barney', 'Wilma', 'Betty');
@@ -157,7 +157,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Barney');
@@ -176,7 +176,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -204,7 +204,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -236,7 +236,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred', 'Barney', 'Wilma', 'Betty');
@@ -265,7 +265,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('3');
@@ -288,7 +288,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Same', 'Same', 'First call', 'First call');
@@ -311,7 +311,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Same', 'Same', 'First call', 'First call');

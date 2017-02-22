@@ -30,7 +30,7 @@ public class fflib_InheritorTest
     public static void canInstantiateMultipleInterfaceInheritor()
     {
         fflib_ApexMocks mocks = new fflib_ApexMocks();
-        Object inheritor = mocks.factory(fflib_Inheritor.class);
+        Object inheritor = mocks.mock(fflib_Inheritor.class);
         System.assert(inheritor instanceof fflib_Inheritor.IA);
         System.assert(inheritor instanceof fflib_Inheritor.IB);
         System.assert(inheritor instanceof fflib_Inheritor.IC);
@@ -40,7 +40,7 @@ public class fflib_InheritorTest
     public static void canStubMultipleInterfaceInheritor()
     {
         fflib_ApexMocks mocks = new fflib_ApexMocks();
-        fflib_Inheritor inheritor = (fflib_Inheritor)mocks.factory(fflib_Inheritor.class);
+        fflib_Inheritor inheritor = (fflib_Inheritor)mocks.mock(fflib_Inheritor.class);
 
         mocks.startStubbing();
         mocks.when(inheritor.doA()).thenReturn('Did not do A');

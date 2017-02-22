@@ -75,11 +75,26 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		methodReturnValueRecorder.Stubbing = false;
 	}
 
-	public Object factory(Type targetClass)
+	/**
+     * Creates mock object of given class or interface.
+     * @param classToMock class or interface to mock
+     * @return mock object
+     */
+	public Object mock(Type classToMock)
 	{
-		return Test.createStub(targetClass, this);
+		return Test.createStub(classToMock, this);
 	}
 
+	/**
+	 * Inherited from StubProvider
+	 * @param stubbedObject The stubbed object.
+	 * @param stubbedMethodName The name of the invoked method.
+	 * @param returnType The return type of the invoked method.
+	 * @param listOfParamTypes A list of the parameter types of the invoked method.
+	 * @param listOfParamNames A list of the parameter names of the invoked method.
+	 * @param listOfArgs The actual argument values passed into this method at runtime.
+	 * @return The stubbed return value. Null by default, unless you prepared one that matches this method and argument values in stubbing.
+	 */
 	public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
 		List<type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs)
     {

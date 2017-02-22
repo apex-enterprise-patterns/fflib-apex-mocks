@@ -31,7 +31,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(fflib_Match.anyInteger(), fflib_Match.anyString())).thenReturn('any');
@@ -50,7 +50,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -67,7 +67,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('Matcher Exception'),  mockList)).add(fflib_Match.stringContains('Hello'));
@@ -93,7 +93,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -137,7 +137,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get((Integer)fflib_Match.matches(new isOdd()))).thenReturn('Odd');
@@ -164,7 +164,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.get(1);
@@ -183,7 +183,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		String expectedError = 'The number of matchers defined (1).'
 				+ ' does not match the number expected (2)\n'
@@ -208,7 +208,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		String expectedError = 'The number of matchers defined (1).'
 				+ ' does not match the number expected (2)\n'
@@ -234,7 +234,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		
@@ -256,7 +256,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		
@@ -295,7 +295,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob');
@@ -313,7 +313,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn(null);
@@ -331,7 +331,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob');
@@ -354,7 +354,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob1');
@@ -373,7 +373,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.isEmpty()).thenReturn(false);
@@ -391,7 +391,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.isEmpty();
@@ -405,7 +405,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -419,7 +419,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -434,7 +434,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -450,7 +450,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -470,7 +470,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.get(0);
@@ -485,7 +485,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.isEmpty()).thenReturn(false);
@@ -506,7 +506,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenThrow(new MyException('Stubbed exception.'));
@@ -531,7 +531,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('Stubbed exception.'), mockList)).clear();
@@ -556,7 +556,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('clear stubbed exception.'), mockList)).clear();
@@ -595,7 +595,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('clear stubbed exception.'), mockList)).clear();
@@ -635,7 +635,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).add('bob');
@@ -646,7 +646,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.set(0, 'bob');
@@ -661,7 +661,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'zero')).thenReturn('bob');
@@ -690,7 +690,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		String expected = 'hello';
 
@@ -724,7 +724,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.factory(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
