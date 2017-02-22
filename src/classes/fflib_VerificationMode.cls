@@ -138,7 +138,7 @@ public with sharing class fflib_VerificationMode
 	/**
 	 * Sets how many times the method is expected to be called for an InOrder verifier. Available Only with the InOrder verification.
 	 * A verification mode using calls will not fail if the method is called more times than expected.
-	 * @param times The number of times you expect the method to have been called in the InOrder verifying ( no greedy verify).
+	 * @param callingTimes The number of times you expect the method to have been called in the InOrder verifying (no greedy verify).
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
 	public fflib_VerificationMode calls(Integer callingTimes)

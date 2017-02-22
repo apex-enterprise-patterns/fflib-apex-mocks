@@ -83,11 +83,11 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 
 		if(hasNextInteraction(unorderedMockInstances, idxMethodCall))
 		{
-			fflib_QualifiedMethodAndArgValues qm =
+			fflib_InvocationOnMock invocation =
 				fflib_MethodCountRecorder.getOrderedMethodCalls().get(idxMethodCall -1);
 
 			throw new fflib_ApexMocks.ApexMocksException(
-				'No more Interactions were expected after the ' + qm.getQualifiedMethod() +' method.');
+				'No more Interactions were expected after the ' + invocation.getMethod() +' method.');
 		}
 	}
 
@@ -139,10 +139,10 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 		fflib_QualifiedMethod qm,
 		fflib_MethodArgValues methodArg)
 	{
-		fflib_QualifiedMethodAndArgValues calledMethod = getNextMethodCall();
+		fflib_InvocationOnMock calledMethod = getNextMethodCall();
 		while(calledMethod != null)
 		{
-			if(calledMethod.getQualifiedMethod() == qm &&
+			if(calledMethod.getMethod() == qm &&
 				argumentsMatch(calledMethod.getMethodArgValues(), matchers, methodArg))
 			{
 				//it's our method
@@ -168,12 +168,12 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 
 		for (Integer i = idxMethodCall, len = fflib_MethodCountRecorder.getOrderedMethodCalls().size(); i<len; i++)
 		{
-			fflib_QualifiedMethodAndArgValues qm = fflib_MethodCountRecorder.getOrderedMethodCalls().get(i);
+			fflib_InvocationOnMock invocation = fflib_MethodCountRecorder.getOrderedMethodCalls().get(i);
 			for (Object mockInstance : unorderedMockInstances)
 			{
-				if (qm.getMockInstance() === mockInstance
-					&& (qualifiedMethod == qm.getQualifiedMethod())
-					&& (argumentsMatch(qm.getMethodArgValues(), matchers, methodArg)))
+				if (invocation.getMock() === mockInstance
+					&& (qualifiedMethod == invocation.getMethod())
+					&& (argumentsMatch(invocation.getMethodArgValues(), matchers, methodArg)))
 				{
 					interactionsCouter++;
 				}
@@ -206,17 +206,17 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 		return false;
 	}
 
-	private fflib_QualifiedMethodAndArgValues getNextMethodCall()
+	private fflib_InvocationOnMock getNextMethodCall()
 	{
 		Integer idx = 0;
-		for (fflib_QualifiedMethodAndArgValues qm : fflib_MethodCountRecorder.getOrderedMethodCalls())
+		for (fflib_InvocationOnMock invocation : fflib_MethodCountRecorder.getOrderedMethodCalls())
 		{
 			if (idx == idxMethodCall)
 			{
-				if(isForMockInstance(qm))
+				if(isForMockInstance(invocation))
 				{
 					idxMethodCall++;
-					return qm;
+					return invocation;
 				}
 			}
 			else
@@ -228,11 +228,11 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 		return null;
 	}
 
-	private Boolean isForMockInstance(fflib_QualifiedMethodAndArgValues qm)
+	private Boolean isForMockInstance(fflib_InvocationOnMock invocation)
 	{
 		for (Object mi : unorderedMockInstances)
 		{
-			if (mi === qm.getMockInstance())
+			if (mi === invocation.getMock())
 			{
 				return true;
 			}
@@ -251,7 +251,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	{
 		Integer idx = 0;
 
-		for (fflib_QualifiedMethodAndArgValues methodCall : fflib_MethodCountRecorder.getOrderedMethodCalls())
+		for (fflib_InvocationOnMock methodCall : fflib_MethodCountRecorder.getOrderedMethodCalls())
 		{
 			if (isForMockInstance(methodCall))
 			{

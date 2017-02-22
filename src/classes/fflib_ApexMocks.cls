@@ -37,7 +37,7 @@ public with sharing class fflib_ApexMocks
 	private fflib_MethodVerifier methodVerifier;
 	private fflib_VerificationMode verificationMode;
 
-	public Boolean Verifying { get; set;	}
+	public Boolean Verifying { get; set; }
 
 	public Boolean Stubbing
 	{
@@ -120,13 +120,13 @@ public with sharing class fflib_ApexMocks
 
 	/**
 	 * Verfiy a method was called on a mock object.
-	 * @param qm The method you expect to have been called.
-	 * @param methodArg The argument you expect to have been passed to the method being verified.
+	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
 	 */
-	public void verifyMethodCall(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
+	public void verifyMethodCall(fflib_InvocationOnMock mockInvocation)
 	{
-		this.methodVerifier.verifyMethodCall(qm, methodArg, verificationMode);
+		this.methodVerifier.verifyMethodCall(mockInvocation, verificationMode);
 		this.methodVerifier = new fflib_AnyOrder();
+
 		Verifying = false;
 	}
 
@@ -158,34 +158,31 @@ public with sharing class fflib_ApexMocks
 
 	/**
 	 * Record a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param qm The method to be recorded.
-	 * @param methodArg The method argument to be recorded.
+	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
 	 */
-	public void recordMethod(Object mockInstance, fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
+	public void recordMethod(fflib_InvocationOnMock mockInvocation)
 	{
-		methodCountRecorder.recordMethod(mockInstance, qm, methodArg);
+		methodCountRecorder.recordMethod(mockInvocation);
 	}
 
 	/**
 	 * Prepare a stubbed method return value.
-	 * @param qm The method for which to prepare a return value.
-	 * @param methodArg The method argument for which to prepare a return value.
+	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
+	 * @return The MethodReturnValue instance.
 	 */
-	public fflib_MethodReturnValue prepareMethodReturnValue(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
+	public fflib_MethodReturnValue prepareMethodReturnValue(fflib_InvocationOnMock mockInvocation)
 	{
-		return methodReturnValueRecorder.prepareMethodReturnValue(qm, methodArg);
+		return methodReturnValueRecorder.prepareMethodReturnValue(mockInvocation);
 	}
 
 	/**
 	 * Get the method return value for the given method call.
-	 * @param qm The method for which to prepare a return value.
-	 * @param methodArg The method argument for which to prepare a return value.
+	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
 	 * @return The MethodReturnValue instance.
 	 */
-	public fflib_MethodReturnValue getMethodReturnValue(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
+	public fflib_MethodReturnValue getMethodReturnValue(fflib_InvocationOnMock mockInvocation)
 	{
-		return methodReturnValueRecorder.getMethodReturnValue(qm, methodArg);
+		return methodReturnValueRecorder.getMethodReturnValue(mockInvocation);
 	}
 
 	/**
@@ -209,28 +206,7 @@ public with sharing class fflib_ApexMocks
 	 */
 	public void mockVoidMethod(Object mockInstance, String methodName, List<Type> methodArgTypes, List<Object> methodArgValues)
 	{
-		fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes);
-		fflib_MethodArgValues argValues = new fflib_MethodArgValues(methodArgValues);
-
-		if (Verifying)
-		{
-			verifyMethodCall(qm, argValues);
-		}
-		else if (Stubbing)
-		{
-			prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
-		}
-		else
-		{
-			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(qm, argValues);
-
-			if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
-			{
-				throw ((Exception) methodReturnValue.ReturnValue);
-			}
-
-			recordMethod(mockInstance, qm, argValues);
-		}
+		mockNonVoidMethod(mockInstance, methodName, methodArgTypes, methodArgValues);
 	}
 
 	/**
@@ -246,30 +222,22 @@ public with sharing class fflib_ApexMocks
 		fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes);
 		fflib_MethodArgValues argValues = new fflib_MethodArgValues(methodArgValues);
 
+		fflib_InvocationOnMock invocation = new fflib_InvocationOnMock(qm, argValues, mockInstance);
+
 		if (Verifying)
 		{
-			verifyMethodCall(qm, argValues);
+			verifyMethodCall(invocation);
 		}
 		else if (Stubbing)
 		{
-			prepareMethodReturnValue(qm, argValues);
+			prepareMethodReturnValue(invocation).thenThrow(DoThrowWhenException);
+			DoThrowWhenException = null;
 			return null;
 		}
 		else
 		{
-			recordMethod(mockInstance, qm, argValues);
-
-			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(qm, argValues);
-
-			if (methodReturnValue != null && methodReturnValue.ReturnValue != null)
-			{
-				if (methodReturnValue.ReturnValue instanceof Exception)
-				{
-					throw ((Exception) methodReturnValue.ReturnValue);
-				}
-
-				return methodReturnValue.ReturnValue;
-			}
+			recordMethod(invocation);
+			return returnValue(invocation);
 		}
 
 		return null;
@@ -278,6 +246,30 @@ public with sharing class fflib_ApexMocks
 	public class ApexMocksException extends Exception
 	{
 
+	}
+
+	private Object returnValue(fflib_InvocationOnMock invocation)
+	{
+		fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(invocation);
+
+		if (methodReturnValue != null)
+		{
+			Object returnedValue = methodReturnValue.Answer.answer(invocation);
+
+			if(returnedValue == null)
+			{
+				return null;
+			}
+
+			if (returnedValue instanceof Exception)
+			{
+				throw ((Exception) returnedValue);
+			}
+
+			return returnedValue;
+		}
+
+		return null;
 	}
 
 	/**

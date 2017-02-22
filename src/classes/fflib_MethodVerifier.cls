@@ -32,15 +32,14 @@ public abstract class fflib_MethodVerifier
 {
 	/**
 	 * Verify a method was called on a mock object.
-	 * @param qm The method you expect to have been called.
-	 * @param methodArg The argument you expect to have been passed to the method being verified.
+	 * @param mockInvocation The object holding all the data of the invocation, like the method and arguments and the mock instance.
 	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
 	 */
-	public void verifyMethodCall(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg, fflib_VerificationMode verificationMode)
+	public void verifyMethodCall(fflib_InvocationOnMock mockInvocation, fflib_VerificationMode verificationMode)
 	{
 		validateMode(verificationMode);
 
-		verify(qm, methodArg, verificationMode);
+		verify(mockinvocation.getMethod(), mockinvocation.getMethodArgValues(), verificationMode);
 	}
 
 	/*
