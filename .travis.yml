@@ -1,0 +1,14 @@
+language: java
+jdk:
+  - oraclejdk8
+sudo: false
+branches:
+  only:
+    - master
+env:
+  global:
+    - secure: "M6S3uGvEEm20qFBeVsfKNAWQy4hGYKXeF4a2NUhYPG3nuytVBrJ4zfik3J3KEHJybqpPcCsczpoDDpW7NuxrdNPF28NikPM4KsLBwEsrs9O3DlcpyKHKn72F49xphXf/j5kcYqV1sfGZ/GoO+v14hSEcGHVOWWIVidjO/Ub38Xc="
+    - secure: "TU04vuR8WXJ4dylZRcMxdD265uC6iPF/KGd9gnmVQfI+33zWZCA2Uo77OIakTD7JB/t8V1RBwfNFaTlIGbDolx3WYaKHIAcHBjMd0NynbxKch9WmqOfS4WVs2iSmGmBZCejopEubnkKXGVMFu6U2heNgIy2FWOeNSEwCBAQHT4s="
+script: 
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ant -lib lib/ant-salesforce.jar -Dsf.username=${SFUSER} -Dsf.password=${SFPWD} deploy || [ "${TRAVIS_PULL_REQUEST}" != "false" ]'
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] && ant -lib lib/ant-salesforce.jar -Dsf.username=${SFUSER} -Dsf.password=${SFPWD} deploy || [ "${TRAVIS_PULL_REQUEST}" = "false" ]'
