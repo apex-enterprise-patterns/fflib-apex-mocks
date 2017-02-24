@@ -712,6 +712,41 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.anyString());
 	}
 
+	@isTest
+	static void whenMockIsGeneratedCanVerify()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mockList.add('bob');
+
+		// Then
+		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).get(fflib_Match.anyInteger());
+		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
+	}
+
+	@isTest
+	static void whenMockIsGeneratedCanStubVerify()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+
+		// When
+		mocks.startStubbing();
+		mocks.when(mockList.get(1)).thenReturn('One');
+		mocks.when(mockList.get(fflib_Match.integerMoreThan(2))).thenReturn('>Two');
+		mocks.stopStubbing();
+
+		// Then
+		System.assertEquals(null, mockList.get(0));
+		System.assertEquals('One', mockList.get(1));
+		System.assertEquals(null, mockList.get(2));
+		System.assertEquals('>Two', mockList.get(3));
+	}
+
 	private class MyException extends Exception
 	{
 	}
