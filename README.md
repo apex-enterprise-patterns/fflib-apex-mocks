@@ -1,5 +1,4 @@
-FinancialForce ApexMocks Framework
-==================================
+#FinancialForce ApexMocks Framework
 
 [![Build Status](https://travis-ci.org/financialforcedev/fflib-apex-mocks.svg)](https://travis-ci.org/financialforcedev/fflib-apex-mocks)
 
@@ -12,8 +11,7 @@ It derives it's inspiration from the well known Java mocking framework [Mockito]
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-Using ApexMocks on Force.com
-============================
+##Using ApexMocks on Force.com
 
 ApexMocks allows you to write tests to both verify behaviour and stub dependencies.
 
@@ -23,7 +21,7 @@ An assumption is made that you are using some form of [Dependency Injection](htt
 
 This allows you to pass mock implementations of dependencies A and B when you want to unit test MyClass.
 
-Lets assume we've written our own list interface MyList.IList that we want to either verify or stub:
+Lets assume we've written our own list interface fflib_MyList.IList that we want to either verify or stub:
 
 	public class fflib_MyList implements IList
 	{
@@ -40,7 +38,7 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new MockMyList(mocks);
+		fflib_MyList.IList mockList = (fflib_MyList.IList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -52,15 +50,25 @@ Lets assume we've written our own list interface MyList.IList that we want to ei
 ### when() dependency stubbing
 
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new MockMyList(mocks);
+		fflib_MyList.IList mockList = (fflib_MyList.IList)mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob');
 		mocks.when(mockList.get(1)).thenReturn('fred');
 		mocks.stopStubbing();
 
-Generating Mock files
-=====================
+##Stub API
+ApexMocks now implements the [Stub API](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_testing_stub_api.htm)!
+
+Previously, stub objects had to be generated using the ApexMocks generator at compile time.
+Now, stub objects can be generated dynamically at run time.
+
+	fflib_ApexMocks mocks = new fflib_ApexMocks();
+	fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+
+You can continue to use the ApexMocks generator, if you wish, but this is no longer a prerequisite to using ApexMocks.
+
+##Generating Mock files
 
 Run the apex mocks generator from the command line.
 
@@ -74,10 +82,13 @@ Run the apex mocks generator from the command line.
 		//E.g. the command used to generate the current version of fflib_Mocks.
 		java -jar apex-mocks-generator-4.0.0.jar "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "/Users/jbloggs/Dev/fflib-apex-mocks/interfacemocks.properties" "fflib_Mocks" "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "30.0"
 
-Documentation
-=============
 
-Full documentation for ApexMocks can be found at [Code4Clode](http://code4cloud.wordpress.com/):
+Instantiate the generated classes as follows:
+
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList.IList mockList = new MockMyList(mocks);
+
+##Documentation
 
 * [ApexMocks Framework Tutorial](http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/)
 * [Simple Dependency Injection](http://code4cloud.wordpress.com/2014/05/09/simple-dependency-injection/)
@@ -88,7 +99,4 @@ Full documentation for ApexMocks can be found at [Code4Clode](http://code4cloud.
 * [New Improved apex-mocks-generator](http://code4cloud.wordpress.com/2014/06/27/new-improved-apex-mocks-generator/)
 * [ApexMocks Improvements - exception stubbing, base classes and more](http://code4cloud.wordpress.com/2014/11/05/apexmocks-improvements-exception-stubbing-inner-interfaces-and-mock-base-classes/)
 * [Matchers](http://superdupercode.blogspot.co.uk/2016/03/apex-mocks-matchers.html)
- 
-Documentation from Jesse Altman
-
 * [ApexMock blogs from Jesse Altman](http://jessealtman.com/tag/apexmocks/)
