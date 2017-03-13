@@ -5,7 +5,7 @@
 /**
  * @group Core
  */
-public with sharing class fflib_ApexMocks
+public with sharing class fflib_ApexMocks implements System.StubProvider
 {
 	public static final Integer NEVER = 0;
 
@@ -240,28 +240,33 @@ public with sharing class fflib_ApexMocks
 	 */
 	public void mockVoidMethod(Object mockInstance, String methodName, List<Type> methodArgTypes, List<Object> methodArgValues)
 	{
-		fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes);
-		fflib_MethodArgValues argValues = new fflib_MethodArgValues(methodArgValues);
+		mockNonVoidMethod(mockInstance, methodName, methodArgTypes, methodArgValues);
 
-		if (Verifying)
-		{
-			verifyMethodCall(qm, argValues);
-		}
-		else if (Stubbing)
-		{
-			prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
-		}
-		else
-		{
-			fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(qm, argValues);
 
-			if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
-			{
-				throw ((Exception) methodReturnValue.ReturnValue);
-			}
+		//fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes);
+		//fflib_MethodArgValues argValues = new fflib_MethodArgValues(methodArgValues);
 
-			recordMethod(mockInstance, qm, argValues);
-		}
+		//if (Verifying)
+		//{
+		//	verifyMethodCall(qm, argValues);
+		//}
+		//else if (Stubbing)
+		//{
+		//	prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
+		//}
+		//else
+		//{
+		//	fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(qm, argValues);
+
+		//	if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
+		//	{
+		//		throw ((Exception) methodReturnValue.ReturnValue);
+		//	}
+
+		//	recordMethod(mockInstance, qm, argValues);
+		//}
+
+
 	}
 
 	/**
@@ -283,7 +288,8 @@ public with sharing class fflib_ApexMocks
 		}
 		else if (Stubbing)
 		{
-			prepareMethodReturnValue(qm, argValues);
+			prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
+			DoThrowWhenException = null;
 			return null;
 		}
 		else
