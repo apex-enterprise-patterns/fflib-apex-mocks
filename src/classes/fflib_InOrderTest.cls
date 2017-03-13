@@ -1,32 +1,12 @@
 /*
- * Copyright (c) 2017 FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
  */
+
 @isTest
 private class fflib_InOrderTest
 {
 	private static final String EXPECTED_ERROR_MESSAGE_INCIPIT = 'In Order: Wanted but not invoked: ';
+	private static fflib_ApexMocks MY_MOCKS = new fflib_ApexMocks();
 
 	@isTest
 	static void thatVerifyInOrderAllTheMethodsCalled()
@@ -34,8 +14,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -59,8 +39,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -85,8 +65,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -107,8 +87,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -129,8 +109,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-0');
@@ -150,8 +130,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-0');
@@ -174,8 +154,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 
@@ -201,8 +181,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -225,8 +205,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -251,8 +231,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -274,8 +254,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -296,8 +276,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -318,8 +298,8 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -341,11 +321,11 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_MyList.IList thirdMock = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList thirdMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
-		fflib_InOrder inOrder = new fflib_InOrder(mocks, new List<Object>{ firstMock, secondMock });
+		fflib_InOrder inOrder = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock, secondMock });
 
 		// When
 		firstMock.add('1-1');
@@ -378,12 +358,12 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_MyList.IList thirdMock = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList thirdMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
-		fflib_InOrder inOrder2 = new fflib_InOrder(mocks, new List<Object>{ firstMock, secondMock });
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+		fflib_InOrder inOrder2 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock, secondMock });
 
 		// When
 		firstMock.add('1-1');
@@ -420,10 +400,10 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
 		firstMock.add('1-1');
@@ -440,9 +420,9 @@ private class fflib_InOrderTest
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
-		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ firstMock });
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		String customErrorMesage = 'Some custom error message';
 
@@ -460,7 +440,7 @@ private class fflib_InOrderTest
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
 			System.assertEquals(
-				EXPECTED_ERROR_MESSAGE_INCIPIT +'Mockfflib_MyList.add(String). ' + customErrorMesage,
+				EXPECTED_ERROR_MESSAGE_INCIPIT + fflib_MyList.getStubClassName() + '.add(String). ' + customErrorMesage,
 				e.getMessage(),
 				'the verify throw an Exception, but the message is not as expected');
 		}
