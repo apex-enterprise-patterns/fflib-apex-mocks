@@ -1,42 +1,20 @@
 /*
- * Copyright (c) 2014, FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
  */
 
- /**
- * @nodoc
- */
 @isTest
 private class fflib_InOrderTest
 {
+	private static final String EXPECTED_ERROR_MESSAGE_INCIPIT = 'In Order: Wanted but not invoked: ';
 	private static fflib_ApexMocks MY_MOCKS = new fflib_ApexMocks();
 
 	@isTest
 	static void thatVerifyInOrderAllTheMethodsCalled()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -46,20 +24,22 @@ private class fflib_InOrderTest
 		firstMock.add('1-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-3');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-2');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-3');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-4');
 
 		assertVerifyInOrderExceptionForAddMethod('1-2', inOrder1, firstMock,
-			'It should fail because 1-2 is in the wrong order', 1, 0 );
+			'It should fail because 1-2 is in the wrong order');
 	}
 
 	@isTest
 	static void thatVerifyInOrderDifferentMethodsCalledWithSameArguments()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -73,17 +53,19 @@ private class fflib_InOrderTest
 		firstMock.addMore('1-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-3');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).addMore('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).addMore('1-3');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-4');
 	}
 
 	@isTest
 	static void thatVerifyInOrderDifferentMethodsCalledWithSameArgumentsOrderFail()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -93,17 +75,19 @@ private class fflib_InOrderTest
 		firstMock.addMore('1-2');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).addMore('1-1');
 
 		assertVerifyInOrderExceptionForAddMethod('1-1', inOrder1, firstMock,
-			'It should fail because 1-1 is called before the addMore(1-1)', 1, 0 );
+			'It should fail because 1-1 is called before the addMore(1-1)');
 	}
 
 	@isTest
 	static void thatVerifyInOrderDifferentMethodsCalledWithSameArgumentsDoubleCallFail()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -113,17 +97,19 @@ private class fflib_InOrderTest
 		firstMock.addMore('1-2');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).addMore('1-1');
 
 		assertVerifyInOrderExceptionForAddMoreMethod('1-1', inOrder1, firstMock,
-			'It should fail because addMore(1-1) is called only Once', 1, 0 );
+			'It should fail because addMore(1-1) is called only Once');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCallMethodWithMatches()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -134,15 +120,17 @@ private class fflib_InOrderTest
 		firstMock.add('1-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).add(fflib_Match.stringStartsWith('1-1'));
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 2)).add(fflib_Match.stringStartsWith('1-1'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-4');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCallMethodWithMatchesFailsIfVerifyACallAlreadyInTheMatcher()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -153,18 +141,20 @@ private class fflib_InOrderTest
 		firstMock.add('1-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).add(fflib_Match.stringStartsWith('1-1'));
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 2)).add(fflib_Match.stringStartsWith('1-1'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-4');
 
 		assertVerifyInOrderExceptionForAddMethod('1-11', inOrder1, firstMock,
-			'It should fail because addMore(1-11) has been already verified using the matchers', 1, 0 );
+			'It should fail because addMore(1-11) has been already verified using the matchers');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCallMethodWithMultipleMatches()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -181,15 +171,17 @@ private class fflib_InOrderTest
 		firstMock.add('2-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add(fflib_Match.stringStartsWith('1-'));
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add(fflib_Match.stringStartsWith('2-'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add(fflib_Match.stringStartsWith('1-'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add(fflib_Match.stringStartsWith('2-'));
 	}
 
 	@isTest
 	static void thatVerifyInOrderCallMethodWithMultipleMatchesMixed()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -203,15 +195,17 @@ private class fflib_InOrderTest
 		firstMock.add('2-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add(fflib_Match.stringStartsWith('1-'));
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add(fflib_Match.stringStartsWith('2-'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add(fflib_Match.stringStartsWith('1-'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add(fflib_Match.stringStartsWith('2-'));
 	}
 
 	@isTest
 	static void thatVerifyInOrderCallMethodWithMultipleMatchesMixedFailWhenMatcherHaveAlreadyVerifiedMethod()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -225,17 +219,19 @@ private class fflib_InOrderTest
 		firstMock.add('2-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add(fflib_Match.stringStartsWith('1-'));
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add(fflib_Match.stringStartsWith('1-'));
 
-		assertVerifyInOrderExceptionForAddMethod('1-11', inOrder1, firstMock,
-			'It should fail because only one call for the 2- is available to verify', 4, 0 );
+		assertVerifyInOrderExceptionForAddMethod('1-11', 4, inOrder1, firstMock,
+			'It should fail because only one call for the 2- is available to verify');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCanSkipMethodsCalledUntilFindTheOneThatNeedsVerify()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -245,18 +241,20 @@ private class fflib_InOrderTest
 		firstMock.add('1-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-4');
 
 		assertVerifyInOrderExceptionForAddMethod('1-2', inOrder1, firstMock,
-			'It should fail because is out of order', 1, 0 );
+			'It should fail because is out of order');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCanHandleMultipleMethodsCalls()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -268,15 +266,17 @@ private class fflib_InOrderTest
 		firstMock.add('1-4');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(3))).add('1-2');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 3)).add('1-2');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-4');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCanHandleMultipleMethodsCallsAndNotFailsIfVerifyCountIsGreaterThenExpected()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -289,14 +289,16 @@ private class fflib_InOrderTest
 
 		// Then
 
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).add('1-2');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 2)).add('1-2');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCanHandleMultipleMethodsCallsButFailsIfVerifyCountIsLessThenExpected()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -309,17 +311,19 @@ private class fflib_InOrderTest
 
 		// Then
 
-		assertVerifyInOrderExceptionForAddMethod('1-2', inOrder1, firstMock,
-			'It should fail because is actually called only 3 times', 4, 3 );
+		assertVerifyInOrderExceptionForAddMethod('1-2', 4, inOrder1, firstMock,
+			'It should fail because is actually called only 3 times');
 	}
 
 	@isTest
 	static void thatVerifyInOrderCanHandleMultipleMocks()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList thirdMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList thirdMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock, secondMock });
 
@@ -338,23 +342,25 @@ private class fflib_InOrderTest
 		thirdMock.add('3-3');
 
 		// Then
-		((fflib_MyList.IList)inOrder.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder.verify(secondMock, MY_MOCKS.calls(1))).add('2-1');
-		((fflib_MyList.IList)inOrder.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
-		((fflib_MyList.IList)inOrder.verify(secondMock, MY_MOCKS.calls(1))).add('2-2');
-		((fflib_MyList.IList)inOrder.verify(firstMock, MY_MOCKS.calls(1))).add('1-3');
-		((fflib_MyList.IList)inOrder.verify(secondMock, MY_MOCKS.calls(1))).add('2-3');
+		((fflib_MyList.IList)inOrder.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder.verify(secondMock)).add('2-1');
+		((fflib_MyList.IList)inOrder.verify(firstMock)).add('1-2');
+		((fflib_MyList.IList)inOrder.verify(secondMock)).add('2-2');
+		((fflib_MyList.IList)inOrder.verify(firstMock)).add('1-3');
+		((fflib_MyList.IList)inOrder.verify(secondMock)).add('2-3');
 
-		((fflib_MyList.IList)MY_MOCKS.verify(thirdMock, MY_MOCKS.times(3))).add(fflib_Match.stringStartsWith('3-'));
+		((fflib_MyList.IList)mocks.verify(thirdMock, 3)).add(fflib_Match.stringStartsWith('3-'));
 	}
 
 	@isTest
 	static void thatVerifyInOrderCanHandleMixedInOrderInstance()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList thirdMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList thirdMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 		fflib_InOrder inOrder2 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock, secondMock });
@@ -374,26 +380,28 @@ private class fflib_InOrderTest
 		thirdMock.add('3-3');
 
 		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-3');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 2)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-3');
 
 
-		((fflib_MyList.IList)inOrder2.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder2.verify(firstMock)).add('1-1');
 
-		((fflib_MyList.IList)inOrder2.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
-		((fflib_MyList.IList)inOrder2.verify(secondMock, MY_MOCKS.calls(1))).add('2-2');
-		((fflib_MyList.IList)inOrder2.verify(firstMock, MY_MOCKS.calls(1))).add('1-3');
-		((fflib_MyList.IList)inOrder2.verify(secondMock, MY_MOCKS.calls(1))).add('2-3');
+		((fflib_MyList.IList)inOrder2.verify(firstMock)).add('1-2');
+		((fflib_MyList.IList)inOrder2.verify(secondMock)).add('2-2');
+		((fflib_MyList.IList)inOrder2.verify(firstMock)).add('1-3');
+		((fflib_MyList.IList)inOrder2.verify(secondMock)).add('2-3');
 
-		((fflib_MyList.IList)MY_MOCKS.verify(thirdMock, MY_MOCKS.times(3))).add(fflib_Match.stringStartsWith('3-'));
+		((fflib_MyList.IList)mocks.verify(thirdMock, 3)).add(fflib_Match.stringStartsWith('3-'));
 	}
 
 	@isTest
 	static void thatVerifyInOrderThrownExceptionIfVerifyMockInstanceNotInTheSet()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
@@ -402,25 +410,17 @@ private class fflib_InOrderTest
 		secondMock.add('2-1');
 
 		// Then
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(secondMock, MY_MOCKS.calls(1))).add('2-1');
-			System.assert(false, 'An exception was expected, because this verify is not in the list of the mocks to verify');
-		}
-		catch(fflib_ApexMocks.ApexMocksException mockexcep)
-		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
-			System.assertEquals(expectedMessage, mockexcep.getMessage(),
-				'an exception has been caught as expected, however the message is not as expected');
-		}
+		assertVerifyInOrderExceptionForAddMethod('2-1', inOrder1, secondMock,
+			'It should fail because secondMock is not included in the set of the mock instances to verify');
 	}
 
 	@isTest
 	static void thatVerifyInOrderThrownExceptionWithCustomMessage()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
@@ -430,554 +430,57 @@ private class fflib_InOrderTest
 		firstMock.add('1-1');
 		firstMock.add('1-2');
 
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-2');
 		// Then
 		try
 		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.description(customErrorMesage))).add('1-1');
+			((fflib_MyList.IList)inOrder1.verify(firstMock, customErrorMesage)).add('1-1');
 			System.assert(false, 'expected some exception ');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String). Some custom error message.';
 			System.assertEquals(
-				expectedMessage,
+				EXPECTED_ERROR_MESSAGE_INCIPIT + fflib_MyList.getStubClassName() + '.add(String). ' + customErrorMesage,
 				e.getMessage(),
 				'the verify throw an Exception, but the message is not as expected');
 		}
 	}
 
-	@isTest
-	static void thatVerifyAtMostThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atMost(3))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The atMost method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyTimesThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(3))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The times method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyAtLeastThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(3))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The atLeast method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyBetweenThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.between(3, 5))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The between method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNever()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.never())).add('3-1');
-	}
-
-	@isTest
-	static void thatVerifyNeverWithMatchers()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.never())).add(fflib_Match.stringStartsWith('3-'));
-	}
-
-	@isTest
-	static void thatVerifyNeverFailsWhenCalled()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.never())).add('1-1');
-			System.assert(false, 'expected some exception because the method has been called');
-		}
-		catch (fflib_ApexMocks.ApexMocksException e)
-		{
-			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNeverFailsWhenCalledWithMatchers()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.never())).add(fflib_Match.stringStartsWith('1-'));
-			System.assert(false, 'expected some exception because the method has been called');
-		}
-		catch (fflib_ApexMocks.ApexMocksException e)
-		{
-			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyAtLeastOnceThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-
-		// Then
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The atLeastOnce method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyThrowsExceptionWhenCallsIsInvochedFromStandardMock()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-
-		// Then
-		try
-		{
-			((fflib_MyList.IList) MY_MOCKS.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is only implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The calls() method is available only in the InOrder Verification.';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNoMoreInteractionsFails()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1', '1-1', '1-1', '1-1');
-		firstMock.addMore('2-1');
-		firstMock.add('1-1');
-
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1', '1-1', '1-1', '1-1');
-
-		// Then
-		try
-		{
-			inOrder1.verifyNoMoreInteractions();
-			System.assert(false, 'an exception was expected because there are other interactions');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'No more Interactions were expected after the Mockfflib_MyList.add(String, String, String, String) method.';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNoMoreInteractionsFailsWhenOnLyOneMethodLeft()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1', '1-1', '1-1', '1-1');
-		firstMock.addMore('2-1');
-		firstMock.add('1-1');
-
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('2-1');
-
-		// Then
-		try
-		{
-			inOrder1.verifyNoMoreInteractions();
-			System.assert(false, 'an exception was expected because there are other interactions');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'No more Interactions were expected after the Mockfflib_MyList.addMore(String) method.';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNoMoreInteractionsPass()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-		fflib_InOrder inOrder2 = new fflib_InOrder(MY_MOCKS, new List<Object>{ secondMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		secondMock.add('1-1');
-		secondMock.add('1-1');
-
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-
-		inOrder1.verifyNoMoreInteractions();
-
-		((fflib_MyList.IList)inOrder2.verify(secondMock, MY_MOCKS.calls(2))).add('1-1');
-
-		inOrder2.verifyNoMoreInteractions();
-	}
-
-	@isTest
-	static void thatVerifyNoMoreInteractionsFailsWhenNoInteracionOccurs()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-
-		// Then
-		try
-		{
-			inOrder1.verifyNoMoreInteractions();
-			System.assert(false, 'an exception was expected because there are other interactions');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'No Interactions expected on this InOrder Mock instance!';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNoInteractionsFails()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-
-		// Then
-		try
-		{
-			inOrder1.verifyNoInteractions();
-			System.assert(false, 'an exception was expected because there are other interactions');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'No Interactions expected on this InOrder Mock instance!';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyNoInteractionsPass()
-	{
-		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-
-		// When
-		secondMock.add('1-2');
-		//Then
-		inOrder1.verifyNoInteractions();
-	}
-
-	@isTest
-	static void thatStrictVerificationCanBePerformed()
-	{
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('4-1');
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('4-1');
-	}
-
-	@isTest
-	static void thatMixedVerificationDoNotInterfierWithOtherImplementationChecking()
-	{
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('4-1');
-		// Then
-		((fflib_MyList.IList)MY_MOCKS.verify(firstMock, MY_MOCKS.times(2))).add('1-1');
-
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('4-1');
-
-		((fflib_MyList.IList)MY_MOCKS.verify(firstMock, MY_MOCKS.times(2))).add('1-1');
-	}
-
-
-	private static void assertVerifyInOrderExceptionForAddMoreMethod(
-		String argument,
-		fflib_InOrder inOrderInstance,
-		fflib_MyList.IList mockToVerify,
-		String expectedFailingReasson,
-		Integer expectedCount,
-		Integer actualCounts
-		)
+	private static void assertVerifyInOrderExceptionForAddMethod(
+		String argument, Integer expectedTimes, fflib_InOrder inOrderInstance, fflib_MyList.IList mockToVerify, String expectedFailingReasson)
 	{
 		try
 		{
-			((fflib_MyList.IList)inOrderInstance.verify(mockToVerify, MY_MOCKS.calls(1))).addMore(argument);
+			((fflib_MyList.IList)inOrderInstance.verify(mockToVerify, expectedTimes)).add(argument);
 			System.assert(false, 'expected some exception ' + expectedFailingReasson);
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: Mockfflib_MyList.addMore(String).';
-
-			String expectedMessage = String.format(message, new List<String>{
-					'' + expectedCount,
-					'' + actualCounts
-				});
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
+			System.assert(e.getMessage().startsWith(EXPECTED_ERROR_MESSAGE_INCIPIT),
+				'the verify throw an Exception, but the message is not as expected. Expected: ' +
+				EXPECTED_ERROR_MESSAGE_INCIPIT + ', Actual: ' +e.getMessage());
 		}
 	}
-
 
 	private static void assertVerifyInOrderExceptionForAddMethod(
-		String argument,
-		fflib_InOrder inOrderInstance,
-		fflib_MyList.IList mockToVerify,
-		String expectedFailingReasson,
-		Integer expectedCount,
-		Integer actualCounts
-		)
+		String argument, fflib_InOrder inOrderInstance, fflib_MyList.IList mockToVerify, String expectedFailingReasson)
+	{
+		assertVerifyInOrderExceptionForAddMethod( argument, 1, inOrderInstance, mockToVerify, expectedFailingReasson);
+	}
+
+	private static void assertVerifyInOrderExceptionForAddMoreMethod(
+		String argument, fflib_InOrder inOrderInstance, fflib_MyList.IList mockToVerify, String expectedFailingReasson)
 	{
 		try
 		{
-			((fflib_MyList.IList)inOrderInstance.verify(mockToVerify, MY_MOCKS.calls(expectedCount))).add(argument);
+			((fflib_MyList.IList)inOrderInstance.verify(mockToVerify)).addMore(argument);
 			System.assert(false, 'expected some exception ' + expectedFailingReasson);
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-
-			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: Mockfflib_MyList.add(String).';
-
-			String expectedMessage = String.format(message, new List<String>{
-					'' + expectedCount,
-					'' + actualCounts
-				});
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
+			System.assert(e.getMessage().startsWith(EXPECTED_ERROR_MESSAGE_INCIPIT),
+				'the verify throw an Exception, but the message is not as expected. Expected: ' +
+				EXPECTED_ERROR_MESSAGE_INCIPIT + ', Actual: ' +e.getMessage());
 		}
 	}
 }

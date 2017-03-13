@@ -1,49 +1,15 @@
 /*
- * Copyright (c) 2016, FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
  */
 
+
 /**
- * 	In-order invocation verifier - checks that a method was called with the given arguments the expected number of times, in the expected order.
- *	It could be used with the verificationMode class to specify how the verification should be performed.
- *	See fflib_VerificationMode for the available verification modes.
  * @group Core
  */
-public with sharing class fflib_InOrder extends fflib_MethodVerifier
+public with sharing class fflib_InOrder
 {
 	private final List<Object> unorderedMockInstances;
 	private Integer idxMethodCall = 0;
-
-	private Set<fflib_VerificationMode.ModeName> notImplementedMethods =
-		new Set<fflib_VerificationMode.ModeName>
-		{
-			fflib_VerificationMode.ModeName.atLeast,
-			fflib_VerificationMode.ModeName.atMost,
-			fflib_VerificationMode.ModeName.times,
-			fflib_VerificationMode.ModeName.atLeastOnce,
-			fflib_VerificationMode.ModeName.between
-		};
 
 	private final fflib_ApexMocks mocks;
 
@@ -61,132 +27,78 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	/**
 	 * Verify a method was called on a mock object.
 	 * @param mockInstance The mock object instance.
-	 * @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
 	 * @return The mock object instance.
 	 */
-	public Object verify(Object mockInstance, fflib_VerificationMode verificationMode)
+	public Object verify(Object mockInstance)
 	{
-		mocks.setOrderedVerifier(this);
-		return mocks.verify(mockInstance, verificationMode);
+		mocks.verify(mockInstance, 1, null, this);
+		return mockInstance;
 	}
 
 	/**
-	 * Verify that after the last successful verified method no more interactions happened on the inOrderMock instance.
-	 * @throws Exception with message to help to identify the last method called.
+	 * Verify a method was called on a mock object.
+	 * @param mockInstance The mock object instance.
+	 * @param times The number of times you expect the method to have been called.
+	 * @return The mock object instance.
 	 */
-	public void verifyNoMoreInteractions()
+	public Object verify(Object mockInstance, Integer times)
 	{
-		if(idxMethodCall == 0)
-		{
-			verifyNoInteractions();
-		}
-
-		if(hasNextInteraction(unorderedMockInstances, idxMethodCall))
-		{
-			fflib_QualifiedMethodAndArgValues qm =
-				fflib_MethodCountRecorder.getOrderedMethodCalls().get(idxMethodCall -1);
-
-			throw new fflib_ApexMocks.ApexMocksException(
-				'No more Interactions were expected after the ' + qm.getQualifiedMethod() +' method.');
-		}
+		mocks.verify(mockInstance, times, null, this);
+		return mockInstance;
 	}
 
 	/**
-	 * Verify that no interactions at all happened on the inOrderMock instance.
-	 * @throws Exception with message.
+	 * Verify a method was called on a mock object.
+	 * @param mockInstance The mock object instance.
+	 * @param customAssertMessage The Custom message for the assert in case the assert is false to be queued to the default message.
+	 * @return The mock object instance.
 	 */
-	public void verifyNoInteractions()
+	public Object verify(Object mockInstance, String customAssertMessage)
 	{
-		if(hasNextInteraction(unorderedMockInstances, 0))
-		{
-			throw new fflib_ApexMocks.ApexMocksException(
-				'No Interactions expected on this InOrder Mock instance!');
-		}
+		mocks.verify(mockInstance, 1, customAssertMessage, this);
+		return mockInstance;
 	}
 
-	/*
-	 * Verifies a method was invoked the expected number of times, with the expected arguments. The in-order verifier remembers the last method invocation it successfully verified, and only considers subsequent method invocations for subsequent verifications.
-	 * @param qualifiedMethod The method to be verified.
-	 * @param methodArg The arguments of the method that needs to be verified.
-	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
+	/**
+	 * Verify a method was called on a mock object.
+	 * @param mockInstance The mock object instance.
+	 * @param times The number of times you expect the method to have been called.
+	 * @param customAssertMessage The Custom message for the assert in case the assert is false to be queued to the default message.
+	 * @return The mock object instance.
 	 */
-	protected override void verify(
-		fflib_QualifiedMethod qm,
-		fflib_MethodArgValues methodArg,
-		fflib_VerificationMode verificationMode)
+	public Object verify(Object mockInstance, Integer times, String customAssertMessage)
 	{
-		String inOrder = 'In Order: ';
-		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
-
-		if( verificationMode.VerifyMin == 0 && verificationMode.VerifyMax == 0)
-		{
-			Integer methodCounts = countInteractions(matchers, qm, methodArg);
-			if(methodCounts != 0 )
-				throwException(qm, inOrder, fflib_ApexMocks.NEVER, '', methodCounts, verificationMode.CustomAssertMessage);
-		}
-
-		for (Integer i=0; i<verificationMode.VerifyMin; i++)
-		{
-			if(!verifyMethodCalled(matchers, qm, methodArg))
-			{
-				throwException(qm, inOrder, verificationMode.VerifyMin, '', i, verificationMode.CustomAssertMessage);
-			}
-		}
+		mocks.verify(mockInstance, times, customAssertMessage, this);
+		return mockInstance;
 	}
 
-	private Boolean verifyMethodCalled(
-		List<fflib_IMatcher> matchers,
-		fflib_QualifiedMethod qm,
-		fflib_MethodArgValues methodArg)
+	private fflib_QualifiedMethodAndArgValues getNextMethodCall()
 	{
-		fflib_QualifiedMethodAndArgValues calledMethod = getNextMethodCall();
-		while(calledMethod != null)
+		Integer idx = 0;
+
+		for (fflib_QualifiedMethodAndArgValues qm : fflib_MethodCountRecorder.getOrderedMethodCalls())
 		{
-			if(calledMethod.getQualifiedMethod() == qm &&
-				argumentsMatch(calledMethod.getMethodArgValues(), matchers, methodArg))
-			{
-				//it's our method
-				if (matchers != null)
-				{
-					capture(matchers);
-				}
-				return true;
-			}
-
-			calledMethod = getNextMethodCall();
-		}
-
-		return false;
-	}
-
-	private Integer countInteractions(
-		List<fflib_IMatcher> matchers,
-		fflib_QualifiedMethod qualifiedMethod,
-		fflib_MethodArgValues methodArg)
-	{
-		Integer interactionsCouter = 0;
-
-		for (Integer i = idxMethodCall, len = fflib_MethodCountRecorder.getOrderedMethodCalls().size(); i<len; i++)
-		{
-			fflib_QualifiedMethodAndArgValues qm = fflib_MethodCountRecorder.getOrderedMethodCalls().get(i);
 			for (Object mockInstance : unorderedMockInstances)
 			{
-				if (qm.getMockInstance() === mockInstance
-					&& (qualifiedMethod == qm.getQualifiedMethod())
-					&& (argumentsMatch(qm.getMethodArgValues(), matchers, methodArg)))
+				if (qm.getMockInstance() === mockInstance)
 				{
-					interactionsCouter++;
+					if (idx == idxMethodCall)
+					{
+						idxMethodCall++;
+						return qm;
+					}
+					else
+					{
+						idx++;
+					}
 				}
 			}
 		}
 
-		return interactionsCouter;
+		return null;
 	}
 
-	private Boolean argumentsMatch(
-		fflib_MethodArgValues calledMethodArg,
-		List<fflib_IMatcher> matchers,
-		fflib_MethodArgValues methodArg)
+	private Boolean argumentsMatch(fflib_MethodArgValues calledMethodArg, List<fflib_IMatcher> matchers, fflib_MethodArgValues methodArg)
 	{
 		//Check it was called with the right args.
 		if (matchers != null)
@@ -206,79 +118,47 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 		return false;
 	}
 
-	private fflib_QualifiedMethodAndArgValues getNextMethodCall()
-	{
-		Integer idx = 0;
-		for (fflib_QualifiedMethodAndArgValues qm : fflib_MethodCountRecorder.getOrderedMethodCalls())
-		{
-			if (idx == idxMethodCall)
-			{
-				if(isForMockInstance(qm))
-				{
-					idxMethodCall++;
-					return qm;
-				}
-			}
-			else
-			{
-				idx++;
-			}
-		}
-
-		return null;
-	}
-
-	private Boolean isForMockInstance(fflib_QualifiedMethodAndArgValues qm)
-	{
-		for (Object mi : unorderedMockInstances)
-		{
-			if (mi === qm.getMockInstance())
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/*
-	 * Used by the fflib_InOrder invocation verifier to find further interactions with a given mock instances.
-	 * @param mockInstances The tracked mock instances - only methods called on these objects are counted as an invocation.
-	 * @param idxLastMethodCalled The index of the last matched method, used to offset the search for invocations so we don't double count invocations.
-	 * @return Whether or not there were further interactions.
+	/**
+	 * Method that actually perform the verify
+	 * @param qualifiedMethod The method to be verified.
+	 * @param methodArg The arguments of the method that needs to be verified.
+	 * @param assertMessage The message to return in the exception in case the verify fails.
+	 * @param verifyCount Number of times the method is expected to be called.
+	 * @return The Boolean that indicated if the verify is Strictly.
 	 */
-	private Boolean hasNextInteraction(List<Object> mockInstances, Integer idxLastMethodCalled)
+	public void verify(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg, String assertMessage, Integer verifyCount)
 	{
-		Integer idx = 0;
+		assertMessage = 'In Order: ' + assertMessage;
 
-		for (fflib_QualifiedMethodAndArgValues methodCall : fflib_MethodCountRecorder.getOrderedMethodCalls())
+		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
+
+		for (Integer i=1; i<=verifyCount; i++)
 		{
-			if (isForMockInstance(methodCall))
+			verifyMethodCalledInOrder(matchers, qm, methodArg, assertMessage);
+		}
+	}
+
+	private void verifyMethodCalledInOrder(
+		List<fflib_IMatcher> matchers,
+		fflib_QualifiedMethod qm,
+		fflib_MethodArgValues methodArg,
+		String assertMessage)
+	{
+		fflib_QualifiedMethodAndArgValues calledMethod = getNextMethodCall();
+		while(calledMethod != null)
+		{
+			if(calledMethod.getQualifiedMethod() == qm &&
+				argumentsMatch(calledMethod.getMethodArgValues(), matchers, methodArg))
 			{
-				idx++;
-				if (idx > idxLastMethodCalled)
-				{
-					return true;
-				}
+				//it's our method
+				return;
 			}
+
+			calledMethod = getNextMethodCall();
 		}
 
-		return false;
+		//No further method calls => no match
+		throw new fflib_ApexMocks.ApexMocksException(assertMessage);
 	}
 
-	/*
-	 * Method that validate the verification mode used in the verify.
-	 * Not all the methods from the fflib_VerificationMode are implemented for the different classes that extends the fflib_MethodVerifier.
-	 * The error is thrown at run time, so this method is called in the method that actually performs the verify.
-	 * @param verificationMode The verification mode that have to been verified.
-	 * @throws Exception with message for the fflib_VerificationMode not implemented.
-	 */
-	protected override void validateMode(fflib_VerificationMode verificationMode)
-	{
-		if(notImplementedMethods.contains(verificationMode.Method))
-		{
-			throw new fflib_ApexMocks.ApexMocksException(
-				'The ' + verificationMode.Method.name() + ' method is not implemented for the fflib_InOrder class');
-		}
-	}
 }
