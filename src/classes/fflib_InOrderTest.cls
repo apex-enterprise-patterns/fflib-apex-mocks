@@ -1,32 +1,7 @@
 /*
- * Copyright (c) 2014, FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
  */
 
- /**
- * @nodoc
- */
 @isTest
 private class fflib_InOrderTest
 {
@@ -36,7 +11,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderAllTheMethodsCalled()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -59,7 +34,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderDifferentMethodsCalledWithSameArguments()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -83,7 +58,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderDifferentMethodsCalledWithSameArgumentsOrderFail()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -103,7 +78,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderDifferentMethodsCalledWithSameArgumentsDoubleCallFail()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -123,7 +98,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCallMethodWithMatches()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -142,7 +117,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCallMethodWithMatchesFailsIfVerifyACallAlreadyInTheMatcher()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -164,7 +139,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCallMethodWithMultipleMatches()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -189,7 +164,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCallMethodWithMultipleMatchesMixed()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -211,7 +186,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCallMethodWithMultipleMatchesMixedFailWhenMatcherHaveAlreadyVerifiedMethod()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -235,7 +210,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCanSkipMethodsCalledUntilFindTheOneThatNeedsVerify()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -256,7 +231,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCanHandleMultipleMethodsCalls()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -276,7 +251,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCanHandleMultipleMethodsCallsAndNotFailsIfVerifyCountIsGreaterThenExpected()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -296,7 +271,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCanHandleMultipleMethodsCallsButFailsIfVerifyCountIsLessThenExpected()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -317,9 +292,9 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCanHandleMultipleMocks()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList thirdMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList thirdMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock, secondMock });
 
@@ -352,9 +327,9 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderCanHandleMixedInOrderInstance()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList thirdMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList thirdMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 		fflib_InOrder inOrder2 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock, secondMock });
@@ -392,8 +367,8 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderThrownExceptionIfVerifyMockInstanceNotInTheSet()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
@@ -410,7 +385,7 @@ private class fflib_InOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException mockexcep)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			System.assertEquals(expectedMessage, mockexcep.getMessage(),
 				'an exception has been caught as expected, however the message is not as expected');
 		}
@@ -420,7 +395,7 @@ private class fflib_InOrderTest
 	static void thatVerifyInOrderThrownExceptionWithCustomMessage()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
@@ -439,7 +414,7 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String). Some custom error message.';
+			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String). Some custom error message.';
 			System.assertEquals(
 				expectedMessage,
 				e.getMessage(),
@@ -451,7 +426,7 @@ private class fflib_InOrderTest
 	static void thatVerifyAtMostThrowsExceptionBecauseNotImplemented()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -482,7 +457,7 @@ private class fflib_InOrderTest
 	static void thatVerifyTimesThrowsExceptionBecauseNotImplemented()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -513,7 +488,7 @@ private class fflib_InOrderTest
 	static void thatVerifyAtLeastThrowsExceptionBecauseNotImplemented()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -544,7 +519,7 @@ private class fflib_InOrderTest
 	static void thatVerifyBetweenThrowsExceptionBecauseNotImplemented()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -576,7 +551,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNever()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -599,7 +574,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNeverWithMatchers()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -622,7 +597,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNeverFailsWhenCalled()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -645,7 +620,7 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 
 			System.assertEquals(expectedMessage, e.getMessage(),
 				'the verify throw an Exception, but the message is not as expected');
@@ -656,7 +631,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNeverFailsWhenCalledWithMatchers()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -679,7 +654,7 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 
 			System.assertEquals(expectedMessage, e.getMessage(),
 				'the verify throw an Exception, but the message is not as expected');
@@ -690,7 +665,7 @@ private class fflib_InOrderTest
 	static void thatVerifyAtLeastOnceThrowsExceptionBecauseNotImplemented()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -715,7 +690,7 @@ private class fflib_InOrderTest
 	static void thatVerifyThrowsExceptionWhenCallsIsInvochedFromStandardMock()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -740,7 +715,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNoMoreInteractionsFails()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -758,7 +733,7 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'No more Interactions were expected after the Mockfflib_MyList.add(String, String, String, String) method.';
+			String expectedMessage = 'No more Interactions were expected after the ' + fflib_MyList.getStubClassName() + '.add(String, String, String, String) method.';
 			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
 		}
 	}
@@ -767,7 +742,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNoMoreInteractionsFailsWhenOnLyOneMethodLeft()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -785,7 +760,7 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'No more Interactions were expected after the Mockfflib_MyList.addMore(String) method.';
+			String expectedMessage = 'No more Interactions were expected after the ' + fflib_MyList.getStubClassName() + '.addMore(String) method.';
 			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
 		}
 	}
@@ -794,8 +769,8 @@ private class fflib_InOrderTest
 	static void thatVerifyNoMoreInteractionsPass()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 		fflib_InOrder inOrder2 = new fflib_InOrder(MY_MOCKS, new List<Object>{ secondMock });
 
@@ -821,7 +796,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNoMoreInteractionsFailsWhenNoInteracionOccurs()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -846,7 +821,7 @@ private class fflib_InOrderTest
 	static void thatVerifyNoInteractionsFails()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -871,8 +846,8 @@ private class fflib_InOrderTest
 	static void thatVerifyNoInteractionsPass()
 	{
 		// Given
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
-		fflib_MyList.IList secondMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 
@@ -885,7 +860,7 @@ private class fflib_InOrderTest
 	@isTest
 	static void thatStrictVerificationCanBePerformed()
 	{
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -903,7 +878,7 @@ private class fflib_InOrderTest
 	@isTest
 	static void thatMixedVerificationDoNotInterfierWithOtherImplementationChecking()
 	{
-		fflib_MyList.IList firstMock = new fflib_Mocks.Mockfflib_MyList(MY_MOCKS);
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
 		// When
@@ -939,11 +914,12 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: Mockfflib_MyList.addMore(String).';
+			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: {2}.addMore(String).';
 
 			String expectedMessage = String.format(message, new List<String>{
 					'' + expectedCount,
-					'' + actualCounts
+					'' + actualCounts,
+					fflib_MyList.getStubClassName()
 				});
 
 			System.assertEquals(expectedMessage, e.getMessage(),
@@ -969,11 +945,12 @@ private class fflib_InOrderTest
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
 
-			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: {2}.add(String).';
 
 			String expectedMessage = String.format(message, new List<String>{
 					'' + expectedCount,
-					'' + actualCounts
+					'' + actualCounts,
+					fflib_MyList.getStubClassName()
 				});
 
 			System.assertEquals(expectedMessage, e.getMessage(),
