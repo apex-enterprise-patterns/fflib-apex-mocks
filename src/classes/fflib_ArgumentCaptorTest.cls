@@ -327,7 +327,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 		// When
@@ -346,7 +346,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -378,7 +378,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -402,7 +402,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -433,7 +433,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -459,7 +459,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -480,7 +480,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -510,7 +510,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -544,7 +544,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -575,7 +575,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -600,7 +600,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 
@@ -625,7 +625,7 @@ private class fflib_ArgumentCaptorTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 

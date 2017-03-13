@@ -1,27 +1,5 @@
 /*
- * Copyright (c) 2017, FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
  */
 
 /**
@@ -41,7 +19,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -58,7 +36,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -102,7 +80,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.get(1);
@@ -121,7 +99,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -136,7 +114,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.get(0);
@@ -151,7 +129,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.set(0, 'bob');
@@ -166,7 +144,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList, mocks.never())).add('bob');
@@ -177,7 +155,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -196,7 +174,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -212,7 +190,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob1');
@@ -228,7 +206,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -253,7 +231,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -278,7 +256,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -303,7 +281,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -332,7 +310,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -354,7 +332,7 @@ private class fflib_AnyOrderTest
 
 			String expectedMessage =
 				String.format(BASIC_VERIFY_ASSERTION_MESSAGE,
-					new List<String>{'2', '3'}) + 'Mockfflib_MyList.add(String). ' + customAssertMessage + '.';
+					new List<String>{'2', '3'}) + fflib_MyList.getStubClassName() + '.add(String). ' + customAssertMessage + '.';
 
 			System.assertEquals(expectedMessage, exceptionMessage,
 				'The exception was caught, but the message was not as expected. ' +
@@ -371,7 +349,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -388,7 +366,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -407,7 +385,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -423,7 +401,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -435,7 +413,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -450,7 +428,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -467,7 +445,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -482,7 +460,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -498,7 +476,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -516,7 +494,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -534,7 +512,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -554,7 +532,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or fewer times, Actual: 4 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 3 or fewer times, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -566,7 +544,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -582,7 +560,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -598,7 +576,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -615,7 +593,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or fewer times, Actual: 4 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 3 or fewer times, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -631,7 +609,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -647,7 +625,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -664,7 +642,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('rob');
@@ -679,7 +657,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -691,7 +669,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -706,7 +684,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -725,7 +703,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('fred', 'fred', 'fred', 'fred');
@@ -741,7 +719,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -757,7 +735,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -778,7 +756,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -794,7 +772,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -806,7 +784,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -823,7 +801,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -838,7 +816,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -850,7 +828,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -872,7 +850,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 5 or fewer times, Actual: 6 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 5 or fewer times, Actual: 6 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -884,7 +862,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -904,7 +882,7 @@ private class fflib_AnyOrderTest
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
 
-			String expectedMessage = 'Expected : 5 or fewer times, Actual: 6 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 5 or fewer times, Actual: 6 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -920,7 +898,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob1');
@@ -936,7 +914,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('fred', 'fred', 'fred', 'fred');
@@ -952,7 +930,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -976,7 +954,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1007,7 +985,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1024,7 +1002,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1043,7 +1021,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1059,7 +1037,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
@@ -1071,7 +1049,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1086,7 +1064,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1103,7 +1081,7 @@ private class fflib_AnyOrderTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -1118,7 +1096,7 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: Mockfflib_MyList.add(String).';
+			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
 			String actualMessage = ex.getMessage();
 			System.assertEquals(expectedMessage, actualMessage,
 				'the exception has been caught as expected, however the message is not as expected');
