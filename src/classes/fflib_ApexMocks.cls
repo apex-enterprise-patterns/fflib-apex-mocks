@@ -241,32 +241,6 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	public void mockVoidMethod(Object mockInstance, String methodName, List<Type> methodArgTypes, List<Object> methodArgValues)
 	{
 		mockNonVoidMethod(mockInstance, methodName, methodArgTypes, methodArgValues);
-
-
-		//fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes);
-		//fflib_MethodArgValues argValues = new fflib_MethodArgValues(methodArgValues);
-
-		//if (Verifying)
-		//{
-		//	verifyMethodCall(qm, argValues);
-		//}
-		//else if (Stubbing)
-		//{
-		//	prepareMethodReturnValue(qm, argValues).thenThrow(DoThrowWhenException);
-		//}
-		//else
-		//{
-		//	fflib_MethodReturnValue methodReturnValue = getMethodReturnValue(qm, argValues);
-
-		//	if (methodReturnValue != null && methodReturnValue.ReturnValue instanceof Exception)
-		//	{
-		//		throw ((Exception) methodReturnValue.ReturnValue);
-		//	}
-
-		//	recordMethod(mockInstance, qm, argValues);
-		//}
-
-
 	}
 
 	/**
