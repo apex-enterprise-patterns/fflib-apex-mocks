@@ -14,6 +14,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 	private fflib_MethodVerifier methodVerifier;
 	private fflib_VerificationMode verificationMode;
+	private fflib_Answer myAnswer;
 
 	public Boolean Verifying { get; set; }
 
@@ -201,6 +202,17 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
+	 * Setup answer stubbing for a void method.
+	 * @param answer The answer to invoke.
+	 * @param mockInstance The mock object instance.
+	 */
+	public Object doAnswer(fflib_Answer answer, Object mockInstance)
+	{
+		this.myAnswer = answer;
+		return mockInstance;
+	}
+
+	/**
 	 * Mock a void method. Called by generated mock instance classes, not directly by a developers
 	 * code.
 	 * @param mockInstance The mock object instance.
@@ -234,8 +246,22 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		}
 		else if (Stubbing)
 		{
-			prepareMethodReturnValue(invocation).thenThrow(DoThrowWhenException);
-			DoThrowWhenException = null;
+			fflib_MethodReturnValue methotReturnValue = prepareMethodReturnValue(invocation);
+
+			if(DoThrowWhenException != null)
+			{
+				methotReturnValue.thenThrow(DoThrowWhenException);
+				DoThrowWhenException = null;
+				return null;
+			}
+
+			if(this.myAnswer != null)
+			{
+				methotReturnValue.thenAnswer(this.myAnswer);
+				this.myAnswer = null;
+				return null;
+			}
+
 			return null;
 		}
 		else

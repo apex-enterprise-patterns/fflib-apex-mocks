@@ -229,6 +229,85 @@ private class fflib_AnswerTest
 		Boolean actualValue = mockList.isEmpty();
 	}
 
+	@isTest
+	static void thatAnswerToVoidMethod()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+
+		mocks.startStubbing();
+		((fflib_MyList) mocks.doAnswer(new fflib_AnswerTest.BasicAnswer(), mockList)).addMore('Hi hi Hello Hi hi');
+		mocks.stopStubbing();
+
+		// When
+		mockList.addMore('Hi hi Hello Hi hi');
+
+		// Then
+		Object methodCalled = actualInvocation.getMethod();
+		System.assert(methodCalled instanceof fflib_QualifiedMethod, 'the object returned is not a method as expected');
+
+		String expectedMethodSignature = fflib_MyList.getStubClassName() + '.addMore(String)';
+		System.assertEquals(expectedMethodSignature, ((fflib_QualifiedMethod)methodCalled).toString(), 'Unexpected method name: ' + methodCalled);
+	}
+
+	@isTest
+	static void thatAnswerToVoidAndNotVoidMethods()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+
+		mocks.startStubbing();
+		((fflib_MyList) mocks.doAnswer(new fflib_AnswerTest.FirstAnswer(), mockList)).get(3);
+		((fflib_MyList) mocks.doAnswer(new fflib_AnswerTest.BasicAnswer(), mockList)).addMore('Hi hi Hello Hi hi');
+		((fflib_MyList) mocks.doAnswer(new fflib_AnswerTest.SecondAnswer(), mockList)).get2(4, 'Hi hi Hello Hi hi');
+		mocks.stopStubbing();
+
+		// When
+		String answer1 = mockList.get(3);
+		String answer2 = mockList.get2(4, 'Hi hi Hello Hi hi');
+		mockList.addMore('Hi hi Hello Hi hi');
+
+		// Then
+		Object methodCalled = actualInvocation.getMethod();
+		System.assert(methodCalled instanceof fflib_QualifiedMethod, 'the object returned is not a method as expected');
+
+		String expectedMethodSignature = fflib_MyList.getStubClassName() + '.addMore(String)';
+		System.assertEquals(expectedMethodSignature, ((fflib_QualifiedMethod)methodCalled).toString(),
+			'the last method called should be the addMore, so should be the last to set the actualInvocation variable.');
+
+		System.assertEquals('this is the first answer', answer1, 'the answer was not the one expected');
+		System.assertEquals('and this is the second one', answer2, 'the answer was not the one expected');
+	}
+
+	@isTest
+	static void thatAnswerToDifferentVoidMethods()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+
+		fflib_AnswerTest.FirstAnswer answer1 = new fflib_AnswerTest.FirstAnswer();
+		fflib_AnswerTest.SecondAnswer answer2 = new fflib_AnswerTest.SecondAnswer();
+
+		System.assertEquals(null, answer1.getMessage(), 'the answer message should be null at this stage');
+		System.assertEquals(null, answer2.getMessage(), 'the answer message should be null at this stage');
+
+		mocks.startStubbing();
+		((fflib_MyList) mocks.doAnswer(answer1, mockList)).addMore('Hi hi Hello Hi hi');
+		((fflib_MyList) mocks.doAnswer(answer2, mockList)).add('Hello');
+		mocks.stopStubbing();
+
+		// When
+		mockList.addMore('Hi hi Hello Hi hi');
+		mockList.add('Hello');
+
+		// Then
+		System.assertEquals('this is the first answer', answer1.getMessage(), 'the answer was not the one expected');
+		System.assertEquals('and this is the second one', answer2.getMessage(), 'the answer was not the one expected');
+	}
+
 	//Answers
 
 	public class BasicAnswer implements fflib_Answer
@@ -309,21 +388,39 @@ private class fflib_AnswerTest
 
 	public class FirstAnswer implements fflib_Answer
 	{
+		private String answerMessage;
+
+		public String getMessage()
+		{
+			return this.answerMessage;
+		}
+
 		public Object answer(fflib_InvocationOnMock invocation)
 		{
 			actualInvocation = invocation;
 
-			return 'this is the first answer';
+			this.answerMessage = 'this is the first answer';
+
+			return answerMessage;
 		}
 	}
 
 	public class SecondAnswer implements fflib_Answer
 	{
+		private String answerMessage;
+
+		public String getMessage()
+		{
+			return this.answerMessage;
+		}
+
 		public Object answer(fflib_InvocationOnMock invocation)
 		{
 			actualInvocation = invocation;
 
-			return 'and this is the second one';
+			this.answerMessage = 'and this is the second one';
+
+			return answerMessage;
 		}
 	}
 
