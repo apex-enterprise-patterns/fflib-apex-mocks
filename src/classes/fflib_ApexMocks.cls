@@ -12,15 +12,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	private final fflib_MethodCountRecorder methodCountRecorder;
 	private final fflib_MethodReturnValueRecorder methodReturnValueRecorder;
 
-	public Boolean Verifying
-	{
-		get
-		{
-			return methodCountRecorder.Verifying;
-		}
+	private fflib_MethodVerifier methodVerifier;
+	private fflib_VerificationMode verificationMode;
 
-		private set;
-	}
+	public Boolean Verifying { get; set;	}
 
 	public Boolean Stubbing
 	{
@@ -50,11 +45,15 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public fflib_ApexMocks()
 	{
-		methodCountRecorder = new fflib_MethodCountRecorder();
-		methodReturnValueRecorder = new fflib_MethodReturnValueRecorder();
+		Verifying = false;
 
-		methodCountRecorder.Verifying = false;
-		methodReturnValueRecorder.Stubbing = false;
+		this.methodCountRecorder = new fflib_MethodCountRecorder();
+		this.verificationMode = new fflib_VerificationMode();
+		this.methodVerifier = new fflib_AnyOrder();
+
+		this.methodReturnValueRecorder = new fflib_MethodReturnValueRecorder();
+
+		this.methodReturnValueRecorder.Stubbing = false;
 	}
 
 	/**
@@ -95,7 +94,21 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public Object verify(Object mockInstance)
 	{
-		return verify(mockInstance, 1, null, null);
+		return verify(mockInstance, this.times(1));
+	}
+
+	/**
+	 * Verify a method was called on a mock object.
+	 * @param mockInstance The mock object instance.
+	 * @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
+	 * @return The mock object instance.
+	 */
+	public Object verify(Object mockInstance, fflib_VerificationMode verificationMode)
+	{
+		Verifying = true;
+		this.verificationMode = verificationMode;
+
+		return mockInstance;
 	}
 
 	/**
@@ -106,49 +119,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public Object verify(Object mockInstance, Integer times)
 	{
-		return verify(mockInstance, times, null, null);
-	}
-
-	/**
-	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param customAssertMessage The Custom message for the assert in case the assert is false to be queued to the default message.
-	 * @return The mock object instance.
-	 */
-	public Object verify(Object mockInstance, String customAssertMessage)
-	{
-		return verify(mockInstance, 1, customAssertMessage, null);
-	}
-
-	/**
-	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param times The number of times you expect the method to have been called.
-	 * @param customAssertMessage The Custom message for the assert in case the assert is false to be queued to the default message.
-	 * @return The mock object instance.
-	 */
-	public Object verify(Object mockInstance, Integer times, String customAssertMessage)
-	{
-		return verify(mockInstance, times, customAssertMessage, null);
-	}
-
-	/**
-	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param times The number of times you expect the method to have been called.
-	 * @param customAssertMessage The Custom message for the assert in case the assert is false to be queued to the default message.
-	 * @param verifyOrderingMode An fflib_InOrder for checking method call order.
-	 * @return The mock object instance.
-	 */
-	public Object verify(Object mockInstance, Integer times, String customAssertMessage, fflib_InOrder verifyOrderingMode)
-	{
-		methodCountRecorder.Verifying = true;
-		methodCountRecorder.VerifyCount = times;
-		methodCountRecorder.CustomAssertMessage = customAssertMessage;
-
-		methodCountRecorder.OrderedVerify = verifyOrderingMode;
-
-		return mockInstance;
+		return verify(mockInstance, this.times(times));
 	}
 
 	/**
@@ -158,7 +129,9 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public void verifyMethodCall(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
 	{
-		methodCountRecorder.verifyMethodCall(qm, methodArg);
+		this.methodVerifier.verifyMethodCall(qm, methodArg, verificationMode);
+		this.methodVerifier = new fflib_AnyOrder();
+		Verifying = false;
 	}
 
 	/**
@@ -289,5 +262,96 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	public class ApexMocksException extends Exception
 	{
 
+	}
+
+	/**
+	 * Sets how many times the method is expected to be called.
+	 * @param times The number of times you expect the method to have been called.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode times(Integer times)
+	{
+		return new fflib_VerificationMode().times(times);
+	}
+
+	/**
+	 * Sets how many times the method is expected to be called for an InOrder verifier. Available Only with the InOrder verification.
+	 * A verification mode using calls will not fail if the method is called more times than expected.
+	 * @param times The number of times you expect the method to have been called in the InOrder verifying ( no greedy verify).
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode calls(Integer times)
+	{
+		return new fflib_VerificationMode().calls(times);
+	}
+
+	/**
+	 * Sets a custom assert message for the verify.
+	 * @param customAssertMessage The custom message for the assert in case the assert is false. The custom message is queued to the default message.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode description(String customAssertMessage)
+	{
+		return new fflib_VerificationMode().description(customAssertMessage);
+	}
+
+	/**
+	 * Sets the minimum number of times the method is expected to be called.
+	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode atLeast(Integer atLeastTimes)
+	{
+		return new fflib_VerificationMode().atLeast(atLeastTimes);
+	}
+
+	/**
+	 * Sets the maximum number of times the method is expected to be called.
+	 * @param atMostTimes The maximum number of times the method is expected to be called.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode atMost(Integer atMostTimes)
+	{
+		return new fflib_VerificationMode().atMost(atMostTimes);
+	}
+
+	/**
+	 * Sets that the method is called at least once.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode atLeastOnce()
+	{
+		return new fflib_VerificationMode().atLeastOnce();
+	}
+
+	/**
+	 * Sets the range of how many times the method is expected to be called.
+	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
+	 * @param atMostTimes The maximum number of times the method is expected to be called.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode between(Integer atLeastTimes, Integer atMostTimes)
+	{
+		return new fflib_VerificationMode().between(atLeastTimes, atMostTimes);
+	}
+
+	/**
+	 * Sets that the method is not expected to be called.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public fflib_VerificationMode never()
+	{
+		return new fflib_VerificationMode().never();
+	}
+
+	/**
+	 * Sets the fflib_VerificationMode object.
+	 * To internal use only.
+	 * Used to pass the verification mode that has been set in the  verify of the fflib_InOrder class.
+	 * @return The fflib_VerificationMode object instance with the proper settings.
+	 */
+	public void setOrderedVerifier(fflib_InOrder verifyOrderingMode)
+	{
+		this.methodVerifier = verifyOrderingMode;
 	}
 }
