@@ -19,14 +19,14 @@ public with sharing class fflib_MethodCountRecorder
 	private static Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, Integer>> methodCountsByTypeName =
 		new Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, Integer>>();
 
-	private static List<fflib_QualifiedMethodAndArgValues> orderedMethodCalls =
-		new List<fflib_QualifiedMethodAndArgValues>();
+	private static List<fflib_InvocationOnMock> orderedMethodCalls =
+		new List<fflib_InvocationOnMock>();
 
 	/**
-	 * getter for the list of the methods ordered calls.
-	 * @return the list of methods called in order.
+	 * Getter for the list of the methods ordered calls.
+	 * @return The list of methods called in order.
 	 */
-	public static List<fflib_QualifiedMethodAndArgValues> getOrderedMethodCalls()
+	public static List<fflib_InvocationOnMock> getOrderedMethodCalls()
 	{
 		return orderedMethodCalls;
 	}
@@ -42,24 +42,24 @@ public with sharing class fflib_MethodCountRecorder
 
 	/**
 	 * Record a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param qm The method to be recorded.
-	 * @param methodArg The method argument to be recorded.
+	 * @param invocation The object holding all the data of the invocation, like the method and arguments and the mock instance.
 	 */
-	public void recordMethod(Object mockInstance, fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
+	public void recordMethod(fflib_InvocationOnMock invocation)
 	{
-		Map<fflib_MethodArgValues, Integer> methodCountByArgs = methodCountsByTypeName.get(qm);
+		Map<fflib_MethodArgValues, Integer> methodCountByArgs =
+			methodCountsByTypeName.get(invocation.getMethod());
+
 		if (methodCountByArgs == null)
 		{
 			methodCountByArgs = new Map<fflib_MethodArgValues, Integer>();
-			methodCountsByTypeName.put(qm, methodCountByArgs);
+			methodCountsByTypeName.put(invocation.getMethod(), methodCountByArgs);
 		}
 
-		Integer currentCount = methodCountByArgs.get(methodArg);
+		Integer currentCount = methodCountByArgs.get(invocation.getMethodArgValues());
 		Integer newCount = currentCount == null ? 1 : ++currentCount;
 
-		methodCountByArgs.put(methodArg, newCount);
+		methodCountByArgs.put(invocation.getMethodArgValues(), newCount);
 
-		orderedMethodCalls.add(new fflib_QualifiedMethodAndArgValues(qm, methodArg, mockInstance));
+		orderedMethodCalls.add(invocation);
 	}
 }
