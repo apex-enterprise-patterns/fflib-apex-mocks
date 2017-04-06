@@ -100,3 +100,6 @@ Instantiate the generated classes as follows:
 * [ApexMocks Improvements - exception stubbing, base classes and more](http://code4cloud.wordpress.com/2014/11/05/apexmocks-improvements-exception-stubbing-inner-interfaces-and-mock-base-classes/)
 * [Matchers](http://superdupercode.blogspot.co.uk/2016/03/apex-mocks-matchers.html)
 * [ApexMock blogs from Jesse Altman](http://jessealtman.com/tag/apexmocks/)
+* [Order of calls verification](https://xonoxforce.wordpress.com/2017/03/26/inorder-verify/)
+* [Answering](https://xonoxforce.wordpress.com/2017/03/31/answering-with-apex-mocks/)
+* [Counters](https://xonoxforce.wordpress.com/2017/04/01/counters-in-apex-mocks-verifications/)
