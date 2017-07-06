@@ -1,0 +1,5 @@
+# Specify the login credentials for the desired Salesforce organization
+sf.username=<salesforce username>
+sf.password=<salesforce password>
+sf.server = https://login.salesforce.com
+sf.maxPoll = 20

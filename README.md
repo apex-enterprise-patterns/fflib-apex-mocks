@@ -1,4 +1,4 @@
-#FinancialForce ApexMocks Framework
+# FinancialForce ApexMocks Framework
 
 [![Build Status](https://travis-ci.org/financialforcedev/fflib-apex-mocks.svg)](https://travis-ci.org/financialforcedev/fflib-apex-mocks)
 
@@ -11,7 +11,12 @@ It derives it's inspiration from the well known Java mocking framework [Mockito]
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-##Using ApexMocks on Force.com
+## Setup
+- Clone this repo
+- Copy the build.properties.template file into build.properties file and add your salesforce username and password.
+- Do `ant deploy` to get the classes in your dev org.
+
+## Using ApexMocks on Force.com
 
 ApexMocks allows you to write tests to both verify behaviour and stub dependencies.
 
@@ -57,7 +62,7 @@ Lets assume we've written our own list interface fflib_MyList.IList that we want
 		mocks.when(mockList.get(1)).thenReturn('fred');
 		mocks.stopStubbing();
 
-##Stub API
+## Stub API
 ApexMocks now implements the [Stub API](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_testing_stub_api.htm)!
 
 Previously, stub objects had to be generated using the ApexMocks generator at compile time.
@@ -68,7 +73,7 @@ Now, stub objects can be generated dynamically at run time.
 
 You can continue to use the ApexMocks generator, if you wish, but this is no longer a prerequisite to using ApexMocks.
 
-##Generating Mock files
+## Generating Mock files
 
 Run the apex mocks generator from the command line.
 
@@ -88,7 +93,7 @@ Instantiate the generated classes as follows:
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 		fflib_MyList.IList mockList = new MockMyList(mocks);
 
-##Documentation
+## Documentation
 
 * [ApexMocks Framework Tutorial](http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/)
 * [Simple Dependency Injection](http://code4cloud.wordpress.com/2014/05/09/simple-dependency-injection/)

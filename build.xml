@@ -1,6 +1,7 @@
 <project xmlns:sf="antlib:com.salesforce" basedir="."  default="deploy">
 	
-	<property name="sf.server" value="https://login.salesforce.com"/>
+	<property file="build.properties"/>
+
 	<import file="${basedir}/lib/exec_anon.xml"/> 
 	<import file="${basedir}/lib/undeploy.xml"/>
 
@@ -11,12 +12,12 @@
 		classpath="${basedir}/lib/ant-salesforce.jar"/>
 	
 	<!-- Deploy -->
-	<target name="deploy" depends="undeploy">
+	<target name="deploy">
 		<sf:deploy 
 	        username="${sf.username}" 
 	        password="${sf.password}" 
 	        serverurl="${sf.server}"
-	        testLevel="RunLocalTests" 
+	        testLevel="NoTestRun" 
 	        deployRoot="${basedir}/src"/>
 	</target>
 		
