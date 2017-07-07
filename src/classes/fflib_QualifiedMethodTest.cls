@@ -1,27 +1,5 @@
-/**
- * Copyright (c) 2014, FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+/*
+ * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
  */
 @isTest
 public with sharing class fflib_QualifiedMethodTest
@@ -110,5 +88,65 @@ public with sharing class fflib_QualifiedMethodTest
 	public static void toStringReturnsExpectedResult()
 	{
 		System.assertEquals('MyClass.MyMethod(Integer)', new fflib_QualifiedMethod('MyClass', 'MyMethod', new List<Type>{ Integer.class }).toString());
+	}
+
+	@isTest
+	private static void equalsReturnsExpectedResultsForHasDependentMocks()
+	{
+		//Given
+		String instance = 'My object instance';
+		String instance2 = 'My other object instance';
+		fflib_QualifiedMethod qm1 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class } );
+		fflib_QualifiedMethod qm2 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class }, instance);
+		fflib_QualifiedMethod qm3 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class }, instance);
+		fflib_QualifiedMethod qm4 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class }, instance2);
+
+		//When/thens
+		fflib_ApexMocksConfig.HasIndependentMocks = false;
+		
+		System.assertEquals(qm1, qm2);
+		System.assertEquals(qm1, qm3);
+		System.assertEquals(qm1, qm4);
+
+		fflib_ApexMocksConfig.HasIndependentMocks = true;
+
+		System.assertNotEquals(qm1, qm2);
+		System.assertNotEquals(qm1, qm3);
+		System.assertNotEquals(qm1, qm4);
+
+		System.assertEquals(qm2, qm3);
+		System.assertNotEquals(qm2, qm4);
+
+		System.assertNotEquals(qm3, qm4);
+	}
+
+	@isTest
+	private static void hashCodeReturnsExpectedResultsForHasDependentMocks()
+	{
+		//Given
+		String instance = 'My object instance';
+		String instance2 = 'My other object instance';
+		fflib_QualifiedMethod qm1 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class } );
+		fflib_QualifiedMethod qm2 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class }, instance);
+		fflib_QualifiedMethod qm3 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class }, instance);
+		fflib_QualifiedMethod qm4 = new fflib_QualifiedMethod('Type1', 'Method1', new List<Type>{ Integer.class }, instance2);
+
+		//When/thens
+		fflib_ApexMocksConfig.HasIndependentMocks = false;
+		
+		System.assertEquals(qm1.hashCode(), qm2.hashCode());
+		System.assertEquals(qm1.hashCode(), qm3.hashCode());
+		System.assertEquals(qm1.hashCode(), qm4.hashCode());
+
+		fflib_ApexMocksConfig.HasIndependentMocks = true;
+
+		System.assertNotEquals(qm1.hashCode(), qm2.hashCode());
+		System.assertNotEquals(qm1.hashCode(), qm3.hashCode());
+		System.assertNotEquals(qm1.hashCode(), qm4.hashCode());
+
+		System.assertEquals(qm2.hashCode(), qm3.hashCode());
+		System.assertNotEquals(qm2.hashCode(), qm4.hashCode());
+
+		System.assertNotEquals(qm3.hashCode(), qm4.hashCode());
 	}
 }
