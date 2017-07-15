@@ -31,7 +31,7 @@ public with sharing class fflib_MethodReturnValueRecorder
 {
 	public Boolean Stubbing { get; set; }
 
-	public Exception DoThrowWhenException { get; set; }
+	public List<Exception> DoThrowWhenExceptions { get; set; }
 
 	/**
 	 * Map of matchers by method.
@@ -111,11 +111,11 @@ public with sharing class fflib_MethodReturnValueRecorder
 	}
 
 	/**
-	 * Prepare a stubbed exception for a void method.
-	 * @param e The exception to throw.
+	 * Prepare a stubbed exceptions for a void method.
+	 * @param exps The list of exception to throw.
 	 */
-	public void prepareDoThrowWhenException(Exception e)
+	public void prepareDoThrowWhenExceptions(List<Exception> exps)
 	{
-		DoThrowWhenException = e;
+		DoThrowWhenExceptions = exps;
 	}
 }

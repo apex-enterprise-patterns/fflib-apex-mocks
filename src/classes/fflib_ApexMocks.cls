@@ -28,16 +28,16 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		private set;
 	}
 
-	public Exception DoThrowWhenException
+	public List<Exception> DoThrowWhenExceptions
 	{
 		get
 		{
-			return methodReturnValueRecorder.DoThrowWhenException;
+			return methodReturnValueRecorder.DoThrowWhenExceptions;
 		}
 
 		set
 		{
-			methodReturnValueRecorder.DoThrowWhenException = value;
+			methodReturnValueRecorder.DoThrowWhenExceptions = value;
 		}
 	}
 
@@ -197,7 +197,18 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public Object doThrowWhen(Exception e, Object mockInstance)
 	{
-		methodReturnValueRecorder.prepareDoThrowWhenException(e);
+		methodReturnValueRecorder.prepareDoThrowWhenExceptions(new List<Exception>{e});
+		return mockInstance;
+	}
+
+	/**
+	 * Setup exception stubbing for a void method.
+	 * @param exps The list of exceptions to throw.
+	 * @param mockInstance The mock object instance.
+	 */
+	public Object doThrowWhen(List<Exception> exps, Object mockInstance)
+	{
+		methodReturnValueRecorder.prepareDoThrowWhenExceptions(exps);
 		return mockInstance;
 	}
 
@@ -248,10 +259,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		{
 			fflib_MethodReturnValue methotReturnValue = prepareMethodReturnValue(invocation);
 
-			if(DoThrowWhenException != null)
+			if(DoThrowWhenExceptions != null)
 			{
-				methotReturnValue.thenThrow(DoThrowWhenException);
-				DoThrowWhenException = null;
+				methotReturnValue.thenThrowMulti(DoThrowWhenExceptions);
+				DoThrowWhenExceptions = null;
 				return null;
 			}
 
@@ -284,6 +295,12 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 		if (methodReturnValue != null)
 		{
+			if(methodReturnValue.Answer == null)
+			{
+				throw new fflib_ApexMocks.ApexMocksException(
+  					'The stubbing is not correct, no return values have been set.');
+			}
+
 			Object returnedValue = methodReturnValue.Answer.answer(invocation);
 
 			if(returnedValue == null)
