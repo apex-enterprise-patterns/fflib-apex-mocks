@@ -8,16 +8,15 @@
 public with sharing class fflib_MethodCountRecorder
 {
 	/*
-	 * Map of method counts by type name.
+	 * Map of method arguments by type name.
 	 *
 	 * Key: qualifiedMethod
-	 * Object: map of method calls by method.
+	 * Object: list of method arguments.
 	 *
-	 * Key: methodArgValues
 	 * Object: map of count by method call argument.
 	 */
-	private static Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, Integer>> methodCountsByTypeName =
-		new Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, Integer>>();
+	private static Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>> methodArgumentsByTypeName =
+		new Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>>();
 
 	private static List<fflib_InvocationOnMock> orderedMethodCalls =
 		new List<fflib_InvocationOnMock>();
@@ -35,9 +34,9 @@ public with sharing class fflib_MethodCountRecorder
 	 * Getter for the map of the method's calls with the related arguments.
 	 * @return The map of methods called with the arguments.
 	 */
-	public static Map<fflib_QualifiedMethod, Map<fflib_MethodArgValues, Integer>> getMethodCountsByTypeName()
+	public static Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>> getMethodArgumentsByTypeName()
 	{
-		return methodCountsByTypeName;
+		return methodArgumentsByTypeName;
 	}
 
 	/**
@@ -46,19 +45,16 @@ public with sharing class fflib_MethodCountRecorder
 	 */
 	public void recordMethod(fflib_InvocationOnMock invocation)
 	{
-		Map<fflib_MethodArgValues, Integer> methodCountByArgs =
-			methodCountsByTypeName.get(invocation.getMethod());
+		List<fflib_MethodArgValues> methodArgs =
+			methodArgumentsByTypeName.get(invocation.getMethod());
 
-		if (methodCountByArgs == null)
+		if (methodArgs == null)
 		{
-			methodCountByArgs = new Map<fflib_MethodArgValues, Integer>();
-			methodCountsByTypeName.put(invocation.getMethod(), methodCountByArgs);
+			methodArgs = new List<fflib_MethodArgValues>();
+			methodArgumentsByTypeName.put(invocation.getMethod(), methodArgs);
 		}
 
-		Integer currentCount = methodCountByArgs.get(invocation.getMethodArgValues());
-		Integer newCount = currentCount == null ? 1 : ++currentCount;
-
-		methodCountByArgs.put(invocation.getMethodArgValues(), newCount);
+		methodArgs.add(invocation.getMethodArgValues());
 
 		orderedMethodCalls.add(invocation);
 	}

@@ -661,6 +661,38 @@ private class fflib_ArgumentCaptorTest
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 
+	@isTest
+	static void thatCaptureAllArgumentswhenMethodIsCalledWithTheSameArgument()
+	{
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+
+		// When
+		mockList.add('Fred');
+		mockList.add('Barney');
+		mockList.add('Wilma');
+		mockList.add('Barney');
+		mockList.add('Barney');
+		mockList.add('Betty');
+
+		// Then
+		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
+
+		((fflib_MyList.IList) mocks.verify(mockList, 6)).add((String) argument.capture());
+
+		List<object> argsCaptured = argument.getAllValues();
+
+		System.assertEquals(6, argsCaptured.size(), 'expected 6 arguments to be captured');
+
+		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.assertEquals('Barney', (String) argsCaptured[1], 'the second value is not as expected');
+		System.assertEquals('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
+		System.assertEquals('Barney', (String) argsCaptured[3], 'the fourth value is not as expected');
+		System.assertEquals('Barney', (String) argsCaptured[4], 'the fifth value is not as expected');
+		System.assertEquals('Betty', (String) argsCaptured[5], 'the sixth value is not as expected');
+	}
+
 
 	private class TestInnerClass
 	{

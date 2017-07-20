@@ -50,29 +50,43 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 	{
 		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
 		Integer retval = 0;
-		Map<fflib_MethodArgValues, Integer> methodCountByArgs =
-			fflib_MethodCountRecorder.getMethodCountsByTypeName().get(qm);
-		if (methodCountByArgs != null)
+
+		List<fflib_MethodArgValues> methodArgs =
+			fflib_MethodCountRecorder.getMethodArgumentsByTypeName().get(qm);
+
+		if (methodArgs != null)
 		{
 			if (matchers != null)
 			{
-				for (fflib_MethodArgValues args : methodCountByArgs.keySet())
+				for (fflib_MethodArgValues args : methodArgs)
 				{
 					if (fflib_Match.matchesAllArgs(args, matchers))
 					{
 						capture(matchers);
 
-						retval += methodCountByArgs.get(args);
+						retval ++;
 					}
 				}
 			}
-			else if (methodCountByArgs.get(methodArg) != null)
+			else
 			{
-				return methodCountByArgs.get(methodArg);
+				return countCalls(methodArgs, methodArg);
 			}
 		}
 
 		return retval;
+	}
+
+	private Integer countCalls(List<fflib_MethodArgValues> methodArgs, fflib_MethodArgValues methodArg)
+	{
+		Integer count = 0;
+
+		for(fflib_MethodArgValues arg: methodArgs)
+		{
+			if( arg == methodArg) count++;
+		}
+
+		return count;
 	}
 
 	/*
