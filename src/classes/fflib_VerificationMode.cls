@@ -26,7 +26,14 @@ public with sharing class fflib_VerificationMode
 	}
 
 	/**
-	 * Sets how many times the method is expected to be called. Not available in the InOrder verification yet.
+	* Sets how many times the method is expected to be called.
+	  * For InOrder verification we copy Mockito behavior which is as follows;
+	 * <ul>
+	 * <li>Consume the specified number of matching invocations, ignoring non-matching invocations in between</li>
+	 * <li>Fail an assert if the very next invocation matches, but additional matches can still exist so long as at least one non-matching invocation exists before them</li>
+	 * </ul>
+	 * For example if you had a(); a(); b(); a();
+	 * then inOrder.verify(myMock, 2)).a(); or inOrder.verify(myMock, 3)).a(); would pass but not inOrder.verify(myMock, 1)).a();
 	 * @param times The number of times you expect the method to have been called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
@@ -49,7 +56,8 @@ public with sharing class fflib_VerificationMode
 	}
 
 	/**
-	 * Sets the minimum number of times the method is expected to be called. Not available in the InOrder verification yet.
+	 * Sets the minimum number of times the method is expected to be called.
+	 * With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
 	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
@@ -62,7 +70,7 @@ public with sharing class fflib_VerificationMode
 	}
 
 	/**
-	 * Sets the maximum number of times the method is expected to be called. Not available in the InOrder verification yet.
+	 * Sets the maximum number of times the method is expected to be called. Not available in the InOrder verification.
 	 * @param atMostTimes The maximum number of times the method is expected to be called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
@@ -75,7 +83,8 @@ public with sharing class fflib_VerificationMode
 	}
 
 	/**
-	 * Sets that the method is called at least once. Not available in the InOrder verification yet.
+	 * Sets that the method is called at least once.
+	 * With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
 	public fflib_VerificationMode atLeastOnce()
@@ -87,7 +96,7 @@ public with sharing class fflib_VerificationMode
 	}
 
 	/**
-	 * Sets the range of how many times the method is expected to be called. Not available in the InOrder verification yet.
+	 * Sets the range of how many times the method is expected to be called. Not available in the InOrder verification.
 	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
 	 * @param atMostTimes The maximum number of times the method is expected to be called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
@@ -122,7 +131,8 @@ public with sharing class fflib_VerificationMode
 	public fflib_VerificationMode calls(Integer callingTimes)
 	{
 		this.Method = ModeName.calls;
-		this.VerifyMin = this.VerifyMax = callingTimes;
+		this.VerifyMin = callingTimes;
+		this.VerifyMax = null;
 
 		return this;
 	}

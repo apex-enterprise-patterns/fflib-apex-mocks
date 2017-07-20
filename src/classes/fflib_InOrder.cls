@@ -14,10 +14,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	private Set<fflib_VerificationMode.ModeName> notImplementedMethods =
 		new Set<fflib_VerificationMode.ModeName>
 		{
-			fflib_VerificationMode.ModeName.atLeast,
 			fflib_VerificationMode.ModeName.atMost,
-			fflib_VerificationMode.ModeName.times,
-			fflib_VerificationMode.ModeName.atLeastOnce,
 			fflib_VerificationMode.ModeName.between
 		};
 
@@ -36,6 +33,9 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 
 	/**
 	 * Verify a method was called on a mock object.
+	 * It performs a no strict ordered verification.
+	 * The verification could be either greedy or not depending of the verificationMode passed.
+	 * Check the fflib_VerificationMode methods for details.
 	 * @param mockInstance The mock object instance.
 	 * @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
 	 * @return The mock object instance.
@@ -44,6 +44,32 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	{
 		mocks.setOrderedVerifier(this);
 		return mocks.verify(mockInstance, verificationMode);
+	}
+
+	/**
+	 * Verify a method was called on a mock object.
+	 * It performs the default times(1) verification for the InOrder.
+	 * @param mockInstance The mock object instance.
+	 * @return The mock object instance.
+	 */
+	public Object verify(Object mockInstance)
+	{
+		mocks.setOrderedVerifier(this);
+		return mocks.verify(mockInstance);
+	}
+
+	/**
+	 * Verify a method was called on a mock object.
+	 * Wrapper for the new syntax call to be conformed to the old style notation
+	 * It performs the equivalent of times(times) verification for the InOrder.
+	 * @param mockInstance The mock object instance.
+	 * @param times The number of times you expect the method to have been called.
+	 * @return The mock object instance.
+	 */
+	public Object verify(Object mockInstance, Integer times)
+	{
+		mocks.setOrderedVerifier(this);
+		return mocks.verify(mockInstance, times);
 	}
 
 	/**
@@ -81,7 +107,9 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	}
 
 	/*
-	 * Verifies a method was invoked the expected number of times, with the expected arguments. The in-order verifier remembers the last method invocation it successfully verified, and only considers subsequent method invocations for subsequent verifications.
+	 * Verifies a method was invoked the expected number of times, with the expected arguments.
+	 * The in-order verifier remembers the last method invocation it successfully verified,
+	 * and only considers subsequent method invocations for subsequent verifications.
 	 * @param qualifiedMethod The method to be verified.
 	 * @param methodArg The arguments of the method that needs to be verified.
 	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
@@ -101,12 +129,37 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 				throwException(qm, inOrder, fflib_ApexMocks.NEVER, '', methodCounts, verificationMode.CustomAssertMessage);
 		}
 
-		for (Integer i=0; i<verificationMode.VerifyMin; i++)
+		Integer i=0;
+		for ( ; i<verificationMode.VerifyMin; i++)
 		{
 			if(!verifyMethodCalled(matchers, qm, methodArg))
 			{
 				throwException(qm, inOrder, verificationMode.VerifyMin, '', i, verificationMode.CustomAssertMessage);
 			}
+		}
+
+		if( verificationMode.VerifyMin == verificationMode.VerifyMax )
+		{
+			if(hasNextInteraction(unorderedMockInstances, idxMethodCall))
+			{
+				fflib_InvocationOnMock nextMethod = getNextMethodCall(false);
+
+				if(nextMethod.getMethod() == qm &&
+					argumentsMatch(nextMethod.getMethodArgValues(), matchers, methodArg))
+				{
+					Integer methodCounts = i + countInteractions(matchers, qm, methodArg);
+					throwException(qm, inOrder, verificationMode.VerifyMin, '', methodCounts, verificationMode.CustomAssertMessage);
+				}
+			}
+
+			return;
+		}
+
+		//consuming all the calls in case is the atLeast or atLeastOnce method
+		if(verificationMode.Method == fflib_VerificationMode.ModeName.atLeast
+			|| verificationMode.Method == fflib_VerificationMode.ModeName.atLeastOnce)
+		{
+			consumeInteractions(matchers, qm, methodArg);
 		}
 	}
 
@@ -159,6 +212,37 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 		return interactionsCouter;
 	}
 
+	private void consumeInteractions(
+		List<fflib_IMatcher> matchers,
+		fflib_QualifiedMethod qualifiedMethod,
+		fflib_MethodArgValues methodArg)
+	{
+		Integer lastInteracionIndex = 0;
+
+		//going all through the orderedMethodCalls to find all the interaction of the method
+		for (Integer i = idxMethodCall, len = fflib_MethodCountRecorder.getOrderedMethodCalls().size(); i<len; i++)
+		{
+			fflib_InvocationOnMock invocation = fflib_MethodCountRecorder.getOrderedMethodCalls().get(i);
+			for (Object mockInstance : unorderedMockInstances)
+			{
+				if (invocation.getMock() === mockInstance
+					&& (qualifiedMethod == invocation.getMethod())
+					&& (argumentsMatch(invocation.getMethodArgValues(), matchers, methodArg)))
+				{
+					//it's our method
+					lastInteracionIndex = i;
+					if (matchers != null)
+					{
+						capture(matchers);
+					}
+				}
+			}
+		}
+
+		//now we can move the index to our last call
+		idxMethodCall = lastInteracionIndex + 1;
+	}
+
 	private Boolean argumentsMatch(
 		fflib_MethodArgValues calledMethodArg,
 		List<fflib_IMatcher> matchers,
@@ -184,6 +268,11 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 
 	private fflib_InvocationOnMock getNextMethodCall()
 	{
+			return getNextMethodCall(true);
+	}
+
+	private fflib_InvocationOnMock getNextMethodCall(Boolean updateIdxMethodCall)
+	{
 		Integer idx = 0;
 		for (fflib_InvocationOnMock invocation : fflib_MethodCountRecorder.getOrderedMethodCalls())
 		{
@@ -191,7 +280,8 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 			{
 				if(isForMockInstance(invocation))
 				{
-					idxMethodCall++;
+					if(updateIdxMethodCall)
+						idxMethodCall++;
 					return invocation;
 				}
 			}

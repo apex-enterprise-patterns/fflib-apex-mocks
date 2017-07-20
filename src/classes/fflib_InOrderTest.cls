@@ -454,68 +454,6 @@ private class fflib_InOrderTest
 	}
 
 	@isTest
-	static void thatVerifyTimesThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(3))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The times method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyAtLeastThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-
-		// Then
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(3))).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The atLeast method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
-		}
-	}
-
-	@isTest
 	static void thatVerifyBetweenThrowsExceptionBecauseNotImplemented()
 	{
 		// Given
@@ -658,31 +596,6 @@ private class fflib_InOrderTest
 
 			System.assertEquals(expectedMessage, e.getMessage(),
 				'the verify throw an Exception, but the message is not as expected');
-		}
-	}
-
-	@isTest
-	static void thatVerifyAtLeastOnceThrowsExceptionBecauseNotImplemented()
-	{
-		// Given
-		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
-		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
-
-		// When
-		firstMock.add('1-1');
-		firstMock.add('2-1');
-		firstMock.add('1-1');
-
-		// Then
-		try
-		{
-			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-1');
-			System.assert(false, 'an exception was expected because the method is not implemented for the InOrder class');
-		}
-		catch (fflib_ApexMocks.ApexMocksException mockExcept)
-		{
-			String expectedMessage = 'The atLeastOnce method is not implemented for the fflib_InOrder class';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
 		}
 	}
 
@@ -897,6 +810,816 @@ private class fflib_InOrderTest
 		((fflib_MyList.IList)MY_MOCKS.verify(firstMock, MY_MOCKS.times(2))).add('1-1');
 	}
 
+	@isTest
+	static void thatVerifyAtLeastPassWithSameCallsOfAssertion()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		firstMock.add('2-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1'); //all consumed until there by -> verify(firstMock, MY_MOCKS.atLeast(3))).add('1-1');
+		firstMock.add('2-1'); //finally consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(3))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+	}
+
+	@isTest
+	static void thatVerifyAtLeastPassWithMoreCallsThenAsserted()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		firstMock.add('2-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1'); //it verifies until here, but
+		firstMock.add('1-1'); //this is consumed as well
+		firstMock.add('2-1'); //finally consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(2))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+	}
+
+	@isTest
+	static void thatVerifyAtLeastThrowsErrorIfCalledLessTimes()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		firstMock.add('2-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1'); //there are then only 3 calls available, the assert 4 would fail
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(4))).add('1-1');
+			System.assert(false, 'an exception was expected because the atLeast is asserting for 4 calls when instead there are only 3 not consumed calls');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 4, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatVerifyAtLeastConsumeAllTheInstances()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		firstMock.add('2-1'); //consumed by -> verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1'); // the verify atLeast(2) it verifies until here, but it keep going through the instances
+		firstMock.add('1-1');
+		firstMock.add('2-1'); //so this would fail because have to first consume all the instances of the ('1-1')
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(2))).add('1-1');
+
+		// Then
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+			System.assert(false, 'an exception was expected because the atLeast have consumed all the interactions of 1-1');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatVerifyAtLeastConsumeAllTheInstancesForOnlyTheMethodVerified()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1'); // verify(firstMock, MY_MOCKS.atLeast(2))).add('2-1'); consume until here
+		firstMock.add('1-1');
+		firstMock.add('1-1'); //those are then free for the second atLeast assertion
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(2))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(2))).add('1-1');
+	}
+
+	@isTest
+	static void thatVerifyAtLeastOnce()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-1');
+	}
+
+	@isTest
+	static void thatVerifyAtLeastOnceConsumesInstancesUntilLastMethodVerified()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1'); // consumed until there by -> verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-1');
+		firstMock.add('2-1'); // free for another assertion
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('2-1');
+	}
+
+	@isTest
+	static void thatVerifyAtLeastOnceThrowsErrorIfCalledLessTimes()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+
+		// Then
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-3');
+			System.assert(false, 'an exception was expected because the atLeastOnce is asserting for 1 calls when instead the method is not called at all with that argument');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatVerifyAtLeastOnceConsumesAllTheInstances()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1'); //all the instance have been consumed
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-1');
+
+		// Then
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+			System.assert(false, 'an exception was expected because the atLeast have consumed all the interactions of 1-1');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatVerifyTimes()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(3))).add('1-1');
+	}
+
+	@isTest
+	static void thatVerifyTimesThrowsExceptionIfCalledMoreTimesThanExpected()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(2))).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 2, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatVerifyTimesThrowsExceptionIfCalledLessTimesThanExpected()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(4))).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 4, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatVerifyTimesPassWhenAnotherMethodIsCalledBetweenMethodsCalls()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(4))).add('1-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+	}
+
+	@isTest
+	static void thatVerifyTimesPassWhenAnotherMethodIsCalledBetweenMethodsCalls2()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(3))).add('1-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('1-1');
+	}
+
+	@isTest
+	static void thatVerifyTimesPassWhenAnotherMethodIsCalledBetweenMethodsCalls3()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(3))).add('1-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(2))).add('1-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('1-1');
+	}
+
+	@isTest
+	static void thatVerifyTimesPassWhenAnotherMethodIsCalledBetweenMethodsCalls4()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(5))).add('1-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('1-1');
+	}
+
+	@isTest
+	static void thatVerifyTimesThrowsExceptionWhenAnotherMethodIsCalledBetweenMethodsCalls()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(5))).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 5, Actual: 4 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatStrictVerificationCanBeEnforced()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(3))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(1))).add('2-1');
+	}
+
+	@isTest
+	static void thatTimesOneIsTheDefaultVerification()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 1, Actual: 4 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatWithOldNotation()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 3)).add('1-1');
+	}
+
+	@isTest
+	static void thatWithOldNotationThrowsExceptionIfCalledMoreTimesThanExpected()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, 2)).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 2, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatWithOldNotationThrowsExceptionIfCalledLessTimesThanExpected()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 4, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatWithOldNotationPassWhenAnotherMethodIsCalledBetweenMethodsCalls()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add('1-1');
+	}
+
+	@isTest
+	static void thatWithOldNotationThrowsExceptionWhenAnotherMethodIsCalledBetweenMethodsCalls()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, 5)).add('1-1');
+			System.assert(false, 'exception expected because the method is called more times than expected in the verification');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 5, Actual: 4 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void thatStrictVerificationCanBeEnforcedWithOldNotation()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 1)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 1)).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 3)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 1)).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 1)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 1)).add('2-1');
+	}
+
+	@isTest
+	static void thatStrictVerificationCanBeEnforcedWithOldNotationUsingDefaultTimesOne()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		// When
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock, 3)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('2-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
+		((fflib_MyList.IList)inOrder1.verify(firstMock)).add('2-1');
+	}
+
+	@isTest
+	static void thatVerifyAtLeastConsumesAllTheInstances2()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		//When
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('1-1');
+		firstMock.add('2-1');
+		firstMock.add('2-1');
+		firstMock.add('2-1');
+		firstMock.add('2-1');
+		firstMock.add('2-1');
+		firstMock.add('1-1');
+
+		// Then
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(2))).add('1-1');
+
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
+			System.assert(false, 'exception expected because the atLeast have consumed all the calls');
+		}
+		catch (fflib_ApexMocks.ApexMocksException mockExcept)
+		{
+			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
+			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+		}
+	}
+
+	@isTest
+	static void verifyAtLeastAndCapture()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		//When
+		firstMock.get2(1, '1-1');
+		firstMock.get2(2, '2-1');
+		firstMock.get2(1, '3-1');
+		firstMock.get2(1, '4-1');
+		firstMock.get2(2, '5-1');
+
+		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(2))).get2( fflib_Match.eqInteger(1), (String) argument.capture());
+
+		System.assertEquals('4-1', (string) argument.getValue(), 'the last value captured is not as expected');
+	}
+
+	@isTest
+	static void verifyTimesAndCaptor()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		//When
+		firstMock.get2(1, '1-1');
+		firstMock.get2(2, '1-2');
+		firstMock.get2(1, '2-1');
+		firstMock.get2(2, '2-2');
+		firstMock.get2(1, '3-1');
+		firstMock.get2(2, '3-2');
+		firstMock.get2(1, '4-1');
+		firstMock.get2(2, '4-2');
+		firstMock.get2(1, '5-1');
+		firstMock.get2(2, '5-2');
+
+		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(5))).get2(fflib_Match.eqInteger(1), (String) argument.capture());
+
+		System.assertEquals('5-1', (string) argument.getValue(), 'the last value captured is not as expected');
+	}
+
+	@isTest
+	static void verifyCallsAndCapture()
+	{
+		// Given
+		fflib_MyList firstMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
+
+		//When
+		firstMock.get2(1, '1-1');
+		firstMock.get2(2, '1-2');
+		firstMock.get2(1, '2-1');
+		firstMock.get2(2, '2-2');
+		firstMock.get2(1, '3-1');
+		firstMock.get2(2, '3-2');
+		firstMock.get2(1, '4-1');
+		firstMock.get2(2, '4-2');
+		firstMock.get2(1, '5-1');
+		firstMock.get2(2, '5-2');
+
+		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
+
+		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).get2(fflib_Match.eqInteger(1), (String) argument.capture());
+
+		System.assertEquals('2-1', (string) argument.getValue(), 'the last value captured is not as expected');
+	}
 
 	private static void assertVerifyInOrderExceptionForAddMoreMethod(
 		String argument,
