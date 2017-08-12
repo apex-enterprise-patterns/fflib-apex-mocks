@@ -28,16 +28,16 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		private set;
 	}
 
-	public Exception DoThrowWhenException
+	public List<Exception> DoThrowWhenExceptions
 	{
 		get
 		{
-			return methodReturnValueRecorder.DoThrowWhenException;
+			return methodReturnValueRecorder.DoThrowWhenExceptions;
 		}
 
 		set
 		{
-			methodReturnValueRecorder.DoThrowWhenException = value;
+			methodReturnValueRecorder.DoThrowWhenExceptions = value;
 		}
 	}
 
@@ -197,7 +197,18 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public Object doThrowWhen(Exception e, Object mockInstance)
 	{
-		methodReturnValueRecorder.prepareDoThrowWhenException(e);
+		methodReturnValueRecorder.prepareDoThrowWhenExceptions(new List<Exception>{e});
+		return mockInstance;
+	}
+
+	/**
+	 * Setup exception stubbing for a void method.
+	 * @param exps The list of exceptions to throw.
+	 * @param mockInstance The mock object instance.
+	 */
+	public Object doThrowWhen(List<Exception> exps, Object mockInstance)
+	{
+		methodReturnValueRecorder.prepareDoThrowWhenExceptions(exps);
 		return mockInstance;
 	}
 
@@ -248,10 +259,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		{
 			fflib_MethodReturnValue methotReturnValue = prepareMethodReturnValue(invocation);
 
-			if(DoThrowWhenException != null)
+			if(DoThrowWhenExceptions != null)
 			{
-				methotReturnValue.thenThrow(DoThrowWhenException);
-				DoThrowWhenException = null;
+				methotReturnValue.thenThrowMulti(DoThrowWhenExceptions);
+				DoThrowWhenExceptions = null;
 				return null;
 			}
 
@@ -284,6 +295,12 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 		if (methodReturnValue != null)
 		{
+			if(methodReturnValue.Answer == null)
+			{
+				throw new fflib_ApexMocks.ApexMocksException(
+  					'The stubbing is not correct, no return values have been set.');
+			}
+
 			Object returnedValue = methodReturnValue.Answer.answer(invocation);
 
 			if(returnedValue == null)
@@ -304,6 +321,13 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 	/**
 	 * Sets how many times the method is expected to be called.
+	 * For InOrder verification we copy Mockito behavior which is as follows;
+	 * <ul>
+	 * <li>Consume the specified number of matching invocations, ignoring non-matching invocations in between</li>
+	 * <li>Fail an assert if the very next invocation matches, but additional matches can still exist so long as at least one non-matching invocation exists before them</li>
+	 * </ul>
+	 * For example if you had a(); a(); b(); a();
+	 * then inOrder.verify(myMock, 2)).a(); or inOrder.verify(myMock, 3)).a(); would pass but not inOrder.verify(myMock, 1)).a();
 	 * @param times The number of times you expect the method to have been called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
@@ -335,6 +359,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 	/**
 	 * Sets the minimum number of times the method is expected to be called.
+	 * With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
 	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
@@ -344,7 +369,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets the maximum number of times the method is expected to be called.
+	 * Sets the maximum number of times the method is expected to be called. Not available in the InOrder verification.
 	 * @param atMostTimes The maximum number of times the method is expected to be called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
@@ -355,6 +380,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 	/**
 	 * Sets that the method is called at least once.
+	 * With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
 	 */
 	public fflib_VerificationMode atLeastOnce()
@@ -363,7 +389,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets the range of how many times the method is expected to be called.
+	 * Sets the range of how many times the method is expected to be called. Not available in the InOrder verification.
 	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
 	 * @param atMostTimes The maximum number of times the method is expected to be called.
 	 * @return The fflib_VerificationMode object instance with the proper settings.
