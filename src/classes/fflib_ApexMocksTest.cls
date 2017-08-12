@@ -751,6 +751,53 @@ private class fflib_ApexMocksTest
 	}
 
 	@isTest
+	static void thatMultipleInstancesCanBeMockedIndependently()
+	{
+		fflib_ApexMocksConfig.HasIndependentMocks = true;
+
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList first = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList second = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		
+		mocks.startStubbing();
+		mocks.when(first.get(0)).thenReturn('First');
+		mocks.when(second.get(0)).thenReturn('Second');
+		mocks.stopStubbing();
+
+		// When
+		String actual = first.get(0);
+
+		// Then
+		System.assertEquals('First', actual, 'Should have returned stubbed value');
+		((fflib_MyList)mocks.verify(first)).get(0);
+		((fflib_MyList)mocks.verify(second, mocks.never())).get(0);
+	}
+
+	@isTest
+	static void thatMultipleInstancesCanBeMockedDependently()
+	{
+		fflib_ApexMocksConfig.HasIndependentMocks = false;
+
+		// Given
+		fflib_ApexMocks mocks = new fflib_ApexMocks();
+		fflib_MyList first = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList second = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		
+		mocks.startStubbing();
+		mocks.when(first.get(0)).thenReturn('First');
+		mocks.when(second.get(0)).thenReturn('Second');
+		mocks.stopStubbing();
+
+		// When
+		String actual = first.get(0);
+
+		// Then
+		System.assertEquals('Second', actual, 'Should have returned stubbed value');
+		((fflib_MyList)mocks.verify(first)).get(0);
+		((fflib_MyList)mocks.verify(second)).get(0);
+	}
+
 	static void thatStubbingCanBeChainedFirstExceptionThenValue()
 	{
 		// Given
@@ -1551,7 +1598,6 @@ private class fflib_ApexMocksTest
 	{
 		System.assertEquals(expectedValue, MY_MOCK_LIST.get2(2, 'Hello.'), 'the method did not returned the expected value');
 	}
-
 
 	private class MyException extends Exception
 	{
