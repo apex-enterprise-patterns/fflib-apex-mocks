@@ -4,3 +4,11 @@
 .settings/com.salesforce.ide.core.prefs
 
 salesforce.schema
+
+.DS_Store
+.sfdx
+.project
+.salesforce
+.settings
+node_modules
+.idea
