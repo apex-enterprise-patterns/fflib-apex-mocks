@@ -1,4 +1,4 @@
-#FinancialForce ApexMocks Framework
+# FinancialForce ApexMocks Framework
 
 [![Build Status](https://travis-ci.org/financialforcedev/fflib-apex-mocks.svg)](https://travis-ci.org/financialforcedev/fflib-apex-mocks)
 
@@ -11,7 +11,7 @@ It derives it's inspiration from the well known Java mocking framework [Mockito]
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-##Using ApexMocks on Force.com
+## Using ApexMocks on Force.com
 
 ApexMocks allows you to write tests to both verify behaviour and stub dependencies.
 
