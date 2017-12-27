@@ -834,40 +834,38 @@ public with sharing class fflib_MatcherDefinitions
 					}
 				}
 				else
-                {	
-			// match in any order (but every arg must be matched only once)
-			for (Integer i = 0; i < sobjsArg.size(); i++) 
-                    {
-                        argMatchedCounts.add(0);
-                        // For each arg passed to mocked method, see if any match in the list of match field maps. 
-                        // Loop within loop so not hugely efficient but there are no IDs to rely on.
-                        // Avoid unit test methods that build huge lists of expected results
+				{	
+					// match in any order (but every arg must be matched only once)
+					for (Integer i = 0; i < sobjsArg.size(); i++) 
+					{
+						argMatchedCounts.add(0);
+						// For each arg passed to mocked method, see if any match in the list of match field maps. 
+						// Loop within loop so not hugely efficient but there are no IDs to rely on.
+						// Avoid unit test methods that build huge lists of expected results
                          
-                        for (Integer m = 0; m < toMatches.size(); m++)
-                        {
-                            if (sobjectMatches(sobjsArg[i],toMatches[m]))
-                            {
-                                argMatchedCounts[i] ++;
-                                matcherMatchedCounts[m] ++;
-                            }
-                        }
-                    }
-                    // Check to see that every arg was matched only once
-                    // Check to see that every matcher matched only once
-                    // Anything else is a match fail
+						for (Integer m = 0; m < toMatches.size(); m++)
+						{
+							if (sobjectMatches(sobjsArg[i],toMatches[m]))
+							{
+								argMatchedCounts[i] ++;
+								matcherMatchedCounts[m] ++;
+							}
+						}
+					}
+					// Check to see that every arg was matched only once
+					// Check to see that every matcher matched only once
+					// Anything else is a match fail
                     
-                    for (Integer i=0; i < argMatchedCounts.size(); i++)
-                    {
-                        if (argMatchedCounts[i] != 1 || matcherMatchedCounts[i] != 1) 
-                        {
-                            return false;
-                        }      
-                    }
-                    return true;
-                    
+					for (Integer i=0; i < argMatchedCounts.size(); i++)
+					{
+						if (argMatchedCounts[i] != 1 || matcherMatchedCounts[i] != 1) 
+						{
+							return false;
+						}      
+					}
+					return true;    
                 }    
-                	
-            }
+			}
 			return false;
 		}
 
