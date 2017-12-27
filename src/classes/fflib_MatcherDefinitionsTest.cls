@@ -47,7 +47,7 @@ public class fflib_MatcherDefinitionsTest
 
 		ACCOUNT_OBJECT_TYPE = globalDescribe.get('Account');
 		OPPORTUNITY_OBJECT_TYPE = globalDescribe.get('Opportunity');
-        GROUP_OBJECT_TYPE = globalDescribe.get('Group');
+		GROUP_OBJECT_TYPE = globalDescribe.get('Group');
 		
 		SObject accountRecord = ACCOUNT_OBJECT_TYPE.newSObject();
 		accountRecord.put('Name', 'MatcherDefinitionTestAccount' + System.now());
