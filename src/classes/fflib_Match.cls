@@ -1059,7 +1059,7 @@ public class fflib_Match
 	{
 		return (SObject)matches(new fflib_MatcherDefinitions.SObjectWith(toMatch));
 	}
-    /**
+	/**
 	 * Registers a matcher which will check if the method is called with a list of SObject
 	 * @param toMatch A list of Map of SObjectFields to required values, to be compared to concrete SObject records
 	 * @return SObject a dummy object of the correct type, so that when called inline as part of a method call, the correct method is invoked
@@ -1069,7 +1069,7 @@ public class fflib_Match
 		return (SObject[])matches(new fflib_MatcherDefinitions.SObjectsWith(toMatch,true));
 	}
     
-     /**
+	/**
 	 * Registers a matcher which will check if the method is called with a list of SObject
 	 * @param toMatch A list of Map of SObjectFields to required values, to be compared to concrete SObject records. Comparison can be order dependent
 	 * @return SObject a dummy object of the correct type, so that when called inline as part of a method call, the correct method is invoked

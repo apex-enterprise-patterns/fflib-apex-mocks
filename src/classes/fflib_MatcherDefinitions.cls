@@ -727,10 +727,10 @@ public with sharing class fflib_MatcherDefinitions
 			{
 				SObject soArg = (SObject)arg;
 				if (!sobjectMatches(soArg,this.toMatch))
-                {
-                    return false;
-                }
-                return true;
+				{
+					return false;
+				}
+				return true;
 			}
 
 			return false;
