@@ -38,8 +38,8 @@ public class fflib_MatcherDefinitionsTest
 	private static final SObject ACCOUNT_RECORD;
 	private static final Schema.SObjectType ACCOUNT_OBJECT_TYPE;
 	private static final Schema.SObjectType OPPORTUNITY_OBJECT_TYPE;
-    private static final Schema.SobjectType GROUP_OBJECT_TYPE;
-    private static final Sobject[] GROUP_RECORDS;
+	private static final Schema.SobjectType GROUP_OBJECT_TYPE;
+	private static final Sobject[] GROUP_RECORDS;
 	
 	static
 	{
