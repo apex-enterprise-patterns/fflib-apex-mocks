@@ -832,8 +832,8 @@ public with sharing class fflib_MatcherDefinitions
 						}
 						return true;
 					}
-                }
-                else
+				}
+				else
                 {	// match in any order (but every arg must be matched only once)
 					for (Integer i = 0; i < sobjsArg.size(); i++) 
                     {
