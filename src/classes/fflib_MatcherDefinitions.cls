@@ -864,7 +864,7 @@ public with sharing class fflib_MatcherDefinitions
 						}      
 					}
 					return true;    
-                }    
+				}    
 			}
 			return false;
 		}
