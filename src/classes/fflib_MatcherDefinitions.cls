@@ -825,17 +825,17 @@ public with sharing class fflib_MatcherDefinitions
 				if (matchInOrder)
 				{
 					for (Integer i = 0; i < sobjsArg.size(); i++) 
-                    {	// match in order (toMatch[i] must match arg[i])
-                        if (!sobjectMatches(sobjsArg[i],toMatches[i]))
-                        {
-                            return false;
-                        }
-                        return true;
-                    }
+					{	// match in order (toMatch[i] must match arg[i])
+						if (!sobjectMatches(sobjsArg[i],toMatches[i]))
+						{
+							return false;
+						}
+						return true;
+					}
                 }
                 else
                 {	// match in any order (but every arg must be matched only once)
-                    for (Integer i = 0; i < sobjsArg.size(); i++) 
+					for (Integer i = 0; i < sobjsArg.size(); i++) 
                     {
                         argMatchedCounts.add(0);
                         // For each arg passed to mocked method, see if any match in the list of match field maps. 
