@@ -57,11 +57,11 @@ public class fflib_MatcherDefinitionsTest
 
 		ACCOUNT_RECORD = Database.query('SELECT Id, Name FROM Account WHERE Id = :accountId LIMIT 1');
         
-        GROUP_RECORDS = new list<Group> {
-            new Group(Name = 'MatcherDefnTestGroup0'+System.now(), DeveloperName='MatcherDefnTestGroup0'+System.now().getTime(),Type='Queue'),
-            new Group(Name = 'MatcherDefnTestGroup1'+System.now(), DeveloperName='MatcherDefnTestGroup1'+System.now().getTime(),Type='Queue')
-        };
-        insert GROUP_RECORDS;    
+		GROUP_RECORDS = new list<Group> {
+			new Group(Name = 'MatcherDefnTestGroup0'+System.now(), DeveloperName='MatcherDefnTestGroup0'+System.now().getTime(),Type='Queue'),
+			new Group(Name = 'MatcherDefnTestGroup1'+System.now(), DeveloperName='MatcherDefnTestGroup1'+System.now().getTime(),Type='Queue')
+		};
+		insert GROUP_RECORDS;    
         
 	}
 
