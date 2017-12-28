@@ -1217,6 +1217,54 @@ public with sharing class fflib_MatchTest
 		System.assert(registeredMatchers[0] instanceof fflib_MatcherDefinitions.SObjectWith);
 	}
 
+    @isTest
+	private static void sObjectsWithRegistersCorrectMatcherType()
+	{
+		//Given
+		Schema.SObjectType ot = Schema.getGlobalDescribe().get('Account');
+		if (ot == null)
+		{
+			return;
+		}
+
+		Schema.SObjectField f = ot.getDescribe().fields.getMap().get('Id');
+
+		//When
+		SObject[] x = fflib_Match.sObjectsWith(new list<Map<Schema.SObjectField, Object>>{ 
+            new map<Schema.SObjectField,Object> {f=>null}
+        	});
+
+		//Then
+		List<fflib_IMatcher> registeredMatchers = fflib_Match.getAndClearMatchers(1);
+		System.assertNotEquals(null, registeredMatchers);
+		System.assertEquals(1, registeredMatchers.size());
+		System.assert(registeredMatchers[0] instanceof fflib_MatcherDefinitions.SObjectsWith);
+	}
+
+    @isTest
+	private static void sObjectsWithMatchInOrderRegistersCorrectMatcherType()
+	{
+		//Given
+		Schema.SObjectType ot = Schema.getGlobalDescribe().get('Account');
+		if (ot == null)
+		{
+			return;
+		}
+
+		Schema.SObjectField f = ot.getDescribe().fields.getMap().get('Id');
+
+		//When
+		SObject[] x = fflib_Match.sObjectsWith(new list<Map<Schema.SObjectField, Object>>{ 
+            new map<Schema.SObjectField,Object> {f=>null}
+        	}, false);
+
+		//Then
+		List<fflib_IMatcher> registeredMatchers = fflib_Match.getAndClearMatchers(1);
+		System.assertNotEquals(null, registeredMatchers);
+		System.assertEquals(1, registeredMatchers.size());
+		System.assert(registeredMatchers[0] instanceof fflib_MatcherDefinitions.SObjectsWith,registeredMatchers);
+	}
+    
 	@isTest
 	private static void sObjectWithIdRegistersCorrectMatcherType()
 	{

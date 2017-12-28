@@ -726,27 +726,10 @@ public with sharing class fflib_MatcherDefinitions
 			if (arg != null && arg instanceof SObject)
 			{
 				SObject soArg = (SObject)arg;
-				for (Schema.SObjectField f : toMatch.keySet())
+				if (!sobjectMatches(soArg,this.toMatch))
 				{
-					Object valueToMatch = toMatch.get(f);
-
-					try
-					{
-						if (soArg.get(f) != valueToMatch)
-						{
-							return false;
-						}
-					}
-					catch (Exception e)
-					{
-						//If we fail to get the value for a field it's either:
-						// - 'SObject row was retrieved via SOQL without querying the requested field' as a mismatch
-						// - System.SObjectException - Account.Id does not belong to SObject type Opportunity
-						//Don't care too much, just treat this as a mismatch.
-						return false;
-					}
+					return false;
 				}
-
 				return true;
 			}
 
@@ -764,6 +747,170 @@ public with sharing class fflib_MatcherDefinitions
 		}
 	}
 
+	/**
+	* SObjectsWith matcher: compares the supplied list<Sobject> argument against a list<Map<Schema.SObjectField, Object>>, representing fields and their expected values.
+	* Each list element represents one Sobject in a list supplied to a mocked method that accepts list<SObject>. 
+	* Each list element that is a map<Schema.SobjectField,Object> is compared against the equivalent argument list element position
+	* 
+	* Example:
+	*   You use uow.registerNew(someListofAccounts). You mock uow in the testmethod.
+	*   toMatch is new list<Schema.SObjectField,Object> {
+	*      new map<Schema.SobjectField,Object> {Account.Name => 'foo'},
+	*      new map<Schema.SobjectField,Object> {Account.Name => 'bar'}
+	*    } 
+	*   By default, matchers compare against argument elements in order, viz:
+	* 		The matcher will compare the first Account in the list passed to uow.registerNew to the first map of field values (i.e. Account[0].Name must be 'foo')
+	*   	The matcher then compares the second Account in the list passed to uow.registerNew to the second map of field values (i.e. Account[1].Name must be 'bar')
+	* 	
+	*   Optional second argument matchInOrderr if false means that each argument element is compared against all matcher elements
+	*   if everuy argument is matched exactly once and no matcher matches more than once, then the match is true
+	* 
+	* If the arity of the list passed in the mocked method doesn't agree with the arity of the map of expected field values, false is returned
+	* 
+	* Note. this method silently catches exceptions getting values for the supplied fields from the arguments supplied in method calls.
+	* 
+	* If your matcher is mysteriously failing for your SObject record, it may be getting silent 'SObject row was retrieved via SOQL without querying
+	* the requested field' exceptions, because you haven't queried all of the fields used in this matcher.
+	*/
+	public class SObjectsWith implements fflib_IMatcher
+	{
+		private list<Map<Schema.SObjectField, Object>> toMatch;
+		private Boolean matchInOrder {
+			get 
+			{
+				return matchInOrder == null ? false : matchInOrder;
+			}
+			set;
+		}
+
+		/**
+		 * SObjectsWith constructor
+		 * @param toMatch A list of maps of fields to their values to be compared. We compare each of these fields against the supplied list of sobject's field values.
+		 * @return fflib_MatcherDefinitions.SObjectWith A new SObjectWith instance
+		 */
+		public SObjectsWith(list<Map<Schema.SObjectField, Object>> toMatch, Boolean matchInOrder)
+		{
+			this.toMatch = validate(toMatch);
+			this.matchInOrder = matchInOrder;
+		}
+		public SObjectsWith(list<Map<Schema.SObjectField, Object>> toMatch)
+		{
+			this.toMatch = validate(toMatch);
+			this.matchInOrder = true;
+		}
+		public Boolean matches(Object arg)
+		{
+			if (arg != null && arg instanceof list<SObject>)
+			{
+				SObject[] sobjsArg = (SObject[])arg;
+				list<map<Schema.SObjectField,Object>> toMatches = new list<map<Schema.SObjectField,Object>>();
+                
+				//	Counters for matchInOrder = false; not relevant for matchInOrder = true
+				list<Integer> argMatchedCounts = new list<Integer>();		// # times matched by a matcher. anything other than 1 is match error
+				list<Integer> matcherMatchedCounts = new list<Integer>(); 	// for each map<Schema.SObjectField,Object>
+        																	// # args that match it. Anything other than 1 is match error
+                
+                
+				for (map<Schema.SObjectField,Object> mtchElm : toMatch)
+				{
+					toMatches.add(mtchElm);
+					matcherMatchedCounts.add(0);
+				}   
+                
+				if (sobjsArg.size() != toMatches.size())	// arity of arguments to mocked method doesn't agree with arity of expected matches
+				{
+					return false;
+				}
+                
+				if (matchInOrder)
+				{
+					for (Integer i = 0; i < sobjsArg.size(); i++) 
+					{	// match in order (toMatch[i] must match arg[i])
+						if (!sobjectMatches(sobjsArg[i],toMatches[i]))
+						{
+							return false;
+						}
+						return true;
+					}
+				}
+				else
+				{	
+					// match in any order (but every arg must be matched only once)
+					for (Integer i = 0; i < sobjsArg.size(); i++) 
+					{
+						argMatchedCounts.add(0);
+						// For each arg passed to mocked method, see if any match in the list of match field maps. 
+						// Loop within loop so not hugely efficient but there are no IDs to rely on.
+						// Avoid unit test methods that build huge lists of expected results
+                         
+						for (Integer m = 0; m < toMatches.size(); m++)
+						{
+							if (sobjectMatches(sobjsArg[i],toMatches[m]))
+							{
+								argMatchedCounts[i] ++;
+								matcherMatchedCounts[m] ++;
+							}
+						}
+					}
+					// Check to see that every arg was matched only once
+					// Check to see that every matcher matched only once
+					// Anything else is a match fail
+                    
+					for (Integer i=0; i < argMatchedCounts.size(); i++)
+					{
+						if (argMatchedCounts[i] != 1 || matcherMatchedCounts[i] != 1) 
+						{
+							return false;
+						}      
+					}
+					return true;    
+				}    
+			}
+			return false;
+		}
+
+		private list<Map<Schema.SObjectField, Object>> validate(list<Map<Schema.SObjectField, Object>> arg)
+		{
+			if (arg == null || arg.isEmpty() )
+			{
+				throw new fflib_ApexMocks.ApexMocksException('Arg cannot be null/empty/other than list of map<Schema.SobjectField,Object>: ' + arg);
+			}
+
+			return arg;
+		}
+        
+
+	}    
+  
+    /**
+     * helper for the sObjectWith, sObjectsWith matchers
+     * Compares to see if the field values in toMatch exist in the sobj
+    **/
+    private static Boolean sObjectMatches(Sobject sobj, map<Schema.SobjectField,Object> toMatch)
+    {
+        for (Schema.SObjectField f : toMatch.keySet())
+        {
+            Object valueToMatch = toMatch.get(f);
+            
+            try
+            {
+                if (sobj.get(f) != valueToMatch)
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                //If we fail to get the value for a field it's either:
+                // - 'SObject row was retrieved via SOQL without querying the requested field' as a mismatch
+                // - System.SObjectException - Account.Id does not belong to SObject type Opportunity
+                //Don't care too much, just treat this as a mismatch.
+                return false;
+            }
+        }
+		return true;  // map of expected fieldvals found in sobj arg
+    }
+    
 	/**
 	 * SObjectWithId matcher: checks if the supplied argument has the specified Id
 	 */
