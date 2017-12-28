@@ -38,6 +38,8 @@ public class fflib_MatcherDefinitionsTest
 	private static final SObject ACCOUNT_RECORD;
 	private static final Schema.SObjectType ACCOUNT_OBJECT_TYPE;
 	private static final Schema.SObjectType OPPORTUNITY_OBJECT_TYPE;
+	private static final Schema.SobjectType GROUP_OBJECT_TYPE;
+	private static final Sobject[] GROUP_RECORDS;
 	
 	static
 	{
@@ -45,6 +47,7 @@ public class fflib_MatcherDefinitionsTest
 
 		ACCOUNT_OBJECT_TYPE = globalDescribe.get('Account');
 		OPPORTUNITY_OBJECT_TYPE = globalDescribe.get('Opportunity');
+		GROUP_OBJECT_TYPE = globalDescribe.get('Group');
 		
 		SObject accountRecord = ACCOUNT_OBJECT_TYPE.newSObject();
 		accountRecord.put('Name', 'MatcherDefinitionTestAccount' + System.now());
@@ -53,6 +56,13 @@ public class fflib_MatcherDefinitionsTest
 		Id accountId = accountRecord.Id;
 
 		ACCOUNT_RECORD = Database.query('SELECT Id, Name FROM Account WHERE Id = :accountId LIMIT 1');
+        
+		GROUP_RECORDS = new list<Group> {
+			new Group(Name = 'MatcherDefnTestGroup0'+System.now(), DeveloperName='MatcherDefnTestGroup0'+System.now().getTime(),Type='Queue'),
+			new Group(Name = 'MatcherDefnTestGroup1'+System.now(), DeveloperName='MatcherDefnTestGroup1'+System.now().getTime(),Type='Queue')
+		};
+		insert GROUP_RECORDS;    
+        
 	}
 
 	@isTest
@@ -890,6 +900,124 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(matcher.matches(ACCOUNT_RECORD));
 
 		System.assert(!new fflib_MatcherDefinitions.SObjectWith(notQueriedFieldValues).matches(ACCOUNT_RECORD));
+	}
+
+	@isTest
+	private static void whenSObjectsWithInOrderMatchesShouldReturnCorrectResults()
+	{
+		Map<String, Schema.SObjectField> fields = GROUP_OBJECT_TYPE.getDescribe().fields.getMap();
+		Schema.SObjectField idField = fields.get('Id');
+		Schema.SObjectField nameField = fields.get('Name');
+		Schema.SObjectField createdDateField = fields.get('CreatedDate');
+		
+		list<Map<Schema.SObjectField, Object>> queriedFieldValues = new list<Map<Schema.SObjectField, Object>>
+		{
+            new map<Schema.SObjectField,Object> 
+            {
+                idField => GROUP_RECORDS[0].Id,
+				nameField => GROUP_RECORDS[0].get('Name')
+            },
+            new map<Schema.SObjectField,Object> 
+            {
+                idField => GROUP_RECORDS[1].Id,
+				nameField => GROUP_RECORDS[1].get('Name')
+            }               
+		};
+
+		list<Map<Schema.SObjectField, Object>> notQueriedFieldValues = new list<Map<Schema.SObjectField, Object>>
+		{
+			new map<Schema.SObjectField,Object> 
+            {
+                createdDateField => System.now()
+            },
+            new map<Schema.SObjectField,Object> 
+            {
+                createdDateField => System.now()
+            }    
+		};
+
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectsWith(queriedFieldValues);
+		
+		System.assert(!matcher.matches(null));
+		System.assert(!matcher.matches(new list<SObject>
+                                       {
+                                           OPPORTUNITY_OBJECT_TYPE.newSObject(),
+                                           OPPORTUNITY_OBJECT_TYPE.newSObject()    
+                                       }
+                                      ));
+		System.assert(!matcher.matches(new list<SObject>
+                                       {
+                                           GROUP_OBJECT_TYPE.newSObject(),
+                                           GROUP_OBJECT_TYPE.newSObject()
+                                       }
+                                      ),'sObjectsWith arity agrees but arg doesn\'t');
+		System.assert(!matcher.matches('NotAListofSObject'));
+
+		System.assert(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order');
+        System.assert (!matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
+                                     'sObjectsWith toMatch and args have same arity but args are in different order than toMatch') ;            
+                      
+
+		System.assert(!new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues).matches(GROUP_RECORDS));
+	}
+
+    @isTest
+	private static void whenSObjectsInAnyOrderWithMatchesShouldReturnCorrectResults()
+	{
+		Map<String, Schema.SObjectField> fields = GROUP_OBJECT_TYPE.getDescribe().fields.getMap();
+		Schema.SObjectField idField = fields.get('Id');
+		Schema.SObjectField nameField = fields.get('Name');
+		Schema.SObjectField createdDateField = fields.get('CreatedDate');
+		
+		list<Map<Schema.SObjectField, Object>> queriedFieldValues = new list<Map<Schema.SObjectField, Object>>
+		{
+            new map<Schema.SObjectField,Object> 
+            {
+                idField => GROUP_RECORDS[0].Id,
+				nameField => GROUP_RECORDS[0].get('Name')
+            },
+            new map<Schema.SObjectField,Object> 
+            {
+                idField => GROUP_RECORDS[1].Id,
+				nameField => GROUP_RECORDS[1].get('Name')
+            }               
+		};
+
+		list<Map<Schema.SObjectField, Object>> notQueriedFieldValues = new list<Map<Schema.SObjectField, Object>>
+		{
+			new map<Schema.SObjectField,Object> 
+            {
+                createdDateField => System.now()
+            },
+            new map<Schema.SObjectField,Object> 
+            {
+                createdDateField => System.now()
+            }    
+		};
+
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectsWith(queriedFieldValues,false); // any order
+		
+		System.assert(!matcher.matches(null));
+		System.assert(!matcher.matches(new list<SObject>
+                                       {
+                                           OPPORTUNITY_OBJECT_TYPE.newSObject(),
+                                           OPPORTUNITY_OBJECT_TYPE.newSObject()    
+                                       }
+                                      ));
+		System.assert(!matcher.matches(new list<SObject>
+                                       {
+                                           GROUP_OBJECT_TYPE.newSObject(),
+                                           GROUP_OBJECT_TYPE.newSObject()
+                                       }
+                                      ),'sObjectsWith arity agrees but arg doesn\'t match matcher');
+		System.assert(!matcher.matches('NotAListofSObject'));
+
+		System.assert(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order. Match should be OK');
+        System.assert (matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
+                                     'sObjectsWith toMatch and args have same arity but args are in diff order than matcher. Should be OK') ;            
+                      
+
+		System.assert(!new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues,false).matches(GROUP_RECORDS));
 	}
 
 	@isTest
