@@ -4,3 +4,5 @@
 .settings/com.salesforce.ide.core.prefs
 
 salesforce.schema
+
+build.properties
