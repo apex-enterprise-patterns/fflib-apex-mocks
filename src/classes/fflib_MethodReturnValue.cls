@@ -92,6 +92,18 @@ public with sharing class fflib_MethodReturnValue
 		return this;
 	}
 
+	public fflib_InvocationOnMock getCall() {
+		return this.basicAnswer.invocationStore.call();
+	}
+
+	public fflib_InvocationOnMock getCall(Integer callIndex) {
+		return this.basicAnswer.invocationStore.call(callIndex);
+	}
+
+	public Integer getCallCount() {
+		return this.basicAnswer.invocationStore.callCount();
+	}
+
 	/**
 	 * @group Core
 	 * Inner class to handle all the stubs that do not use the thenAnswer method directly.
@@ -105,6 +117,8 @@ public with sharing class fflib_MethodReturnValue
 		 * The values would be stored and then returned as part of the standard answer invocation.
 		 */
 		private List<Object> ReturnValues = new List<Object>();
+
+		private fflib_InvocationStore invocationStore = new fflib_InvocationStore();
 
 		/**
 		 * Setter of a single return value.
@@ -147,6 +161,7 @@ public with sharing class fflib_MethodReturnValue
   					'The stubbing is not correct, no return values have been set.');
 			}
 
+			invocationStore.add(invocation);
 			Integer returnValuesSize = ReturnValues.size()-1;
 
 			if(whichStubReturnIndex < returnValuesSize)

@@ -58,4 +58,17 @@ public with sharing class fflib_MethodCountRecorder
 
 		orderedMethodCalls.add(invocation);
 	}
+
+	public void unrecordMethod(fflib_InvocationOnMock invocation) {
+		List<fflib_MethodArgValues> methodArgs =
+				methodArgumentsByTypeName.get(invocation.getMethod());
+
+		if (methodArgs != null)
+		{
+			methodArgs.remove(methodArgs.size() - 1);
+		}
+
+
+		orderedMethodCalls.remove(orderedMethodCalls.size() - 1);
+	}
 }

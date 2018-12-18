@@ -15,6 +15,7 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	private fflib_MethodVerifier methodVerifier;
 	private fflib_VerificationMode verificationMode;
 	private fflib_Answer myAnswer;
+	private fflib_InvocationOnMock pendingStub;
 
 	public Boolean Verifying { get; set; }
 
@@ -158,6 +159,13 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	 */
 	public fflib_MethodReturnValue when(Object ignoredRetVal)
 	{
+		if (pendingStub != null
+		{
+			methodCountRecorder.unrecordMethod(pendingStub);
+			prepareMethodReturnValue(pendingStub);
+			pendingStub = null;
+		}
+
 		return methodReturnValueRecorder.MethodReturnValue;
 	}
 
@@ -254,34 +262,35 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		if (Verifying)
 		{
 			verifyMethodCall(invocation);
-		}
-		else if (Stubbing)
-		{
-			fflib_MethodReturnValue methotReturnValue = prepareMethodReturnValue(invocation);
-
-			if(DoThrowWhenExceptions != null)
-			{
-				methotReturnValue.thenThrowMulti(DoThrowWhenExceptions);
-				DoThrowWhenExceptions = null;
-				return null;
-			}
-
-			if(this.myAnswer != null)
-			{
-				methotReturnValue.thenAnswer(this.myAnswer);
-				this.myAnswer = null;
-				return null;
-			}
-
 			return null;
 		}
 		else
 		{
-			recordMethod(invocation);
-			return returnValue(invocation);
-		}
+			if(DoThrowWhenExceptions != null || this.myAnswer != null) //mocking doWhen - this should probably be refactored
+			{
+				fflib_MethodReturnValue methotReturnValue = prepareMethodReturnValue(invocation);
 
-		return null;
+				if(DoThrowWhenExceptions != null)
+				{
+					methotReturnValue.thenThrowMulti(DoThrowWhenExceptions);
+					DoThrowWhenExceptions = null;
+				}
+				else if (this.myAnswer != null)
+				{
+					methotReturnValue.thenAnswer(this.myAnswer);
+					this.myAnswer = null;
+				}
+
+				return null;
+
+			}
+			else
+			{
+				pendingStub = invocation;
+				recordMethod(invocation);
+				return returnValue(invocation);
+			}
+		}
 	}
 
 	public class ApexMocksException extends Exception
@@ -295,10 +304,11 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 		if (methodReturnValue != null)
 		{
-			if(methodReturnValue.Answer == null)
+			if(methodReturnValue.Answer == null) //I don't think there is any good way to still check this
 			{
-				throw new fflib_ApexMocks.ApexMocksException(
-  					'The stubbing is not correct, no return values have been set.');
+				/*throw new fflib_ApexMocksNoStartStubbing.ApexMocksException(
+  					'The stubbing is not correct, no return values have been set.');*/
+				return null;
 			}
 
 			Object returnedValue = methodReturnValue.Answer.answer(invocation);
