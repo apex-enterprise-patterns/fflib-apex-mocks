@@ -108,3 +108,4 @@ Instantiate the generated classes as follows:
 * [Order of calls verification](https://xonoxforce.wordpress.com/2017/03/26/inorder-verify/)
 * [Answering](https://xonoxforce.wordpress.com/2017/03/31/answering-with-apex-mocks/)
 * [Counters](https://xonoxforce.wordpress.com/2017/04/01/counters-in-apex-mocks-verifications/)
+* [Troubleshooting](https://salesforce.stackexchange.com/questions/252460/my-apexmocks-arent-working-what-could-be-wrong)
