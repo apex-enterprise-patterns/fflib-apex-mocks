@@ -83,4 +83,47 @@ public class fflib_ApexMocksUtilsTest
 		System.assertEquals(contact2.Id, contacts[1].Id);
 		System.assertEquals(contact2.DoNotCall, contacts[1].DoNotCall);
 	}
+
+    @isTest
+	private static void makeRelationship_GenericOverload_ReturnsObjectsWithRelationFieldSet() {
+		//Given
+		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
+		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
+		acc.put('Name', 'AccName');
+		acc.put('NumberOfEmployees', 7);
+
+		SObject contact1 = Schema.getGlobalDescribe().get('Contact').newSObject();
+		contact1.put('Id', fflib_IDGenerator.generate(contact1.getSObjectType()));
+		contact1.put('DoNotCall', true);
+
+		SObject contact2 = Schema.getGlobalDescribe().get('Contact').newSObject();
+		contact2.put('Id', fflib_IDGenerator.generate(contact2.getSObjectType()));
+		contact2.put('DoNotCall', false);
+
+		//When
+		SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
+				'Account',
+				'Contact',
+				new List<SObject> { acc },
+				'AccountId',
+				new List<List<SObject>> { new List<SObject> { contact1, contact2 }}
+
+		))[0];
+
+		//Then
+		System.assertEquals(acc.Id, accWithRelationships.Id);
+		System.assertEquals(acc.get('Name'), accWithRelationships.get('Name'));
+		System.assertEquals(acc.get('NumberOfEmployees'), accWithRelationships.get('NumberOfEmployees'));
+
+		//Assert relationship fields
+		List<SObject> contacts = accWithRelationships.getSObjects('Contacts');
+		System.assertNotEquals(null, contacts);
+		System.assertEquals(2, contacts.size());
+
+		System.assertEquals(contact1.Id, contacts[0].Id);
+		System.assertEquals((Boolean)contact1.get('DoNotCall'), (Boolean)contacts[0].get('DoNotCall'));
+
+		System.assertEquals(contact2.Id, contacts[1].Id);
+		System.assertEquals((Boolean)contact2.get('DoNotCall'), (Boolean)contacts[1].get('DoNotCall'));
+	}
 }

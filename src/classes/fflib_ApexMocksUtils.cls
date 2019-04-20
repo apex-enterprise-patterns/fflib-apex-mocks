@@ -172,4 +172,50 @@ public class fflib_ApexMocksUtils
 	{
 		void nextToken(JSONParser fromStream, Integer depth, JSONGenerator toStream);
 	}
+
+    /**
+     * Generic overload to makeRelationship. Enables creation of
+     * relationships in a loosely-coupled manner. 
+     **/
+	public static Object makeRelationship(
+			String parentTypeName,
+			String childTypeName,
+			List<SObject> parents,
+			String relationshipFieldName,
+			List<List<SObject>> children) {
+
+		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+
+
+		// Find out more about this relationship...
+		SObjectField relationshipField = getField(childTypeName, relationshipFieldName);
+		DescribeSObjectResult parentDescribe = gd.get(parentTypeName).getDescribe();
+		List<Schema.ChildRelationship> childRelationships = parentDescribe.getChildRelationships();
+
+
+		String relationshipName = null;
+		for(Schema.ChildRelationship childRelationship : childRelationships) {
+			if(childRelationship.getField() == relationshipField) {
+				relationshipName = childRelationship.getRelationshipName();
+				break;
+			}
+		}
+
+		// Stream the parsed JSON representation of the parent objects back out, injecting children as it goes
+		JSONParser parentsParser = JSON.createParser(JSON.serialize(parents));
+		JSONParser childrenParser = JSON.createParser(JSON.serialize(children));
+		JSONGenerator combinedOutput = JSON.createGenerator(false);		
+		streamTokens(parentsParser, combinedOutput, new InjectChildrenEventHandler(childrenParser, relationshipName, children) );
+
+		Type parentsType = List<SObject>.class;
+
+		// Derserialise back into SObject list complete with children
+		return JSON.deserialize(combinedOutput.getAsString(), parentsType);
+	}
+
+	private static Schema.SObjectField getField(String objectName, String fieldName) {
+		Map<String, Schema.SObjectField> objectFields = Schema.getGlobalDescribe().get(objectName).getDescribe()
+				.fields.getMap();
+		return objectFields.get(fieldName);
+	}
 }
