@@ -126,4 +126,85 @@ public class fflib_ApexMocksUtilsTest
 		System.assertEquals(contact2.Id, contacts[1].Id);
 		System.assertEquals((Boolean)contact2.get('DoNotCall'), (Boolean)contacts[1].get('DoNotCall'));
 	}
+
+    @isTest
+    private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidParentType() {
+
+        // Setup parent object
+		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
+		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
+
+        // Setup child object
+		SObject cont = Schema.getGlobalDescribe().get('Contact').newSObject();
+		cont.put('Id', fflib_IDGenerator.generate(cont.getSObjectType()));
+
+        String errorMessage = '';
+        try {
+            // Call method under test
+            SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
+                    'MyInvalidParentType',
+                    'Contact',
+                    new List<SObject> { acc },
+                    'AccountId',
+                    new List<List<SObject>> { new List<SObject> { cont }}
+            ))[0];
+        } catch (Exception exc) {
+            errorMessage = exc.getMessage();
+        }
+		System.assertEquals('SObject type not found: MyInvalidParentType', errorMessage);
+    }
+
+    @isTest
+    private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidChildType() {
+
+        // Setup parent object
+		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
+		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
+
+        // Setup child object
+		SObject cont = Schema.getGlobalDescribe().get('Contact').newSObject();
+		cont.put('Id', fflib_IDGenerator.generate(cont.getSObjectType()));
+
+        String errorMessage = '';
+        try {
+            // Call method under test
+            SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
+                    'Account',
+                    'MyInvalidChildType',
+                    new List<SObject> { acc },
+                    'AccountId',
+                    new List<List<SObject>> { new List<SObject> { cont }}
+            ))[0];
+        } catch (Exception exc) {
+            errorMessage = exc.getMessage();
+        }
+		System.assertEquals('SObject type not found: MyInvalidChildType', errorMessage);
+    }
+
+    @isTest
+    private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidFieldName() {
+
+        // Setup parent object
+		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
+		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
+
+        // Setup child object
+		SObject cont = Schema.getGlobalDescribe().get('Contact').newSObject();
+		cont.put('Id', fflib_IDGenerator.generate(cont.getSObjectType()));
+
+        String errorMessage = '';
+        try {
+            // Call method under test
+            SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
+                    'Account',
+                    'Contact',
+                    new List<SObject> { acc },
+                    'MyInvalidField',
+                    new List<List<SObject>> { new List<SObject> { cont }}
+            ))[0];
+        } catch (Exception exc) {
+            errorMessage = exc.getMessage();
+        }
+		System.assertEquals('SObject field not found: MyInvalidField', errorMessage);
+    }
 }

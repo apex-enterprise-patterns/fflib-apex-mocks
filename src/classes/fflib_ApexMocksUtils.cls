@@ -84,9 +84,9 @@ public class fflib_ApexMocksUtils
 			List<List<SObject>> children) {
 
 		// Find out more about this relationship...
+        SObjectType parentType = getType(parentTypeName);
 		SObjectField relationshipField = getField(childTypeName, relationshipFieldName);
-        Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
-		DescribeSObjectResult parentDescribe = gd.get(parentTypeName).getDescribe();
+        DescribeSObjectResult parentDescribe = parentType.getDescribe();
         Type parentsType = List<SObject>.class;
         return deserializeParentsAndChildren(parentsType, parentDescribe, relationshipField, parents, children);
 	}
@@ -203,9 +203,29 @@ public class fflib_ApexMocksUtils
 		void nextToken(JSONParser fromStream, Integer depth, JSONGenerator toStream);
 	}
 
-	private static Schema.SObjectField getField(String objectName, String fieldName) {
-		Map<String, Schema.SObjectField> objectFields = Schema.getGlobalDescribe().get(objectName).getDescribe()
-				.fields.getMap();
-		return objectFields.get(fieldName);
+    /**
+     * Gets the SObjectType by name
+     **/
+    private static Schema.SObjectType getType(String typeName) {
+        Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+		SObjectType sobjType = gd.get(typeName);
+        if (sobjType == null) {
+            throw new fflib_ApexMocks.ApexMocksException('SObject type not found: ' + typeName);
+        }
+        return sobjType;
+    }
+
+    /**
+     * Gets the SObjectField of an object by name
+     **/
+    private static Schema.SObjectField getField(String objectName, String fieldName) {
+
+        SObjectType sobjType = getType(objectName);
+		Map<String, Schema.SObjectField> objectFields = sobjType.getDescribe().fields.getMap();
+        Schema.SObjectField sobjField = objectFields.get(fieldName);
+        if (sobjField == null) {
+            throw new fflib_ApexMocks.ApexMocksException('SObject field not found: ' + fieldName);
+        }
+		return sobjField;
 	}
 }
