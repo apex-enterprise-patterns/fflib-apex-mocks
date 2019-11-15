@@ -1,4 +1,4 @@
-# FinancialForce ApexMocks Framework
+# FFLib ApexMocks Framework
 
 [![Build Status](https://travis-ci.org/financialforcedev/fflib-apex-mocks.svg)](https://travis-ci.org/financialforcedev/fflib-apex-mocks)
 

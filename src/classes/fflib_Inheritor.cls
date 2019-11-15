@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
+ * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
  */
 @isTest
 public class fflib_Inheritor implements IA, IB, IC
