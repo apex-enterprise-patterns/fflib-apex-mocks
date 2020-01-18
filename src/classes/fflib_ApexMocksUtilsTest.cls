@@ -207,4 +207,58 @@ public class fflib_ApexMocksUtilsTest
         }
 		System.assertEquals('SObject field not found: MyInvalidField', errorMessage);
     }
+
+    @isTest
+    static void setReadOnlyField_CreatedByIdSetToCurrentUserId_IdFieldSetSuccessfully() {
+        
+        Account acc = new Account();
+        Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
+
+        Test.startTest();
+        acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+                acc,
+                Account.class,
+                Account.CreatedById,
+                userId
+        );
+        Test.stopTest();
+
+        System.assertEquals(userId, acc.CreatedById);
+    }
+
+    @isTest
+    static void setReadOnlyField_LastReferencedDateSetOnAccount_DateTimeFieldSetSuccessfully() {
+        
+        Account acc = new Account();
+        DateTime lastRefDate = DateTime.newInstanceGmt(2020, 1, 7, 23, 30, 0);
+
+        Test.startTest();
+        acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+                acc,
+                Account.class,
+                Account.LastReferencedDate,
+                lastRefDate
+        );
+        Test.stopTest();
+
+        System.assertEquals(lastRefDate, acc.LastReferencedDate);
+    }
+
+    @isTest
+    static void setReadOnlyField_IsDeletedSetOnAccount_BooleanFieldSetSuccessfully() {
+
+        Account acc = new Account();
+        Boolean isDeleted = true;
+
+        Test.startTest();
+        acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+                acc,
+                Account.class,
+                Account.IsDeleted,
+                isDeleted
+        );
+        Test.stopTest();
+
+        System.assertEquals(isDeleted, acc.IsDeleted);
+    }
 }

@@ -75,7 +75,7 @@ public class fflib_ApexMocksUtils
     /**
      * Generic overload to makeRelationship. Enables creation of
      * relationships in a loosely-coupled manner. 
-     **/
+     */
 	public static Object makeRelationship(
 			String parentTypeName,
 			String childTypeName,
@@ -90,6 +90,51 @@ public class fflib_ApexMocksUtils
         Type parentsType = List<SObject>.class;
         return deserializeParentsAndChildren(parentsType, parentDescribe, relationshipField, parents, children);
 	}
+
+    /**
+     * Gives the ability to set test values on formula
+     * and other read-only fields of mock SObjects
+     */
+    public static Object setReadOnlyField(SObject objectInstance, Type objectType, Schema.SObjectField field, Object value) {
+
+        Object retObj = objectInstance;
+        
+        // Serialize the object
+        String fieldName = field.getDescribe().getName();
+        String jsonStr = JSON.serialize(retObj);
+        
+        // Remove ending brace from JSON string
+        jsonStr = jsonStr.removeEnd('}');
+
+        // Append the new field and re-add the ending brace
+        Map<String, Schema.SObjectField> fieldTypeMap = objectInstance.getSObjectType().getDescribe().fields.getMap();
+        String formattedValue = formatFieldValue(fieldTypeMap, fieldName, value);
+        jsonStr += String.format(', "{0}":{1}}', new String[]{fieldName, formattedValue});
+
+        // Deserialize back to SObject and return
+        retObj = JSON.deserialize(jsonStr, objectType);
+        return retObj;
+    } 
+
+    /**
+     * Helper Methods
+     */
+    static String formatFieldValue(Map<String, Schema.SObjectField> fieldTypeMap, String fieldName, Object fieldValue) {
+        String fieldValueString = String.valueOf(fieldValue);
+
+        String fieldType = String.valueOf(fieldTypeMap.get(fieldName).getDescribe().getType());
+        if (fieldType == 'DATETIME') {
+            fieldValueString = ((DateTime)fieldValue).formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'.000+0000\'');
+        }
+
+        Set<String> quotedFields = new Set<String> {'ADDRESS', 'DATE', 'DATETIME', 'EMAIL', 'ID', 'MULTIPICKLIST', 'PHONE',
+                                                    'PICKLIST', 'REFERENCE', 'STRING', 'TEXTAREA', 'URL'};
+        if (quotedFields.contains(fieldType)) {
+            fieldValueString = '"' + fieldValueString + '"';
+        }
+
+        return fieldValueString;
+    }
 
     private static Object deserializeParentsAndChildren(
         Type parentsType,
@@ -121,7 +166,7 @@ public class fflib_ApexMocksUtils
 	/**
 	 * Monitors stream events for end of object for each SObject contained in the parent list
 	 *   then injects the respective childs record list into the stream
-	 **/
+	 */
 	private class InjectChildrenEventHandler implements JSONParserEvents
 	{
 		private JSONParser childrenParser;
@@ -154,7 +199,7 @@ public class fflib_ApexMocksUtils
 
 	/**
 	 * Utility function to stream tokens from a reader to a write, while providing a basic eventing model
-	 **/
+	 */
 	private static void streamTokens(JSONParser fromStream, JSONGenerator toStream, JSONParserEvents events)
 	{
 		Integer depth = 0;
@@ -197,7 +242,7 @@ public class fflib_ApexMocksUtils
 
 	/**
 	 * Basic event used during the above streaming
-	 **/
+	 */
 	private interface JSONParserEvents
 	{
 		void nextToken(JSONParser fromStream, Integer depth, JSONGenerator toStream);
@@ -205,7 +250,7 @@ public class fflib_ApexMocksUtils
 
     /**
      * Gets the SObjectType by name
-     **/
+     */
     private static Schema.SObjectType getType(String typeName) {
         Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 		SObjectType sobjType = gd.get(typeName);
@@ -217,7 +262,7 @@ public class fflib_ApexMocksUtils
 
     /**
      * Gets the SObjectField of an object by name
-     **/
+     */
     private static Schema.SObjectField getField(String objectName, String fieldName) {
 
         SObjectType sobjType = getType(objectName);
