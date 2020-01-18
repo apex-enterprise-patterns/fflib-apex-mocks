@@ -119,7 +119,7 @@ public class fflib_ApexMocksUtils
     /**
      * Helper Methods
      */
-    static String formatFieldValue(Map<String, Schema.SObjectField> fieldTypeMap, String fieldName, Object fieldValue) {
+    private static String formatFieldValue(Map<String, Schema.SObjectField> fieldTypeMap, String fieldName, Object fieldValue) {
         String fieldValueString = String.valueOf(fieldValue);
 
         String fieldType = String.valueOf(fieldTypeMap.get(fieldName).getDescribe().getType());
