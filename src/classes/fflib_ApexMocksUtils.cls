@@ -95,47 +95,21 @@ public class fflib_ApexMocksUtils
 	 * Gives the ability to set test values on formula
 	 * and other read-only fields of mock SObjects
 	 */
-	public static Object setReadOnlyField(SObject objectInstance, Type objectType, Schema.SObjectField field, Object value) {
+	public static Object setReadOnlyFields(SObject objInstance, Type deserializeType, Map<SObjectField, Object> properties) {
 
-		Object retObj = objectInstance;
-		
-		// Serialize the object
-		String fieldName = field.getDescribe().getName();
-		String jsonStr = JSON.serialize(retObj);
-		
-		// Remove ending brace from JSON string
-		jsonStr = jsonStr.removeEnd('}');
-
-		// Append the new field and re-add the ending brace
-		Map<String, Schema.SObjectField> fieldTypeMap = objectInstance.getSObjectType().getDescribe().fields.getMap();
-		String formattedValue = formatFieldValue(fieldTypeMap, fieldName, value);
-		jsonStr += String.format(', "{0}":{1}}', new String[]{fieldName, formattedValue});
-
-		// Deserialize back to SObject and return
-		retObj = JSON.deserialize(jsonStr, objectType);
-		return retObj;
+		Map<String, Object> mergedMap = new Map<String, Object>(objInstance.getPopulatedFieldsAsMap());
+		for (SObjectField field : properties.keySet()) {
+			// Merge the values from the properties map into the fields already set on the object
+			mergedMap.put(field.getDescribe().getName(), properties.get(field));
+		}
+		// Serialize the merged map, and then deserialize it as the desired object type.
+		String jsonString = JSON.serializePretty(mergedMap);
+		return (SObject) JSON.deserialize(jsonString, deserializeType);
 	} 
 
 	/**
 	 * Helper Methods
 	 */
-	private static String formatFieldValue(Map<String, Schema.SObjectField> fieldTypeMap, String fieldName, Object fieldValue) {
-		String fieldValueString = String.valueOf(fieldValue);
-
-		String fieldType = String.valueOf(fieldTypeMap.get(fieldName).getDescribe().getType());
-		if (fieldType == 'DATETIME') {
-			fieldValueString = ((DateTime)fieldValue).formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'.000+0000\'');
-		}
-
-		Set<String> quotedFields = new Set<String> {'ADDRESS', 'DATE', 'DATETIME', 'EMAIL', 'ID', 'MULTIPICKLIST', 'PHONE',
-													'PICKLIST', 'REFERENCE', 'STRING', 'TEXTAREA', 'URL'};
-		if (quotedFields.contains(fieldType)) {
-			fieldValueString = '"' + fieldValueString + '"';
-		}
-
-		return fieldValueString;
-	}
-
 	private static Object deserializeParentsAndChildren(
 		Type parentsType,
 		DescribeSObjectResult parentDescribe,

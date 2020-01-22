@@ -70,11 +70,10 @@ mocks.stopStubbing();
 ```Java
 Account acc = new Account();
 Integer mockFormulaResult = 10;
-acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
 		acc,
 		Account.class,
-		Account.Your_Formula_Field__c,
-		mockFormulaResult
+		new Map<SObjectField, Object> {Account.Your_Formula_Field__c => mockFormulaResult}
 );
 System.assertEquals(mockFormulaResult, acc.Your_Formula_Field__c);
 ```

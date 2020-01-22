@@ -209,17 +209,16 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	static void setReadOnlyField_CreatedByIdSetToCurrentUserId_IdFieldSetSuccessfully() {
+	static void setReadOnlyFields_CreatedByIdSetToCurrentUserId_IdFieldSetSuccessfully() {
 		
 		Account acc = new Account();
 		Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
 
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
 				acc,
 				Account.class,
-				Account.CreatedById,
-				userId
+				new Map<SObjectField, Object>{Account.CreatedById => userId}
 		);
 		Test.stopTest();
 
@@ -227,17 +226,16 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	static void setReadOnlyField_LastReferencedDateSetOnAccount_DateTimeFieldSetSuccessfully() {
+	static void setReadOnlyFields_LastReferencedDateSetOnAccount_DateTimeFieldSetSuccessfully() {
 		
 		Account acc = new Account();
 		DateTime lastRefDate = DateTime.newInstanceGmt(2020, 1, 7, 23, 30, 0);
 
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
 				acc,
 				Account.class,
-				Account.LastReferencedDate,
-				lastRefDate
+				new Map<SObjectField, Object> {Account.LastReferencedDate => lastRefDate}
 		);
 		Test.stopTest();
 
@@ -245,17 +243,16 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	static void setReadOnlyField_IsDeletedSetOnAccount_BooleanFieldSetSuccessfully() {
+	static void setReadOnlyFields_IsDeletedSetOnAccount_BooleanFieldSetSuccessfully() {
 
 		Account acc = new Account();
 		Boolean isDeleted = true;
 
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
+		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
 				acc,
 				Account.class,
-				Account.IsDeleted,
-				isDeleted
+				new Map<SObjectField, Object> {Account.IsDeleted => isDeleted}
 		);
 		Test.stopTest();
 
