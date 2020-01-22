@@ -72,10 +72,10 @@ public class fflib_ApexMocksUtils
 		return deserializeParentsAndChildren(parentsType, parentDescribe, relationshipField, parents, children);
 	}
 
-    /**
-     * Generic overload to makeRelationship. Enables creation of
-     * relationships in a loosely-coupled manner. 
-     */
+	/**
+	 * Generic overload to makeRelationship. Enables creation of
+	 * relationships in a loosely-coupled manner. 
+	 */
 	public static Object makeRelationship(
 			String parentTypeName,
 			String childTypeName,
@@ -84,68 +84,68 @@ public class fflib_ApexMocksUtils
 			List<List<SObject>> children) {
 
 		// Find out more about this relationship...
-        SObjectType parentType = getType(parentTypeName);
+		SObjectType parentType = getType(parentTypeName);
 		SObjectField relationshipField = getField(childTypeName, relationshipFieldName);
-        DescribeSObjectResult parentDescribe = parentType.getDescribe();
-        Type parentsType = List<SObject>.class;
-        return deserializeParentsAndChildren(parentsType, parentDescribe, relationshipField, parents, children);
+		DescribeSObjectResult parentDescribe = parentType.getDescribe();
+		Type parentsType = List<SObject>.class;
+		return deserializeParentsAndChildren(parentsType, parentDescribe, relationshipField, parents, children);
 	}
 
-    /**
-     * Gives the ability to set test values on formula
-     * and other read-only fields of mock SObjects
-     */
-    public static Object setReadOnlyField(SObject objectInstance, Type objectType, Schema.SObjectField field, Object value) {
+	/**
+	 * Gives the ability to set test values on formula
+	 * and other read-only fields of mock SObjects
+	 */
+	public static Object setReadOnlyField(SObject objectInstance, Type objectType, Schema.SObjectField field, Object value) {
 
-        Object retObj = objectInstance;
-        
-        // Serialize the object
-        String fieldName = field.getDescribe().getName();
-        String jsonStr = JSON.serialize(retObj);
-        
-        // Remove ending brace from JSON string
-        jsonStr = jsonStr.removeEnd('}');
+		Object retObj = objectInstance;
+		
+		// Serialize the object
+		String fieldName = field.getDescribe().getName();
+		String jsonStr = JSON.serialize(retObj);
+		
+		// Remove ending brace from JSON string
+		jsonStr = jsonStr.removeEnd('}');
 
-        // Append the new field and re-add the ending brace
-        Map<String, Schema.SObjectField> fieldTypeMap = objectInstance.getSObjectType().getDescribe().fields.getMap();
-        String formattedValue = formatFieldValue(fieldTypeMap, fieldName, value);
-        jsonStr += String.format(', "{0}":{1}}', new String[]{fieldName, formattedValue});
+		// Append the new field and re-add the ending brace
+		Map<String, Schema.SObjectField> fieldTypeMap = objectInstance.getSObjectType().getDescribe().fields.getMap();
+		String formattedValue = formatFieldValue(fieldTypeMap, fieldName, value);
+		jsonStr += String.format(', "{0}":{1}}', new String[]{fieldName, formattedValue});
 
-        // Deserialize back to SObject and return
-        retObj = JSON.deserialize(jsonStr, objectType);
-        return retObj;
-    } 
+		// Deserialize back to SObject and return
+		retObj = JSON.deserialize(jsonStr, objectType);
+		return retObj;
+	} 
 
-    /**
-     * Helper Methods
-     */
-    private static String formatFieldValue(Map<String, Schema.SObjectField> fieldTypeMap, String fieldName, Object fieldValue) {
-        String fieldValueString = String.valueOf(fieldValue);
+	/**
+	 * Helper Methods
+	 */
+	private static String formatFieldValue(Map<String, Schema.SObjectField> fieldTypeMap, String fieldName, Object fieldValue) {
+		String fieldValueString = String.valueOf(fieldValue);
 
-        String fieldType = String.valueOf(fieldTypeMap.get(fieldName).getDescribe().getType());
-        if (fieldType == 'DATETIME') {
-            fieldValueString = ((DateTime)fieldValue).formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'.000+0000\'');
-        }
+		String fieldType = String.valueOf(fieldTypeMap.get(fieldName).getDescribe().getType());
+		if (fieldType == 'DATETIME') {
+			fieldValueString = ((DateTime)fieldValue).formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'.000+0000\'');
+		}
 
-        Set<String> quotedFields = new Set<String> {'ADDRESS', 'DATE', 'DATETIME', 'EMAIL', 'ID', 'MULTIPICKLIST', 'PHONE',
-                                                    'PICKLIST', 'REFERENCE', 'STRING', 'TEXTAREA', 'URL'};
-        if (quotedFields.contains(fieldType)) {
-            fieldValueString = '"' + fieldValueString + '"';
-        }
+		Set<String> quotedFields = new Set<String> {'ADDRESS', 'DATE', 'DATETIME', 'EMAIL', 'ID', 'MULTIPICKLIST', 'PHONE',
+													'PICKLIST', 'REFERENCE', 'STRING', 'TEXTAREA', 'URL'};
+		if (quotedFields.contains(fieldType)) {
+			fieldValueString = '"' + fieldValueString + '"';
+		}
 
-        return fieldValueString;
-    }
+		return fieldValueString;
+	}
 
-    private static Object deserializeParentsAndChildren(
-        Type parentsType,
-        DescribeSObjectResult parentDescribe,
-        SObjectField relationshipField,
-        List<SObject> parents,
-        List<List<SObject>> children
-    ) {
-        List<Schema.ChildRelationship> childRelationships = parentDescribe.getChildRelationships();
+	private static Object deserializeParentsAndChildren(
+		Type parentsType,
+		DescribeSObjectResult parentDescribe,
+		SObjectField relationshipField,
+		List<SObject> parents,
+		List<List<SObject>> children
+	) {
+		List<Schema.ChildRelationship> childRelationships = parentDescribe.getChildRelationships();
 
-        String relationshipName = null;
+		String relationshipName = null;
 		for(Schema.ChildRelationship childRelationship : childRelationships) {
 			if(childRelationship.getField() == relationshipField) {
 				relationshipName = childRelationship.getRelationshipName();
@@ -161,7 +161,7 @@ public class fflib_ApexMocksUtils
 
 		// Derserialise back into SObject list complete with children
 		return JSON.deserialize(combinedOutput.getAsString(), parentsType);
-    }
+	}
 
 	/**
 	 * Monitors stream events for end of object for each SObject contained in the parent list
@@ -248,29 +248,29 @@ public class fflib_ApexMocksUtils
 		void nextToken(JSONParser fromStream, Integer depth, JSONGenerator toStream);
 	}
 
-    /**
-     * Gets the SObjectType by name
-     */
-    private static Schema.SObjectType getType(String typeName) {
-        Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+	/**
+	 * Gets the SObjectType by name
+	 */
+	private static Schema.SObjectType getType(String typeName) {
+		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
 		SObjectType sobjType = gd.get(typeName);
-        if (sobjType == null) {
-            throw new fflib_ApexMocks.ApexMocksException('SObject type not found: ' + typeName);
-        }
-        return sobjType;
-    }
+		if (sobjType == null) {
+			throw new fflib_ApexMocks.ApexMocksException('SObject type not found: ' + typeName);
+		}
+		return sobjType;
+	}
 
-    /**
-     * Gets the SObjectField of an object by name
-     */
-    private static Schema.SObjectField getField(String objectName, String fieldName) {
+	/**
+	 * Gets the SObjectField of an object by name
+	 */
+	private static Schema.SObjectField getField(String objectName, String fieldName) {
 
-        SObjectType sobjType = getType(objectName);
+		SObjectType sobjType = getType(objectName);
 		Map<String, Schema.SObjectField> objectFields = sobjType.getDescribe().fields.getMap();
-        Schema.SObjectField sobjField = objectFields.get(fieldName);
-        if (sobjField == null) {
-            throw new fflib_ApexMocks.ApexMocksException('SObject field not found: ' + fieldName);
-        }
+		Schema.SObjectField sobjField = objectFields.get(fieldName);
+		if (sobjField == null) {
+			throw new fflib_ApexMocks.ApexMocksException('SObject field not found: ' + fieldName);
+		}
 		return sobjField;
 	}
 }

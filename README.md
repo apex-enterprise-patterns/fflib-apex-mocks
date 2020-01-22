@@ -8,7 +8,7 @@ It derives it's inspiration from the well known Java mocking framework [Mockito]
 
 <a href="https://githubsfdeploy.herokuapp.com?owner=financialforcedev&repo=fflib-apex-mocks">
   <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+	   src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
 ## Setup
@@ -30,13 +30,13 @@ Lets assume we've written our own list interface fflib_MyList.IList that we want
 ```Java
 public class fflib_MyList implements IList
 {
-    public interface IList
-    {
-        void add(String value);
-        String get(Integer index);
-        void clear();
-        Boolean isEmpty();
-    }
+	public interface IList
+	{
+		void add(String value);
+		String get(Integer index);
+		void clear();
+		Boolean isEmpty();
+	}
 }
 ```
 ### verify() behaviour verification
@@ -71,10 +71,10 @@ mocks.stopStubbing();
 Account acc = new Account();
 Integer mockFormulaResult = 10;
 acc = (Account)fflib_ApexMocksUtils.setReadOnlyField(
-        acc,
-        Account.class,
-        Account.Your_Formula_Field__c,
-        mockFormulaResult
+		acc,
+		Account.class,
+		Account.Your_Formula_Field__c,
+		mockFormulaResult
 );
 System.assertEquals(mockFormulaResult, acc.Your_Formula_Field__c);
 ```
@@ -95,11 +95,11 @@ You can continue to use the ApexMocks generator, if you wish, but this is no lon
 Run the apex mocks generator from the command line.
 ```Bash
 java -jar apex-mocks-generator-4.0.0.jar
-    <Filepath to source files>
-    <Filepath to interface properties file>
-    <Name of generated mocks class>
-    <Filepath to target files - can be the same as filepath to source files>
-    <API version of generated mocks class - optional argument, 30.0 by default>
+	<Filepath to source files>
+	<Filepath to interface properties file>
+	<Name of generated mocks class>
+	<Filepath to target files - can be the same as filepath to source files>
+	<API version of generated mocks class - optional argument, 30.0 by default>
 
 # E.g. the command used to generate the current version of fflib_Mocks.
 java -jar apex-mocks-generator-4.0.0.jar "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "/Users/jbloggs/Dev/fflib-apex-mocks/interfacemocks.properties" "fflib_Mocks" "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "30.0"
