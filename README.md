@@ -1,8 +1,6 @@
 # FFLib ApexMocks Framework
 
-[![Build Status](https://travis-ci.org/financialforcedev/fflib-apex-mocks.svg)](https://travis-ci.org/financialforcedev/fflib-apex-mocks)
-
-ApexMocks is a mocking framework for the Force.com Apex language. 
+ApexMocks is a mocking framework for the Salesforce Lightning Apex language. 
 
 It derives its inspiration from the well known Java mocking framework [Mockito](https://code.google.com/p/mockito/)
 
@@ -11,14 +9,9 @@ It derives its inspiration from the well known Java mocking framework [Mockito](
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-## Setup
-- Clone this repo
-- Copy the build.properties.template file into build.properties file and add your salesforce username and password.
-- Do `ant deploy` to get the classes in your dev org.
+## Using ApexMocks on the Salesforce Lightning Platform
 
-## Using ApexMocks on Force.com
-
-ApexMocks allows you to write tests to both verify behaviour and stub dependencies.
+ApexMocks allows you to write tests to both verify behavior and stub dependencies.
 
 An assumption is made that you are using some form of [Dependency Injection](http://en.wikipedia.org/wiki/Dependency_injection) - for example passing dependencies via a constructor:
 
