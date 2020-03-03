@@ -51,11 +51,8 @@ public class fflib_MatcherDefinitionsTest
 		
 		SObject accountRecord = ACCOUNT_OBJECT_TYPE.newSObject();
 		accountRecord.put('Name', 'MatcherDefinitionTestAccount' + System.now());
-
-		insert accountRecord;
-		Id accountId = accountRecord.Id;
-
-		ACCOUNT_RECORD = Database.query('SELECT Id, Name FROM Account WHERE Id = :accountId LIMIT 1');
+		accountRecord.Id = fflib_IDGenerator.generate(Account.SObjectType);
+		ACCOUNT_RECORD = accountRecord;
         
 		GROUP_RECORDS = new list<Group> {
 			new Group(Name = 'MatcherDefnTestGroup0'+System.now(), DeveloperName='MatcherDefnTestGroup0'+System.now().getTime(),Type='Queue'),
