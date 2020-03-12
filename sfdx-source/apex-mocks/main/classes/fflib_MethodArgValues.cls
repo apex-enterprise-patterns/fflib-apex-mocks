@@ -23,8 +23,10 @@
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+@NamespaceAccessible
 public with sharing class fflib_MethodArgValues
 {
+	@NamespaceAccessible
 	public List<Object> argValues;
 	
 	/**
@@ -33,6 +35,7 @@ public with sharing class fflib_MethodArgValues
 	 * @param argValues The
 	 * @return fflib_MethodArgValues The method argument wrapper object
 	 */
+	@NamespaceAccessible
 	public fflib_MethodArgValues(List<Object> argValues)
 	{
 		this.argValues = argValues;
@@ -43,6 +46,7 @@ public with sharing class fflib_MethodArgValues
 	 * @param other The object whose equality we are verifying
 	 * @return Boolean True if meaningfully equivalent, false otherwise.
 	 */
+	@NamespaceAccessible
 	public Boolean equals(Object other)
 	{
 		if (this === other)
@@ -58,6 +62,7 @@ public with sharing class fflib_MethodArgValues
 	 * Standard hashCode override.
 	 * @return Integer The generated hashCode
 	 */
+	@NamespaceAccessible
 	public Integer hashCode()
 	{
 		Integer prime = 31;

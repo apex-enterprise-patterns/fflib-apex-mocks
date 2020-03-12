@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
  */
+@NamespaceAccessible
 public with sharing class fflib_QualifiedMethod
 {
 	private Object mockInstance;
@@ -8,11 +9,13 @@ public with sharing class fflib_QualifiedMethod
 	private String methodName;
 	private List<Type> methodArgTypes;
 	
+	@NamespaceAccessible
 	public fflib_QualifiedMethod(String typeName, String methodName, List<Type> methodArgTypes)
 	{
 		this(typeName, methodName, methodArgTypes, null);
 	}
 
+	@NamespaceAccessible
 	public fflib_QualifiedMethod(String typeName, String methodName, List<Type> methodArgTypes, Object mockInstance)
 	{
 		this.mockInstance = mockInstance;
@@ -26,6 +29,7 @@ public with sharing class fflib_QualifiedMethod
 	 * @param other The object whose equality we are verifying
 	 * @return Boolean True if meaningfully equivalent, false otherwise.
 	 */
+	@NamespaceAccessible
 	public Boolean equals(Object other)
 	{
 		if (this === other)
@@ -46,6 +50,7 @@ public with sharing class fflib_QualifiedMethod
 	 * Standard hashCode override.
 	 * @return Integer The generated hashCode
 	 */
+	@NamespaceAccessible
 	public Integer hashCode()
 	{
 		Integer prime = 31;
@@ -66,6 +71,7 @@ public with sharing class fflib_QualifiedMethod
 	 * Standard toString override.
 	 * @return String The human friendly description of the method.
 	 */
+	@NamespaceAccessible
 	public override String toString()
 	{
 		return typeName + '.' + methodName + methodArgTypes;

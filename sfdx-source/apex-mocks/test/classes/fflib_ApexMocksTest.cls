@@ -694,10 +694,10 @@ private class fflib_ApexMocksTest
 		List<Exception> expsList = new List<Exception>{e};
 
 		//When
-		mocks.DoThrowWhenExceptions = expsList;
+		mocks.setDoThrowWhenExceptions(expsList);
 
 		//Then
-		System.assert(expsList === mocks.DoThrowWhenExceptions);
+		System.assert(expsList === mocks.getDoThrowWhenExceptions());
 	}
 
 	@isTest
@@ -1603,17 +1603,17 @@ private class fflib_ApexMocksTest
 	{
 	}
 
-	private class isOdd implements fflib_IMatcher
+	private class isOdd extends fflib_IMatcher
 	{
-		public Boolean matches(Object arg)
+		public override Boolean matches(Object arg)
 		{
 			return arg instanceof Integer ? Math.mod((Integer)arg, 2) == 1: false;
 		}
 	}
 
-	private class isEven implements fflib_IMatcher
+	private class isEven extends fflib_IMatcher
 	{
-		public Boolean matches(Object arg)
+		public override Boolean matches(Object arg)
 		{
 			return arg instanceof Integer ? Math.mod((Integer)arg, 2) == 0: false;
 		}

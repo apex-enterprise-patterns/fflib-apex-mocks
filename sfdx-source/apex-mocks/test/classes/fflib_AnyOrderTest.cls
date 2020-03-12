@@ -1121,17 +1121,17 @@ private class fflib_AnyOrderTest
 	 *	HELPER CLASSES
 	 */
 
-	private class isOdd implements fflib_IMatcher
+	private class isOdd extends fflib_IMatcher
 	{
-		public Boolean matches(Object arg)
+		public override Boolean matches(Object arg)
 		{
 			return arg instanceof Integer ? Math.mod((Integer)arg, 2) == 1: false;
 		}
 	}
 
-	private class isEven implements fflib_IMatcher
+	private class isEven extends fflib_IMatcher
 	{
-		public Boolean matches(Object arg)
+		public override Boolean matches(Object arg)
 		{
 			return arg instanceof Integer ? Math.mod((Integer)arg, 2) == 0: false;
 		}

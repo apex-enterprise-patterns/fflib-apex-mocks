@@ -5,6 +5,7 @@
 /**
  * @group Core
  */
+@NamespaceAccessible
 public with sharing class fflib_MethodCountRecorder
 {
 	/*
@@ -25,6 +26,7 @@ public with sharing class fflib_MethodCountRecorder
 	 * Getter for the list of the methods ordered calls.
 	 * @return The list of methods called in order.
 	 */
+	@NamespaceAccessible
 	public static List<fflib_InvocationOnMock> getOrderedMethodCalls()
 	{
 		return orderedMethodCalls;
@@ -34,6 +36,7 @@ public with sharing class fflib_MethodCountRecorder
 	 * Getter for the map of the method's calls with the related arguments.
 	 * @return The map of methods called with the arguments.
 	 */
+	@NamespaceAccessible
 	public static Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>> getMethodArgumentsByTypeName()
 	{
 		return methodArgumentsByTypeName;
@@ -43,6 +46,7 @@ public with sharing class fflib_MethodCountRecorder
 	 * Record a method was called on a mock object.
 	 * @param invocation The object holding all the data of the invocation, like the method and arguments and the mock instance.
 	 */
+	@NamespaceAccessible
 	public void recordMethod(fflib_InvocationOnMock invocation)
 	{
 		List<fflib_MethodArgValues> methodArgs =

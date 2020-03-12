@@ -6,6 +6,7 @@
  *	This class implements the actual verification.
  *	@group Core
  */
+@NamespaceAccessible
 public abstract class fflib_MethodVerifier
 {
 	/**
@@ -13,6 +14,7 @@ public abstract class fflib_MethodVerifier
 	 * @param mockInvocation The object holding all the data of the invocation, like the method and arguments and the mock instance.
 	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
 	 */
+	@NamespaceAccessible
 	public void verifyMethodCall(fflib_InvocationOnMock mockInvocation, fflib_VerificationMode verificationMode)
 	{
 		validateMode(verificationMode);
@@ -26,6 +28,7 @@ public abstract class fflib_MethodVerifier
 	 * @param methodArg The arguments of the method that needs to be verified.
 	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
 	 */
+	@NamespaceAccessible
 	protected abstract void verify(
 		fflib_QualifiedMethod qm,
 		fflib_MethodArgValues methodArg,
@@ -38,6 +41,7 @@ public abstract class fflib_MethodVerifier
 	 * @param verificationMode The verification mode that has to have been verified.
 	 * @throws Exception with message for the fflib_VerificationMode not implemented.
 	 */
+	@NamespaceAccessible
 	protected abstract void validateMode(fflib_VerificationMode verificationMode);
 
 	/*
@@ -45,6 +49,7 @@ public abstract class fflib_MethodVerifier
 	 * Captures argument values during verification.
 	 * @param matchers The list of matcher with which a method is verified.
 	 */
+	@NamespaceAccessible
 	protected void capture(List<fflib_IMatcher> matchers)
 	{
 		for(fflib_IMatcher matcher : matchers)
@@ -56,6 +61,7 @@ public abstract class fflib_MethodVerifier
 		}
 	}
 
+	@NamespaceAccessible
 	protected void throwException(
 		fflib_QualifiedMethod qm,
 		String inOrder,

@@ -29,6 +29,7 @@
  * Class defining a method return value.
  */
 @isTest
+@NamespaceAccessible
 public with sharing class fflib_MethodReturnValue
 {
 	private StandardAnswer basicAnswer = new StandardAnswer();
@@ -44,6 +45,7 @@ public with sharing class fflib_MethodReturnValue
 	 * @param value The value to return from the stubbed method call.
 	 * @return The fflib_MethodReturnValue instance to allow you to chain the methods.
 	 */
+	@NamespaceAccessible
 	public fflib_MethodReturnValue thenReturn(Object value)
 	{
 		thenAnswer(this.basicAnswer.setValue(value));
@@ -55,6 +57,7 @@ public with sharing class fflib_MethodReturnValue
 	 * @param e The exception to throw from the stubbed method call.
 	 * @return The fflib_MethodReturnValue instance to allow you to chain the methods.
 	 */
+	@NamespaceAccessible
 	public fflib_MethodReturnValue thenThrow(Exception e)
 	{
 		thenAnswer(this.basicAnswer.setValue(e));
@@ -65,6 +68,7 @@ public with sharing class fflib_MethodReturnValue
 	 * Setup a stubbed answer.
 	 * @param answer The answer to run from the stubbed method call.
 	 */
+	@NamespaceAccessible
 	public void thenAnswer(fflib_Answer answer)
 	{
 		this.Answer = answer;
@@ -75,6 +79,7 @@ public with sharing class fflib_MethodReturnValue
 	 * @param values The values to return from the stubbed method call in consecutive calls.
 	 * @return The fflib_MethodReturnValue instance to allow you to chain the methods.
 	 */
+	@NamespaceAccessible
 	public fflib_MethodReturnValue thenReturnMulti(List<Object> values)
 	{
 		thenAnswer(this.basicAnswer.setValues(values));
@@ -86,6 +91,7 @@ public with sharing class fflib_MethodReturnValue
 	 * @param es The exceptions to throw from the stubbed method call in consecutive calls.
 	 * @return The fflib_MethodReturnValue instance to allow you to chain the methods.
 	 */
+	@NamespaceAccessible
 	public fflib_MethodReturnValue thenThrowMulti(List<Exception> es)
 	{
 		thenAnswer(this.basicAnswer.setValues(es));
@@ -97,6 +103,7 @@ public with sharing class fflib_MethodReturnValue
 	 * Inner class to handle all the stubs that do not use the thenAnswer method directly.
 	 * For internal use only.
 	 */
+	@NamespaceAccessible
 	public class StandardAnswer implements fflib_Answer
 	{
 		private Integer whichStubReturnIndex = 0;
@@ -111,6 +118,7 @@ public with sharing class fflib_MethodReturnValue
 		 * @param value The value to be set as return value for the StandardAnswer object.
 		 * @return The StandardAnswer instance.
 		 */
+		@NamespaceAccessible
 		public StandardAnswer setValue(Object value)
 		{
 			ReturnValues.add(value);
@@ -122,6 +130,7 @@ public with sharing class fflib_MethodReturnValue
 		 * @param value The value to be set as return value for the StandardAnswer object.
 		 * @return the StandardAnswer instance.
 		 */
+		@NamespaceAccessible
 		public StandardAnswer setValues(List<Object> values)
 		{
 			if(values == null || values.size() == 0)
@@ -139,6 +148,7 @@ public with sharing class fflib_MethodReturnValue
 		 * @param invocation The invocation to answer for.
 		 * @return The ReturnValue for the method stubbed.
 		 */
+		@NamespaceAccessible
 		public Object answer(fflib_InvocationOnMock invocation)
 		{
 			if(ReturnValues == null || ReturnValues.size() == 0)

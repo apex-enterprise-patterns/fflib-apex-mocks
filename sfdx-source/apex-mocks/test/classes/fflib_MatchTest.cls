@@ -1369,17 +1369,17 @@ public with sharing class fflib_MatchTest
 		System.assert(registeredMatchers[0] instanceof fflib_MatcherDefinitions.StringStartsWith);
 	}
 
-	private class AlwaysMatch implements fflib_IMatcher
+	private class AlwaysMatch extends fflib_IMatcher
 	{
-		public Boolean matches(Object arg)
+		public override Boolean matches(Object arg)
 		{
 			return true;
 		}
 	}
 	
-	private class NeverMatch implements fflib_IMatcher
+	private class NeverMatch extends fflib_IMatcher
 	{
-		public Boolean matches(Object arg)
+		public override Boolean matches(Object arg)
 		{
 			return false;
 		}

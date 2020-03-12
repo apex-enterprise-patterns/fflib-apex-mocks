@@ -6,6 +6,7 @@
 /**
  * @group Core
  */
+@NamespaceAccessible
 public with sharing class fflib_InOrder extends fflib_MethodVerifier
 {
 	private final List<Object> unorderedMockInstances;
@@ -25,6 +26,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * @param mocks The apex mock object instance.
 	 * @param unorderedMockInstances One or more mock implementation classes (listed in any order), whose ordered method calls require verification.
 	 */
+	@NamespaceAccessible
 	public fflib_InOrder(fflib_ApexMocks mocks, List<Object> unorderedMockInstances)
 	{
 		this.unorderedMockInstances = unorderedMockInstances;
@@ -40,6 +42,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
 	 * @return The mock object instance.
 	 */
+	@NamespaceAccessible
 	public Object verify(Object mockInstance, fflib_VerificationMode verificationMode)
 	{
 		mocks.setOrderedVerifier(this);
@@ -52,6 +55,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * @param mockInstance The mock object instance.
 	 * @return The mock object instance.
 	 */
+	@NamespaceAccessible
 	public Object verify(Object mockInstance)
 	{
 		mocks.setOrderedVerifier(this);
@@ -66,6 +70,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * @param times The number of times you expect the method to have been called.
 	 * @return The mock object instance.
 	 */
+	@NamespaceAccessible
 	public Object verify(Object mockInstance, Integer times)
 	{
 		mocks.setOrderedVerifier(this);
@@ -76,6 +81,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * Verify that after the last successful verified method no more interactions happened on the inOrderMock instance.
 	 * @throws Exception with message to help to identify the last method called.
 	 */
+	@NamespaceAccessible
 	public void verifyNoMoreInteractions()
 	{
 		if(idxMethodCall == 0)
@@ -97,6 +103,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * Verify that no interactions at all happened on the inOrderMock instance.
 	 * @throws Exception with message.
 	 */
+	@NamespaceAccessible
 	public void verifyNoInteractions()
 	{
 		if(hasNextInteraction(unorderedMockInstances, 0))
@@ -114,6 +121,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * @param methodArg The arguments of the method that needs to be verified.
 	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
 	 */
+	@NamespaceAccessible
 	protected override void verify(
 		fflib_QualifiedMethod qm,
 		fflib_MethodArgValues methodArg,
@@ -339,6 +347,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * @param verificationMode The verification mode that have to been verified.
 	 * @throws Exception with message for the fflib_VerificationMode not implemented.
 	 */
+	@NamespaceAccessible
 	protected override void validateMode(fflib_VerificationMode verificationMode)
 	{
 		if(notImplementedMethods.contains(verificationMode.Method))

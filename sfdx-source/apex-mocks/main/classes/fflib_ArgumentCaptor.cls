@@ -31,8 +31,10 @@
  *	To be consistent with Mockito, the capturer does not perform any checks on the type of the argument.
  * 	@group Core
  */
+@NamespaceAccessible
 public with sharing class fflib_ArgumentCaptor
 {
+	@NamespaceAccessible
 	protected List<Object> argumentsCaptured = new List<Object>();
 
 	/**
@@ -44,6 +46,7 @@ public with sharing class fflib_ArgumentCaptor
 	 * 	@param 	ignoredCaptureType Type (class) of the captured argument
 	 * 	@return A new fflib_ArgumentCaptor.
 	 */
+	@NamespaceAccessible
 	public static fflib_ArgumentCaptor forClass(Type ignoredCaptureType)
 	{
 		return new fflib_ArgumentCaptor();
@@ -56,6 +59,7 @@ public with sharing class fflib_ArgumentCaptor
 	 *
 	 * 	@return a special matcher that matches any argument and remembers the value.
 	 */
+	@NamespaceAccessible
 	public Object capture()
 	{
 		AnyObject myMatcher = new AnyObject(this);
@@ -69,6 +73,7 @@ public with sharing class fflib_ArgumentCaptor
 	 *
 	 * 	@return	captured argument value.
 	 */
+	@NamespaceAccessible
 	public Object getValue()
 	{
 		if( argumentsCaptured == null ||
@@ -87,29 +92,34 @@ public with sharing class fflib_ArgumentCaptor
 	 *
 	 * 	@return	Returns all captured values. Use it when capturing multiple arguments on the same call or when the verified method was called multiple times.
 	 */
+	@NamespaceAccessible
 	public List<Object> getAllValues()
 	{
 		return argumentsCaptured;
 	}
 
-	public class AnyObject implements fflib_IMatcher
+	@NamespaceAccessible
+	public class AnyObject extends fflib_IMatcher
 	{
 		private fflib_ArgumentCaptor captor;
 		private Object value;
 
+		@NamespaceAccessible
 		public AnyObject(fflib_ArgumentCaptor captor)
 		{
 			this.captor = captor;
 		}
 
 		//match with all the possible values and store the arg value
-		public Boolean matches(Object arg)
+		@NamespaceAccessible
+		public override Boolean matches(Object arg)
 		{
 			value = arg;
 			return true;
 		}
 
 		//store the argument in the list ( this would be called inside the method counter where is compared with the matchers of the method)
+		@NamespaceAccessible
 		public void storeArgument()
 		{
 			captor.argumentsCaptured.add(value);

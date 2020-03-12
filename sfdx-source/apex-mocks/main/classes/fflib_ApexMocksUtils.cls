@@ -23,6 +23,7 @@
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+@NamespaceAccessible
 public class fflib_ApexMocksUtils
 {
 	/**
@@ -64,6 +65,7 @@ public class fflib_ApexMocksUtils
 	 *		        }
 	 * 		]
 	 */
+	@NamespaceAccessible
 	public static Object makeRelationship(Type parentsType, List<SObject> parents, SObjectField relationshipField, List<List<SObject>> children) {
 
 		// Find out more about this relationship...
@@ -76,6 +78,7 @@ public class fflib_ApexMocksUtils
      * Generic overload to makeRelationship. Enables creation of
      * relationships in a loosely-coupled manner. 
      **/
+	@NamespaceAccessible
 	public static Object makeRelationship(
 			String parentTypeName,
 			String childTypeName,
@@ -129,6 +132,7 @@ public class fflib_ApexMocksUtils
 		private List<List<SObject>> children;
 		private Integer childListIdx = 0;
 
+		@NamespaceAccessible
 		public InjectChildrenEventHandler(JSONParser childrenParser, String relationshipName, List<List<SObject>> children) {
 			this.childrenParser = childrenParser;
 			this.relationshipName = relationshipName;
@@ -136,6 +140,7 @@ public class fflib_ApexMocksUtils
 			this.childrenParser.nextToken(); // Consume the outer array token
 		}
 
+		@NamespaceAccessible
 		public void nextToken(JSONParser fromStream, Integer depth, JSONGenerator toStream) {
 			// Inject children?
 			JSONToken currentToken = fromStream.getCurrentToken();

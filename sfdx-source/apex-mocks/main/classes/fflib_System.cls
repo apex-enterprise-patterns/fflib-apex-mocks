@@ -7,6 +7,7 @@
  * Contains counterparts for helper methods in the native System class.
  */
 
+@NamespaceAccessible
 public class fflib_System
 {
 	/**
@@ -15,6 +16,7 @@ public class fflib_System
 	 * @param ignoredRetval Dummy value, returned on registering an fflib_IMatcher.
 	 * @param value         The object instance upon which we are checking equality.
 	 */
+	@NamespaceAccessible
 	public static void assertEquals(Object ignoredRetval, Object value)
 	{
 		assertEquals(ignoredRetval, value, null);
@@ -27,6 +29,7 @@ public class fflib_System
 	 * @param value         The object instance upon which we are checking equality.
 	 * @param customAssertMessage Provides context or additional information for the assertion.
 	 */
+	@NamespaceAccessible
 	public static void assertEquals(Object ignoredRetval, Object value, String customAssertMessage)
 	{
 		fflib_IMatcher matcher = null;
