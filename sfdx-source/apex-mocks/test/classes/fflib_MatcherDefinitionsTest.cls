@@ -926,16 +926,16 @@ public class fflib_MatcherDefinitionsTest
 
 		list<Map<Schema.SObjectField, Object>> failingFieldValues = new list<Map<Schema.SObjectField, Object>>
 		{
-				new map<Schema.SObjectField,Object>
-				{
-						idField => GROUP_RECORDS[0].Id,
-						nameField => GROUP_RECORDS[0].get('Name')
-				},
-				new map<Schema.SObjectField,Object>
-				{
-						idField => GROUP_RECORDS[1].Id,
-						nameField => GROUP_RECORDS[1].get('Name') + 'test'
-				}
+			new map<Schema.SObjectField,Object>
+			{
+				idField => GROUP_RECORDS[0].Id,
+				nameField => GROUP_RECORDS[0].get('Name')
+			},
+			new map<Schema.SObjectField,Object>
+			{
+				idField => GROUP_RECORDS[1].Id,
+				nameField => GROUP_RECORDS[1].get('Name') + 'test'
+			}
 		};
 
 		list<Map<Schema.SObjectField, Object>> notQueriedFieldValues = new list<Map<Schema.SObjectField, Object>>
