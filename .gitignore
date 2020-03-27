@@ -1,12 +1,47 @@
+# General Project related
 .DS_Store
-.sfdx
-.vscode
-.idea
+target/
+temp/
+/deploy/*
+/debug/
+**/dep-dir.txt
+*.prefs
+build.properties
+/sfdx-source/apex-mocks/main/default
+
+# MavensMate IDE related
+*mm.log
+*.sublime-build
+*.sublime-project
+*.sublime-settings
+*.sublime-workspace
+.sublime-project
+.tm_properties
+
+# Eclipse IDE Related
+.project
+.settings/
+salesforce.schema
+Referenced Packages/
+
+# VS Code IDE Related
+.vscode/
+.history/
+
+# Illuminated Cloud Related
+.idea/
 IlluminatedCloud
-/temp
-/target
-package-lock.json
+
+# SFDX Related
+.sfdx/
+sfdx-source/untracked/
+.execanon
+
+# NPM Related
 package.json
 /node_modules
-.history/
-/research
+package-lock.json
+
+
+sfdx-source/group*
+research/
