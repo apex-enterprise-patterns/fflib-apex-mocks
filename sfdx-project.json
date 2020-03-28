@@ -1,0 +1,11 @@
+{
+    "packageDirectories": [
+        {
+            "path": "sfdx-source/apex-mocks",
+            "default": true
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "47.0"
+}
