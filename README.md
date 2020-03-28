@@ -1,24 +1,17 @@
-# FinancialForce ApexMocks Framework
+# FFLib ApexMocks Framework
 
-[![Build Status](https://travis-ci.org/financialforcedev/fflib-apex-mocks.svg)](https://travis-ci.org/financialforcedev/fflib-apex-mocks)
+ApexMocks is a mocking framework for the Salesforce Lightning Apex language. 
 
-ApexMocks is a mocking framework for the Force.com Apex language. 
-
-It derives it's inspiration from the well known Java mocking framework [Mockito](https://code.google.com/p/mockito/)
+It derives its inspiration from the well known Java mocking framework [Mockito](https://code.google.com/p/mockito/)
 
 <a href="https://githubsfdeploy.herokuapp.com?owner=financialforcedev&repo=fflib-apex-mocks">
   <img alt="Deploy to Salesforce"
 	   src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-## Setup
-- Clone this repo
-- Copy the build.properties.template file into build.properties file and add your salesforce username and password.
-- Do `ant deploy` to get the classes in your dev org.
+## Using ApexMocks on the Salesforce Lightning Platform
 
-## Using ApexMocks on Force.com
-
-ApexMocks allows you to write tests to both verify behaviour and stub dependencies.
+ApexMocks allows you to write tests to both verify behavior and stub dependencies.
 
 An assumption is made that you are using some form of [Dependency Injection](http://en.wikipedia.org/wiki/Dependency_injection) - for example passing dependencies via a constructor:
 ```Java
@@ -124,3 +117,4 @@ fflib_MyList.IList mockList = new MockMyList(mocks);
 * [Order of calls verification](https://xonoxforce.wordpress.com/2017/03/26/inorder-verify/)
 * [Answering](https://xonoxforce.wordpress.com/2017/03/31/answering-with-apex-mocks/)
 * [Counters](https://xonoxforce.wordpress.com/2017/04/01/counters-in-apex-mocks-verifications/)
+* [Troubleshooting](https://salesforce.stackexchange.com/questions/252460/my-apexmocks-arent-working-what-could-be-wrong)
