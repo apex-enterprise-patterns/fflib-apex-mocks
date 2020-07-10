@@ -1,0 +1,9 @@
+{
+    "orgName": "apex-mock",
+    "edition": "Developer",
+    "settings": {
+        "orgPreferenceSettings": {
+            "s1DesktopEnabled": true
+        }
+    }
+}
