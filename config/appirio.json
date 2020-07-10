@@ -1,0 +1,18 @@
+{
+  "cmc": {
+    "enabled": false,
+    "products": [
+      "None"
+    ]
+  },
+  "continuousIntegrationType": "",
+  "continuousIntegrationURL": "",
+  "projectType": [
+    "sfdx"
+  ],
+  "rollbar": {
+    "enabled": true
+  },
+  "sourceBranchToClone": "master",
+  "sourceControlType": "git"
+}
