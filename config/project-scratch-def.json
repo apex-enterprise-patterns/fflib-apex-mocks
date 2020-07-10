@@ -1,9 +1,13 @@
 {
-    "orgName": "apex-mock",
-    "edition": "Developer",
-    "settings": {
-        "orgPreferenceSettings": {
-            "s1DesktopEnabled": true
-        }
+  "orgName": "apex-mock",
+  "edition": "Enterprise",
+  "features": [],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "chatterSettings": {
+      "enableChatter": true
     }
+  }
 }

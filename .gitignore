@@ -1,3 +1,9 @@
+# Ignore hidden folders by default
+.*
+
+# LWC VSCode autocomplete
+**/lwc/jsconfig.json
+
 # General Project related
 .DS_Store
 target/
@@ -8,6 +14,19 @@ temp/
 *.prefs
 build.properties
 /sfdx-source/apex-mocks/main/default
+
+# But don't ignore certain config files
+!/.gitignore
+!/.gitlab-ci.yml
+!/.ezbake
+!*.gitkeep*
+!/.forceignore
+!/.prettierignore
+!/.prettierrc
+
+# local config files
+.env
+config/local*
 
 # MavensMate IDE related
 *mm.log
@@ -24,9 +43,15 @@ build.properties
 salesforce.schema
 Referenced Packages/
 
+# Eslint cache
+.eslintcache
+
 # VS Code IDE Related
 .vscode/
 .history/
+
+# Dependency directories
+node_modules/
 
 build.properties
 /.idea/
@@ -47,3 +72,41 @@ package-lock.json
 
 sfdx-source/group*
 research/
+
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#Mavensmate IDE files
+config/.*
+
+#force-dev-tool files
+config/deployments
+
+# Temporary build Folders
+package/
+build/
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Other Stuff?
+.classpath
+.tern-project
+selenium-client-jars/
+test/artifacts
+/bin/
+
+#testing ezbake
+/ezbake-sample

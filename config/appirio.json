@@ -1,12 +1,9 @@
 {
   "cmc": {
     "enabled": false,
-    "products": [
-      "None"
-    ]
+    "products": ["None"]
   },
-  "continuousIntegrationType": "",
-  "continuousIntegrationURL": "",
+  
   "projectType": [
     "sfdx"
   ],
