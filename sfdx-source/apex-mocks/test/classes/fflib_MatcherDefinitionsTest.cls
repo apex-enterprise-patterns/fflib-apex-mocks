@@ -51,11 +51,8 @@ public class fflib_MatcherDefinitionsTest
 		
 		SObject accountRecord = ACCOUNT_OBJECT_TYPE.newSObject();
 		accountRecord.put('Name', 'MatcherDefinitionTestAccount' + System.now());
-
-		insert accountRecord;
-		Id accountId = accountRecord.Id;
-
-		ACCOUNT_RECORD = Database.query('SELECT Id, Name FROM Account WHERE Id = :accountId LIMIT 1');
+		accountRecord.Id = fflib_IDGenerator.generate(Account.SObjectType);
+		ACCOUNT_RECORD = accountRecord;
         
 		GROUP_RECORDS = new list<Group> {
 			new Group(Name = 'MatcherDefnTestGroup0'+System.now(), DeveloperName='MatcherDefnTestGroup0'+System.now().getTime(),Type='Queue'),
@@ -924,6 +921,20 @@ public class fflib_MatcherDefinitionsTest
             }               
 		};
 
+		list<Map<Schema.SObjectField, Object>> failingFieldValues = new list<Map<Schema.SObjectField, Object>>
+		{
+			new map<Schema.SObjectField,Object>
+			{
+				idField => GROUP_RECORDS[0].Id,
+				nameField => GROUP_RECORDS[0].get('Name')
+			},
+			new map<Schema.SObjectField,Object>
+			{
+				idField => GROUP_RECORDS[1].Id,
+				nameField => GROUP_RECORDS[1].get('Name') + 'test'
+			}
+		};
+
 		list<Map<Schema.SObjectField, Object>> notQueriedFieldValues = new list<Map<Schema.SObjectField, Object>>
 		{
 			new map<Schema.SObjectField,Object> 
@@ -959,6 +970,7 @@ public class fflib_MatcherDefinitionsTest
                       
 
 		System.assert(!new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues).matches(GROUP_RECORDS));
+		System.assert(!new fflib_MatcherDefinitions.SObjectsWith(failingFieldValues).matches(GROUP_RECORDS));
 	}
 
     @isTest

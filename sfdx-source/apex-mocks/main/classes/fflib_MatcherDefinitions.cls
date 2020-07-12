@@ -912,8 +912,8 @@ public with sharing class fflib_MatcherDefinitions
 						{
 							return false;
 						}
-						return true;
 					}
+					return true;
 				}
 				else
 				{	
