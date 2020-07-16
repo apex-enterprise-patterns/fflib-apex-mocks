@@ -52,5 +52,10 @@ private class fflib_IDGeneratorTest
 		System.assertEquals('001000000000009AAA', id9);
 		System.assertEquals('001000000000010AAA', id10);
 		System.assertEquals('001000000000011AAA', id11);
+
+		//	Given History SObjectTypes
+		System.assertEquals('017000000000012AAA',(String)fflib_IDGenerator.generate(AccountHistory.SObjectType),'history sobjectTypes are always 017...');
+		System.assertEquals('008000000000013AAA',(String)fflib_IDGenerator.generate(OpportunityHistory.SObjectType),'special case OpportunityHistory sobjectType is always 008...');
+		System.assertEquals('017000000000014AAA',(String)fflib_IDGenerator.generate(OpportunityFieldHistory.SObjectType),'special case OpportunityFieldHistory sobjectType is always 017...');
 	}
 }

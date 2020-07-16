@@ -34,6 +34,13 @@ public with sharing class fflib_IDGenerator
 	public static Id generate(Schema.SObjectType sobjectType)
 	{
 		String keyPrefix = sobjectType.getDescribe().getKeyPrefix();
+		//	Deal with null keyprefix
+		//		OpportunityHistory will have keyPrefix 008 from getKeyPrefix
+		//		All other xxxHistory, xxx__History, and OpportunityFieldHistory coerce to 017 (legacy from EntityHistory)
+		if (keyPrefix == null) {	
+			keyPrefix =  sobjectType.getDescribe().getName().endsWith('History') ? '017' : null;
+		}
+		if (keyPrefix == null) {throw new System.IllegalArgumentException(sobjectType + ' has no known keyPrefix');}
 		fakeIdCount++;
 
 		String fakeIdPrefix = ID_PATTERN.substring(0, 12 - String.valueOf(fakeIdCount).length());
