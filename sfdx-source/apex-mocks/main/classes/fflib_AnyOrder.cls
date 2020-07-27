@@ -17,10 +17,13 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 	 */
 	protected override void verify(
 		fflib_QualifiedMethod qm,
-		fflib_MethodArgValues methodArg,
+		fflib_MethodArgValues expectedArguments,
 		fflib_VerificationMode verificationMode)
 	{
-		Integer methodCount = getMethodCount(qm, methodArg);
+		List<fflib_IMatcher> expectedMatchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(expectedArguments.argValues.size()) : null;
+		List<fflib_MethodArgValues> actualArguments = fflib_MethodCountRecorder.getMethodArgumentsByTypeName().get(qm);
+
+		Integer methodCount = getMethodCount(expectedArguments, expectedMatchers, actualArguments);
 
 		String qualifier = '';
 		Integer expectedCount = null;
@@ -42,17 +45,13 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 
 		if (expectedCount != null)
 		{
-			throwException(qm, '', expectedCount, qualifier, methodCount, verificationMode.CustomAssertMessage);
+			throwException(qm, '', expectedCount, qualifier, methodCount, verificationMode.CustomAssertMessage, expectedArguments, expectedMatchers, actualArguments);
 		}
 	}
 
-	private Integer getMethodCount(fflib_QualifiedMethod qm, fflib_MethodArgValues methodArg)
+	private Integer getMethodCount(fflib_MethodArgValues methodArg, List<fflib_IMatcher> matchers, List<fflib_MethodArgValues> methodArgs)
 	{
-		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
 		Integer retval = 0;
-
-		List<fflib_MethodArgValues> methodArgs =
-			fflib_MethodCountRecorder.getMethodArgumentsByTypeName().get(qm);
 
 		if (methodArgs != null)
 		{
@@ -63,7 +62,6 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 					if (fflib_Match.matchesAllArgs(args, matchers))
 					{
 						capture(matchers);
-
 						retval ++;
 					}
 				}

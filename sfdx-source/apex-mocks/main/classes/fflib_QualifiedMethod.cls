@@ -70,4 +70,13 @@ public with sharing class fflib_QualifiedMethod
 	{
 		return typeName + '.' + methodName + methodArgTypes;
 	}
+
+	/**
+	 * Predicate describing whether the qualified method accepts arguments or not.
+	 * @return True if the method accepts arguments.
+	 */
+	public Boolean hasArguments()
+	{
+		return this.methodArgTypes != null && !this.methodArgTypes.isEmpty();
+	}
 }

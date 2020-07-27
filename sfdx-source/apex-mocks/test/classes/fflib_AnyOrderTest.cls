@@ -8,8 +8,6 @@
 @isTest
 private class fflib_AnyOrderTest
 {
-	private static final String BASIC_VERIFY_ASSERTION_MESSAGE = 'Expected : {0}, Actual: {1} -- Wanted but not invoked: ';
-
 	/*
 	 *	replicating the apex mocks tests with the new syntax
 	 */
@@ -328,15 +326,16 @@ private class fflib_AnyOrderTest
 		}
 		catch(Exception exc)
 		{
-			String exceptionMessage = exc.getMessage();
-
-			String expectedMessage =
-				String.format(BASIC_VERIFY_ASSERTION_MESSAGE,
-					new List<String>{'2', '3'}) + fflib_MyList.getStubClassName() + '.add(String). ' + customAssertMessage + '.';
-
-			System.assertEquals(expectedMessage, exceptionMessage,
-				'The exception was caught, but the message was not as expected. ' +
-				'Expected: [' + expectedMessage + '],  Actual: [' + exceptionMessage + '].');
+			System.assertEquals('EXPECTED COUNT: 2'
+				+ '\nACTUAL COUNT: 3'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\nCustom message to explain the reason of the verification'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("bob"), ("bob")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [any String]',
+				exc.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -401,10 +400,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 3 or more times'
+				+ '\nACTUAL COUNT: 2'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("bob")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "bob"',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -460,10 +464,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 3 or more times'
+				+ '\nACTUAL COUNT: 2'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [any String]',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -532,10 +541,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or fewer times, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 3 or fewer times'
+				+ '\nACTUAL COUNT: 4'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("fred"), ("bob"), ("bob"), ("bob"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "bob"',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -593,10 +607,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or fewer times, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 3 or fewer times'
+				+ '\nACTUAL COUNT: 4'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("fred"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [any String]'
+				, ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -657,10 +676,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 or more times'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("rob"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "bob"',
+				ex.getmessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -719,10 +743,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 or more times'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ()'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [any String]',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -772,10 +801,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 3 or more times'
+				+ '\nACTUAL COUNT: 2'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("bob")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "bob"',
+				ex.getMessage()
+			);
 		}
 	}
 
@@ -816,10 +850,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 3 or more times, Actual: 2 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 3 or more times'
+				+ '\nACTUAL COUNT: 2'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [any String]',
+				ex.getMessage()
+			);
 		}
 	}
 
@@ -850,10 +889,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 5 or fewer times, Actual: 6 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 5 or fewer times'
+				+ '\nACTUAL COUNT: 6'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("fred"), ("bob"), ("bob"), ("bob"), ("bob"), ("bob"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "bob"',
+				ex.getMessage()
+			);
 		}
 	}
 
@@ -881,11 +925,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-
-			String expectedMessage = 'Expected : 5 or fewer times, Actual: 6 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 5 or fewer times'
+				+ '\nACTUAL COUNT: 6'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("bob"), ("fred"), ("fred"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [any String]',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1037,10 +1085,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 or more times'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred"), ("bob")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "rob"',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1096,10 +1149,15 @@ private class fflib_AnyOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
-			String expectedMessage = 'Expected : 1 or more times, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			String actualMessage = ex.getMessage();
-			System.assertEquals(expectedMessage, actualMessage,
-				'the exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 or more times'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("bob"), ("fred")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [starts with "rob"]',
+				ex.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1109,12 +1167,10 @@ private class fflib_AnyOrderTest
 
 	private static void assertFailMessage(String exceptionMessage, Integer expectedInvocations, Integer actualsInvocations)
 	{
-		String expectedMessage =
-			String.format(BASIC_VERIFY_ASSERTION_MESSAGE,
-				new List<String>{String.valueOf(expectedInvocations), String.valueOf(actualsInvocations)});
-		System.assert(exceptionMessage.contains(expectedMessage),
-			'The exception was caught, but the message was not as expected. ' +
-			'Expected: [' + expectedMessage + '],  Actual: [' + exceptionMessage + '].');
+		System.assert(
+			exceptionMessage.startsWith('EXPECTED COUNT: ' + expectedInvocations + '\nACTUAL COUNT: ' + actualsInvocations),
+			'Unexpected verify fail message: ' + exceptionMessage
+		);
 	}
 
 	/*
