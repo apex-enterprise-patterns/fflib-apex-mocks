@@ -1277,6 +1277,19 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenSObjectsWithToStringReturnsExpectedString()
+	{
+		List<Map<Schema.SObjectField, Object>> toMatch = new List<Map<Schema.SObjectField, Object>>{
+			new Map<Schema.SObjectField, Object> {
+				Account.Name => 'Test'
+			}
+		};
+
+		System.assertEquals('[ordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, true));
+		System.assertEquals('[unordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, false));
+	}
+
+	@isTest
 	private static void constructSObjectWithId_WithNullArg_ThrowsException()
 	{
 		try

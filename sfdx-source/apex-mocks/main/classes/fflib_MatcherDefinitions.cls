@@ -1097,11 +1097,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			if (matchInOrder)
 			{
-				return '[matches ' + stringify(toMatch) + ' in order]';
+				return '[ordered SObjects with ' + stringify(toMatch) + ']';
 			}
 			else
 			{
-				return '[matches ' + stringify(toMatch) + ' in any order]';
+				return '[unordered SObjects with ' + stringify(toMatch) + ']';
 			}
 		}
         
