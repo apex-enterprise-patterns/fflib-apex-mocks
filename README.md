@@ -45,6 +45,21 @@ mockList.add('bob');
 ((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
 ((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).clear();
 ```
+
+If the method wasn't called the expected number of times, or with the expected arguments, verify will throw an exception.
+The exception message contains details of the expected and actual invocations:
+
+```
+EXPECTED COUNT: 1
+ACTUAL COUNT: 0
+METHOD: EmailService__sfdc_ApexStub.sendTo(String)
+---
+ACTUAL ARGS: ("user-two@example.com")
+---
+EXPECTED ARGS: [[contains "user-one"]]
+
+```
+
 ### when() dependency stubbing
 ```Java
 fflib_ApexMocks mocks = new fflib_ApexMocks();
