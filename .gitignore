@@ -1,6 +1,3 @@
-# Ignore hidden folders by default
-.*
-
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
 
@@ -65,7 +62,6 @@ sfdx-source/untracked/
 .execanon
 
 # NPM Related
-package.json
 /node_modules
 package-lock.json
 

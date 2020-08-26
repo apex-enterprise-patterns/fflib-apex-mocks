@@ -1,0 +1,14 @@
+{
+  "name": "salesforce-apex-mocks-cicd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-cdk/core": "1.51.0",
+    "rs-cdk": "^2.0.5"
+  },
+  "devDependencies": {
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
+  }
+}
