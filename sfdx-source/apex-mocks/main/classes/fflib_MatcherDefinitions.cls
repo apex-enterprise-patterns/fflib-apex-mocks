@@ -116,6 +116,32 @@ public with sharing class fflib_MatcherDefinitions
 			
 			return innerMatchers;
 		}
+
+		public override String toString()
+		{
+			List<String> internalDescriptions = new List<String>();
+			for (fflib_IMatcher internalMatcher : internalMatchers)
+			{
+				internalDescriptions.add('' + internalMatcher);
+			}
+			String internalDescription = String.join(internalDescriptions, ', ');
+
+			switch on connectiveExpression
+			{
+				when AT_LEAST_ONE
+				{
+					return '[any of: ' + internalDescription + ']';
+				}
+				when ALL
+				{
+					return '[all of: ' + internalDescription + ']';
+				}
+				when else
+				{
+					return '[none of: ' + internalDescription + ']';
+				}
+			}
+		}
 	}
 	
 	/*
@@ -143,6 +169,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return toMatch == arg;
 		}
+
+		public override String toString()
+		{
+			return '[equals ' + stringify(toMatch) + ']';
+		}
 	}
 	
 	/**
@@ -166,6 +197,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return toMatch === arg;
 		}
+
+		public override String toString()
+		{
+			return '[reference equals ' + stringify(toMatch) + ']';
+		}
 	}
 	
 	/*
@@ -181,6 +217,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof Boolean;
 		}
+
+		public override String toString()
+		{
+			return '[any Boolean]';
+		}
 	}
 
 	/**
@@ -191,6 +232,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof Date;
+		}
+
+		public override String toString()
+		{
+			return '[any Date]';
 		}
 	}
 
@@ -203,6 +249,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof Datetime;
 		}
+
+		public override String toString()
+		{
+			return '[any DateTime]';
+		}
 	}
 
 	/**
@@ -213,6 +264,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof Decimal;
+		}
+
+		public override String toString()
+		{
+			return '[any Decimal]';
 		}
 	}
 
@@ -225,6 +281,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof Double;
 		}
+
+		public override String toString()
+		{
+			return '[any Double]';
+		}
 	}
 
 	/**
@@ -235,6 +296,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof Schema.FieldSet;
+		}
+
+		public override String toString()
+		{
+			return '[any FieldSet]';
 		}
 	}
 
@@ -247,6 +313,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof Id;
 		}
+
+		public override String toString()
+		{
+			return '[any Id]';
+		}
 	}
 	
 	/**
@@ -257,6 +328,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof Integer;
+		}
+
+		public override String toString()
+		{
+			return '[any Integer]';
 		}
 	}
 
@@ -269,6 +345,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof List<Object>;
 		}
+
+		public override String toString()
+		{
+			return '[any list]';
+		}
 	}
 
 	/**
@@ -279,6 +360,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof Long;
+		}
+
+		public override String toString()
+		{
+			return '[any Long]';
 		}
 	}
 
@@ -291,6 +377,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null;
 		}
+
+		public override String toString()
+		{
+			return '[any Object]';
+		}
 	}
 	
 	/**
@@ -301,6 +392,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof String;
+		}
+
+		public override String toString()
+		{
+			return '[any String]';
 		}
 	}
 
@@ -313,6 +409,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof SObject;
 		}
+
+		public override String toString()
+		{
+			return '[any SObject]';
+		}
 	}
 
 	/**
@@ -324,6 +425,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof SObjectField;
 		}
+
+		public override String toString()
+		{
+			return '[any SObjectField]';
+		}
 	}
 
 	/**
@@ -334,6 +440,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof SObjectType;
+		}
+
+		public override String toString()
+		{
+			return '[any SObjectType]';
 		}
 	}
 	
@@ -371,6 +482,18 @@ public with sharing class fflib_MatcherDefinitions
 
 			return false;
 		}
+
+		public override String toString()
+		{
+			if (inclusive)
+			{
+				return '[on or after ' + JSON.serialize(fromDateTime) + ']';
+			}
+			else
+			{
+				return '[after ' + JSON.serialize(fromDateTime) + ']';
+			}
+		}
 	}
 	
 	/**
@@ -402,6 +525,18 @@ public with sharing class fflib_MatcherDefinitions
 			}
 
 			return false;
+		}
+
+		public override String toString()
+		{
+			if (inclusive)
+			{
+				return '[on or before ' + JSON.serialize(toDateTime) + ']';
+			}
+			else
+			{
+				return '[before ' + JSON.serialize(toDateTime) + ']';
+			}
 		}
 	}
 
@@ -444,6 +579,16 @@ public with sharing class fflib_MatcherDefinitions
 			}
 
 			return false;
+		}
+
+		public override String toString()
+		{
+			return String.format('[{0} {1} and {2} {3}]', new List<String>{
+				inclusiveFrom ? 'on or after' : 'after',
+				JSON.serialize(fromDateTime),
+				inclusiveTo ? 'on or before' : 'before',
+				JSON.serialize(toDateTime)
+			});
 		}
 	}
 
@@ -492,6 +637,16 @@ public with sharing class fflib_MatcherDefinitions
 
 			return false;
 		}
+
+		public override String toString()
+		{
+			return String.format('{0} {1} and {2} {3}', new List<String>{
+				inclusiveLower ? 'greater than or equal to' : 'greater than',
+				'' + lower,
+				inclusiveUpper ? 'less than or equal to' : 'less than',
+				'' + upper
+			});
+		}
 	}
 
 	/**
@@ -523,6 +678,18 @@ public with sharing class fflib_MatcherDefinitions
 			}
 
 			return false;
+		}
+
+		public override String toString()
+		{
+			if (inclusive)
+			{
+				return '[less than or equal to ' + toMatch + ']';
+			}
+			else
+			{
+				return '[less than ' + toMatch + ']';
+			}
 		}
 	}
 
@@ -556,6 +723,18 @@ public with sharing class fflib_MatcherDefinitions
 
 			return false;
 		}
+
+		public override String toString()
+		{
+			if (inclusive)
+			{
+				return '[greater than or equal to ' + toMatch + ']';
+			}
+			else
+			{
+				return '[greater than ' + toMatch + ']';
+			}
+		}
 	}
 
 	/** 
@@ -588,6 +767,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return (toMatch != null && arg != null && arg instanceof Schema.FieldSet) ? toMatch == new Set<Schema.FieldSetMember>(((FieldSet)arg).getFields()) : false;
 		}
+
+		public override String toString()
+		{
+			return '[FieldSet with fields ' + fflib_MatcherDefinitions.stringify(toMatch) + ']';
+		}
 	}
 
 	/*
@@ -603,6 +787,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null;
 		}
+
+		public override String toString()
+		{
+			return '[is not null]';
+		}
 	}
 	
 	/**
@@ -613,6 +802,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg == null;
+		}
+
+		public override String toString()
+		{
+			return '[is null]';
 		}
 	}
 
@@ -652,6 +846,11 @@ public with sharing class fflib_MatcherDefinitions
 
 			return false;
 		}
+
+		public override String toString()
+		{
+			return '[list containing ' + fflib_MatcherDefinitions.stringify(toMatch) + ']';
+		}
 	}
 
 	/**
@@ -664,6 +863,11 @@ public with sharing class fflib_MatcherDefinitions
 			return arg != null
 				&& arg instanceof List<Object>
 				&& ((List<Object>)arg).isEmpty();
+		}
+
+		public override String toString()
+		{
+			return '[empty list]';
 		}
 	}
 
@@ -697,6 +901,11 @@ public with sharing class fflib_MatcherDefinitions
 			}
 
 			return false;
+		}
+
+		public override String toString()
+		{
+			return '[SObject of type ' + objectType + ']';
 		}
 	}
 
@@ -744,6 +953,11 @@ public with sharing class fflib_MatcherDefinitions
 			}
 
 			return arg;
+		}
+
+		public override String toString()
+		{
+			return '[SObject with fields ' + fflib_MatcherDefinitions.stringify(toMatch) + ']';
 		}
 	}
 
@@ -878,6 +1092,18 @@ public with sharing class fflib_MatcherDefinitions
 
 			return arg;
 		}
+
+		public override String toString()
+		{
+			if (matchInOrder)
+			{
+				return '[ordered SObjects with ' + stringify(toMatch) + ']';
+			}
+			else
+			{
+				return '[unordered SObjects with ' + stringify(toMatch) + ']';
+			}
+		}
         
 
 	}    
@@ -938,6 +1164,11 @@ public with sharing class fflib_MatcherDefinitions
 
 			return false;
 		}
+
+		public override String toString()
+		{
+			return '[SObject with Id "' + toMatch + '"]';
+		}
 	}
 
 	/**
@@ -974,6 +1205,11 @@ public with sharing class fflib_MatcherDefinitions
 
 			return false;
 		}
+
+		public override String toString()
+		{
+			return '[SObject with Name "' + toMatch + '"]';
+		}
 	}
 
 	/*
@@ -1001,6 +1237,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof String ? ((String)arg).contains(toMatch) : false;
 		}
+
+		public override String toString()
+		{
+			return '[contains "' + toMatch + '"]';
+		}
 	}
 
 	/**
@@ -1024,6 +1265,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof String ? ((String)arg).endsWith(toMatch) : false;
 		}
+
+		public override String toString()
+		{
+			return '[ends with "' + toMatch + '"]';
+		}
 	}
 
 	/**
@@ -1034,6 +1280,11 @@ public with sharing class fflib_MatcherDefinitions
 		public Boolean matches(Object arg)
 		{
 			return arg == null || (arg instanceof String ? String.isBlank((String)arg) : false);
+		}
+
+		public override String toString()
+		{
+			return '[blank String]';
 		}
 	}
 
@@ -1046,6 +1297,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return (arg != NULL && arg instanceof String) ? String.isNotBlank((String)arg) : false;
 		}
+
+		public override String toString()
+		{
+			return '[non-blank String]';
+		}
 	}
 
 	/**
@@ -1054,6 +1310,7 @@ public with sharing class fflib_MatcherDefinitions
 	public class StringMatches implements fflib_IMatcher
 	{
 		private Pattern pat;
+		private final String regEx;
 		
 		/**
 		 * StringMatches constructor
@@ -1062,12 +1319,18 @@ public with sharing class fflib_MatcherDefinitions
 		 */
 		public StringMatches(String regEx)
 		{
+			this.regEx = regEx;
 			this.pat = Pattern.compile((String)validateNotNull(regEx));
 		}	
 		
 		public Boolean matches(Object arg)
 		{
 			return arg != null && arg instanceof String ? pat.matcher((String)arg).matches() : false;
+		}
+
+		public override String toString()
+		{
+			return '[matches regex "' + regEx + '"]';
 		}
 	}
 
@@ -1092,6 +1355,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			return arg != null && arg instanceof String ? ((String)arg).startsWith(toMatch) : false;
 		}
+
+		public override String toString()
+		{
+			return '[starts with "' + toMatch + '"]';
+		}
 	}
 
 	/*
@@ -1106,5 +1374,17 @@ public with sharing class fflib_MatcherDefinitions
 		}
 		
 		return arg;
+	}
+
+	public static String stringify(Object value)
+	{
+		try
+		{
+			return JSON.serialize(value, false);
+		}
+		catch (Exception error)
+		{
+			return '' + value;
+		}
 	}
 }

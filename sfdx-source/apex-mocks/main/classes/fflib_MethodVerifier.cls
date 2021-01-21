@@ -62,22 +62,93 @@ public abstract class fflib_MethodVerifier
 		Integer expectedCount,
 		String qualifier,
 		Integer methodCount,
-		String customAssertMessage)
+		String customAssertMessage,
+		fflib_MethodArgValues expectedArguments,
+		List<fflib_IMatcher> expectedMatchers,
+		List<fflib_MethodArgValues> actualArguments)
 	{
-		String assertMessage = 'Wanted but not invoked: ' + qm + '.';
+		String template = 'EXPECTED COUNT: {0}{1}{2}' // qualified expected count (e.g. "3 or fewer times in order")
+			+ '\nACTUAL COUNT: {3}' // actual count
+			+ '\nMETHOD: {4}' // method signature
+			+ '{5}'; // custom assert message
 
-		if(customAssertMessage != null)
+		String expectedDescription = '';
+		String actualDescription = '';
+
+		if (qm.hasArguments())
 		{
-			assertMessage = assertMessage + ' ' + customAssertMessage + '.';
+			template += '\n---' // separator
+				+ '\nACTUAL ARGS: {6}' // actual args
+				+ '\n---' // separator
+				+ '\nEXPECTED ARGS: {7}'; // matcher descriptions 
+
+			if (expectedMatchers == null)
+			{
+				expectedDescription = describe(expectedArguments);
+			}
+			else
+			{
+				expectedDescription = describe(expectedMatchers);
+			}
+			actualDescription = describe(actualArguments);
 		}
 
-		String message = '{0}Expected : {1}{2}, Actual: {3} -- {4}';
+		String message = String.format(template, new List<String>{
+			'' + expectedCount,
+			String.isBlank(qualifier) ? '' : ('' + qualifier),
+			inOrder,
+			'' + methodCount,
+			'' + qm,
+			String.isBlank(customAssertMessage) ? '' : ('\n' + customAssertMessage),
+			actualDescription,
+			expectedDescription
+		});
 
-		List<String> errorParameters = new List<String>
+		throw new fflib_ApexMocks.ApexMocksException(message);
+	}
+
+	private static String describe(List<fflib_IMatcher> matchers)
+	{
+		List<String> descriptions = new List<String>();
+		for (fflib_IMatcher matcher : matchers)
 		{
-			inOrder, expectedCount + '', qualifier, methodCount + '', assertMessage
-		};
+			descriptions.add('' + matcher);
+		}
 
-		throw new fflib_ApexMocks.ApexMocksException(String.format(message, errorParameters));
+		return String.join(descriptions, ', ');
+	}
+
+	private static String describe(List<fflib_MethodArgValues> valuesFromAllInvocations)
+	{
+		List<String> descriptions = new List<String>();
+		if (valuesFromAllInvocations != null)
+		{
+			for (fflib_MethodArgValues valuesFromOneInvocation : valuesFromAllInvocations)
+			{
+				descriptions.add(describe(valuesFromOneInvocation));
+			}
+		}
+
+		return '(' + String.join(descriptions, '), (') + ')';
+	}
+
+	private static String describe(fflib_MethodArgValues values)
+	{
+		List<String> descriptions = new List<String>();
+		for (Object value : values.argValues)
+		{
+			try
+			{
+				// Attempt to JSON serialize - that way it doesn't truncate SObject fields etc.
+				// Bear in mind that something are not JSON serializable, e.g. things with circular references.
+				descriptions.add(JSON.serialize(value));
+			}
+			catch (Exception error)
+			{
+				descriptions.add('' + value);
+			}
+		}
+
+		return String.join(descriptions, ', ');
 	}
 }

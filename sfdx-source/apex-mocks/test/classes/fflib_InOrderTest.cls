@@ -26,8 +26,23 @@ private class fflib_InOrderTest
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-3');
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
 
-		assertVerifyInOrderExceptionForAddMethod('1-2', inOrder1, firstMock,
-			'It should fail because 1-2 is in the wrong order', 1, 0 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
+			System.assert(false, 'It should fail because 1-2 is in the wrong order');
+		}
+		catch (fflib_ApexMocks.ApexMocksException error)
+		{
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("1-2"), ("1-3"), ("1-4")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-2"',
+				error.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -70,8 +85,23 @@ private class fflib_InOrderTest
 		// Then
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
 
-		assertVerifyInOrderExceptionForAddMethod('1-1', inOrder1, firstMock,
-			'It should fail because 1-1 is called before the addMore(1-1)', 1, 0 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
+			System.assert(false, 'It should fail because 1-1 is called before the addMore(1-1)');
+		}
+		catch (fflib_ApexMocks.ApexMocksException error)
+		{
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("1-1"), ("1-2"), ("1-2")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-1"',
+				error.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -90,8 +120,23 @@ private class fflib_InOrderTest
 		// Then
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
 
-		assertVerifyInOrderExceptionForAddMoreMethod('1-1', inOrder1, firstMock,
-			'It should fail because addMore(1-1) is called only Once', 1, 0 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
+			System.assert(false, 'It should fail because addMore(1-1) is called only Once');
+		}
+		catch (fflib_ApexMocks.ApexMocksException error)
+		{
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.addMore(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("1-1"), ("1-2"), ("1-2")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				error.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -131,8 +176,23 @@ private class fflib_InOrderTest
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).add(fflib_Match.stringStartsWith('1-1'));
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
 
-		assertVerifyInOrderExceptionForAddMethod('1-11', inOrder1, firstMock,
-			'It should fail because addMore(1-11) has been already verified using the matchers', 1, 0 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-11');
+			System.assert(false, 'It should fail because addMore(1-11) has been already verified using the matchers');
+		}
+		catch (fflib_ApexMocks.ApexMocksException error)
+		{
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-0"), ("1-11"), ("1-12"), ("1-3"), ("1-4")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-11"',
+				error.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -202,8 +262,23 @@ private class fflib_InOrderTest
 		// Then
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add(fflib_Match.stringStartsWith('1-'));
 
-		assertVerifyInOrderExceptionForAddMethod('1-11', inOrder1, firstMock,
-			'It should fail because only one call for the 2- is available to verify', 4, 0 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add('1-11');
+			System.assert(false, 'It should fail because only one call for the 2- is available to verify');
+		}
+		catch (fflib_ApexMocks.ApexMocksException error)
+		{
+			System.assertEquals('EXPECTED COUNT: 4 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-2"), ("2-2"), ("1-3"), ("2-3"), ("1-4"), ("2-4")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-11"',
+				error.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -223,8 +298,23 @@ private class fflib_InOrderTest
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-4');
 
-		assertVerifyInOrderExceptionForAddMethod('1-2', inOrder1, firstMock,
-			'It should fail because is out of order', 1, 0 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
+			System.assert(false, 'It should fail because is out of order');
+		}
+		catch (fflib_ApexMocks.ApexMocksException error)
+		{
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("1-2"), ("1-3"), ("1-4")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-2"',
+				error.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -283,9 +373,23 @@ private class fflib_InOrderTest
 		firstMock.add('1-4');
 
 		// Then
-
-		assertVerifyInOrderExceptionForAddMethod('1-2', inOrder1, firstMock,
-			'It should fail because is actually called only 3 times', 4, 3 );
+		try
+		{
+			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add('1-2');
+			System.assert(false, 'It should fail because is actually called only 3 times');
+		}
+		catch (fflib_ApexMocks.ApexMocksException e)
+		{
+			System.assertEquals('EXPECTED COUNT: 4 in order'
+				+'\nACTUAL COUNT: 3'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("1-2"), ("1-2"), ("1-2"), ("1-3"), ("1-4")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-2"',
+				e.getMessage(),
+				'Unexpected verify fail message');
+		}
 	}
 
 	@isTest
@@ -385,9 +489,15 @@ private class fflib_InOrderTest
 		}
 		catch(fflib_ApexMocks.ApexMocksException mockexcep)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-			System.assertEquals(expectedMessage, mockexcep.getMessage(),
-				'an exception has been caught as expected, however the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "2-1"',
+				mockexcep.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -414,11 +524,16 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String). Some custom error message.';
-			System.assertEquals(
-				expectedMessage,
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+ '\nACTUAL COUNT: 0'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\nSome custom error message'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("1-2")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
 				e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -558,10 +673,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 0 in order'
+				+ '\nACTUAL COUNT: 4'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				e.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -592,10 +712,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			String expectedMessage = 'In Order: Expected : 0, Actual: 4 -- Wanted but not invoked: ' + fflib_MyList.getStubClassName() + '.add(String).';
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 0 in order'
+				+ '\nACTUAL COUNT: 4'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: [starts with "1-"]',
+				e.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -763,7 +888,6 @@ private class fflib_InOrderTest
 		fflib_MyList secondMock = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(MY_MOCKS, new List<Object>{ firstMock });
 
-
 		// When
 		secondMock.add('1-2');
 		//Then
@@ -882,8 +1006,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 4, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 4 in order'
+				+'\nACTUAL COUNT: 3'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -918,8 +1049,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1"), ("1-1"), ("1-1")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "2-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -997,8 +1135,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-3"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1027,8 +1172,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("2-1"), ("1-1"), ("1-1")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "2-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1080,8 +1232,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 2, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 2 in order'
+				+ '\nACTUAL COUNT: 3'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1111,8 +1270,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 4, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 4 in order'
+				+ '\nACTUAL COUNT: 3'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1258,8 +1424,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 5, Actual: 4 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 5 in order'
+				+ '\nACTUAL COUNT: 4'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1317,8 +1490,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 4 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 4'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1"), ("1-1"), ("2-1")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1370,8 +1550,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 2, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 2 in order'
+				+ '\nACTUAL COUNT: 3'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1401,8 +1588,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 4, Actual: 3 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 4 in order'
+				+ '\nACTUAL COUNT: 3'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1458,8 +1652,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 5, Actual: 4 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 5 in order'
+				+ '\nACTUAL COUNT: 4'
+				+ '\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+ '\n---'
+				+ '\nACTUAL ARGS: ("1-1"), ("2-1"), ("1-1"), ("1-1"), ("1-1"), ("2-1"), ("1-1"), ("2-1")'
+				+ '\n---'
+				+ '\nEXPECTED ARGS: "1-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1543,8 +1744,15 @@ private class fflib_InOrderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
-			String expectedMessage = 'In Order: Expected : 1, Actual: 0 -- Wanted but not invoked: fflib_MyList__sfdc_ApexStub.add(String).';
-			System.assertEquals(expectedMessage, mockExcept.getMessage(), ' the error message is not as expected');
+			System.assertEquals('EXPECTED COUNT: 1 in order'
+				+'\nACTUAL COUNT: 0'
+				+'\nMETHOD: fflib_MyList__sfdc_ApexStub.add(String)'
+				+'\n---'
+				+'\nACTUAL ARGS: ("1-1"), ("1-1"), ("1-1"), ("2-1"), ("2-1"), ("2-1"), ("2-1"), ("2-1"), ("1-1")'
+				+'\n---'
+				+'\nEXPECTED ARGS: "2-1"',
+				mockExcept.getMessage(),
+				'Unexpected verify fail message');
 		}
 	}
 
@@ -1619,65 +1827,5 @@ private class fflib_InOrderTest
 		((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(2))).get2(fflib_Match.eqInteger(1), (String) argument.capture());
 
 		System.assertEquals('2-1', (string) argument.getValue(), 'the last value captured is not as expected');
-	}
-
-	private static void assertVerifyInOrderExceptionForAddMoreMethod(
-		String argument,
-		fflib_InOrder inOrderInstance,
-		fflib_MyList.IList mockToVerify,
-		String expectedFailingReasson,
-		Integer expectedCount,
-		Integer actualCounts
-		)
-	{
-		try
-		{
-			((fflib_MyList.IList)inOrderInstance.verify(mockToVerify, MY_MOCKS.calls(1))).addMore(argument);
-			System.assert(false, 'expected some exception ' + expectedFailingReasson);
-		}
-		catch (fflib_ApexMocks.ApexMocksException e)
-		{
-			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: {2}.addMore(String).';
-
-			String expectedMessage = String.format(message, new List<String>{
-					'' + expectedCount,
-					'' + actualCounts,
-					fflib_MyList.getStubClassName()
-				});
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
-		}
-	}
-
-
-	private static void assertVerifyInOrderExceptionForAddMethod(
-		String argument,
-		fflib_InOrder inOrderInstance,
-		fflib_MyList.IList mockToVerify,
-		String expectedFailingReasson,
-		Integer expectedCount,
-		Integer actualCounts
-		)
-	{
-		try
-		{
-			((fflib_MyList.IList)inOrderInstance.verify(mockToVerify, MY_MOCKS.calls(expectedCount))).add(argument);
-			System.assert(false, 'expected some exception ' + expectedFailingReasson);
-		}
-		catch (fflib_ApexMocks.ApexMocksException e)
-		{
-
-			String message = 'In Order: Expected : {0}, Actual: {1} -- Wanted but not invoked: {2}.add(String).';
-
-			String expectedMessage = String.format(message, new List<String>{
-					'' + expectedCount,
-					'' + actualCounts,
-					fflib_MyList.getStubClassName()
-				});
-
-			System.assertEquals(expectedMessage, e.getMessage(),
-				'the verify throw an Exception, but the message is not as expected');
-		}
 	}
 }

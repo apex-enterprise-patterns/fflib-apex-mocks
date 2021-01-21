@@ -138,6 +138,29 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenCombinedMatcherToStringReturnsExpectedString()
+	{
+		List<fflib_IMatcher> innerMatchers = new List<fflib_IMatcher>{
+			new StringMatcher('one'),
+			new StringMatcher('two'),
+			new StringMatcher('three')
+		};
+
+		System.assertEquals(
+			'[any of: "one", "two", "three"]',
+			'' + new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.AT_LEAST_ONE, innerMatchers)
+		);
+		System.assertEquals(
+			'[all of: "one", "two", "three"]',
+			'' + new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, innerMatchers)
+		);
+		System.assertEquals(
+			'[none of: "one", "two", "three"]',
+			'' + new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.NONE, innerMatchers)
+		);
+	}
+
+	@isTest
 	private static void constructEq_WithNullArg_ThrowsException()
 	{
 		try
@@ -161,6 +184,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches(new List<String> {'bob'}));
 		System.assert(matcher.matches(s2));
 		System.assert(matcher.matches(s1));		
+	}
+
+	@isTest
+	private static void whenEqToStringShouldReturnExpectedString()
+	{
+		System.assertEquals('[equals 1]', '' + new fflib_MatcherDefinitions.Eq(1));
 	}
 
 	@isTest
@@ -199,6 +228,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyBooleanToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Boolean]', '' + new fflib_MatcherDefinitions.AnyBoolean());
+	}
+
+	@isTest
 	private static void whenAnyDateMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDate();
@@ -208,12 +243,24 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyDateToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Date]', '' + new fflib_MatcherDefinitions.AnyDate());
+	}
+
+	@isTest
 	private static void whenAnyDatetimeMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDatetime();
 		System.assert(!matcher.matches(null));
 		System.assert(matcher.matches(NOW));
 		System.assert(matcher.matches(TODAY));
+	}
+
+	@isTest
+	private static void whenAnyDatetimeToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any DateTime]', '' + new fflib_MatcherDefinitions.AnyDatetime());
 	}
 
 	@isTest
@@ -228,6 +275,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyDecimalToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Decimal]', '' + new fflib_MatcherDefinitions.AnyDecimal());
+	}
+
+	@isTest
 	private static void whenAnyDoubleMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDouble();
@@ -236,6 +289,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(matcher.matches(9));
 		System.assert(matcher.matches(9L));
 		System.assert(matcher.matches(9.99));
+	}
+
+	@isTest
+	private static void whenAnyDoubleToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Double]', '' + new fflib_MatcherDefinitions.AnyDouble());
 	}
 
 	@isTest
@@ -253,6 +312,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyFieldSetToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any FieldSet]', '' + new fflib_MatcherDefinitions.AnyFieldSet());
+	}
+
+	@isTest
 	private static void whenAnyIdMatchesShouldReturnCorrectResults()
 	{
 		String idString = fflib_IDGenerator.generate(Account.SObjectType);
@@ -262,6 +327,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches('bob'));
 		System.assert(matcher.matches(idString));
 		System.assert(matcher.matches(accountId));
+	}
+
+	@isTest
+	private static void whenAnyIdToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Id]', '' + new fflib_MatcherDefinitions.AnyId());
 	}
 
 	@isTest
@@ -276,6 +347,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyIntegerToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Integer]', '' + new fflib_MatcherDefinitions.AnyInteger());
+	}
+
+	@isTest
 	private static void whenAnyListMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyList();
@@ -284,6 +361,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(matcher.matches(new List<String>()));
 		System.assert(matcher.matches(new List<Integer>()));
 		System.assert(matcher.matches(new List<Object>()));
+	}
+
+	@isTest
+	private static void whenAnyListToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any list]', '' + new fflib_MatcherDefinitions.AnyList());
 	}
 
 	@isTest
@@ -298,6 +381,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyLongToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Long]', '' + new fflib_MatcherDefinitions.AnyLong());
+	}
+
+	@isTest
 	private static void whenAnyObjectMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyObject();
@@ -305,6 +394,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(matcher.matches('bob'));
 		System.assert(matcher.matches(9));
 		System.assert(matcher.matches(new List<String>()));
+	}
+
+	@isTest
+	private static void whenAnyObjectToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any Object]', '' + new fflib_MatcherDefinitions.AnyObject());
 	}
 
 	@isTest
@@ -317,12 +412,24 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnyStringToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any String]', '' + new fflib_MatcherDefinitions.AnyString());
+	}
+
+	@isTest
 	private static void whenAnySObjectMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObject();
 		System.assert(!matcher.matches(null));
 		System.assert(!matcher.matches('bob'));
 		System.assert(matcher.matches(new Account()));
+	}
+
+	@isTest
+	private static void whenAnySObjectToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any SObject]', '' + new fflib_MatcherDefinitions.AnySObject());
 	}
 
 	@isTest
@@ -335,12 +442,24 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenAnySObjectFieldToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any SObjectField]', '' + new fflib_MatcherDefinitions.AnySObjectField());
+	}
+
+	@isTest
 	private static void whenAnySObjectTypeMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObjectType();
 		System.assert(!matcher.matches(null));
 		System.assert(!matcher.matches(new Account()));
 		System.assert(matcher.matches(Account.SObjectType));
+	}
+
+	@isTest
+	private static void whenAnySObjectTypeToStringReturnsExpectedString()
+	{
+		System.assertEquals('[any SObjectType]', '' + new fflib_MatcherDefinitions.AnySObjectType());
 	}
 
 	@isTest
@@ -394,6 +513,34 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenDatetimeAfterWithInclusiveToStringReturnsExpectedString()
+	{
+		// Given
+		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(fromDate, true);
+
+		// When
+		String actual = '' + matcher;
+
+		// Then
+		System.assertEquals('[on or after "2019-01-01T12:00:00.000Z"]', actual);
+	}
+
+	@isTest
+	private static void whenDatetimeAfterWithNotInclusiveToStringReturnsExpectedString()
+	{
+		// Given
+		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(fromDate, false);
+
+		// When
+		String actual = '' + matcher;
+
+		// Then
+		System.assertEquals('[after "2019-01-01T12:00:00.000Z"]', actual);
+	}
+
+	@isTest
 	private static void constructDatetimeBefore_WithNullToDatetime_ThrowsException()
 	{
 		try
@@ -441,6 +588,34 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches(NOW.addSeconds(1)));
 		System.assert(matcher.matches(NOW));
 		System.assert(matcher.matches(NOW.addSeconds(-1)));
+	}
+
+	@isTest
+	private static void whenDatetimeBeforeWithInclusiveToStringReturnsExpectedString()
+	{
+		// Given
+		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(toDate, true);
+
+		// When
+		String actual = '' + matcher;
+
+		// Then
+		System.assertEquals('[on or before "2019-01-01T12:00:00.000Z"]', actual);
+	}
+
+	@isTest
+	private static void whenDatetimeBeforeWithNotInclusiveToStringReturnsExpectedString()
+	{
+		// Given
+		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(toDate, false);
+
+		// When
+		String actual = '' + matcher;
+
+		// Then
+		System.assertEquals('[before "2019-01-01T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -521,6 +696,36 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches(NOW.addSeconds(-1)));
 		System.assert(matcher.matches(NOW));
 		System.assert(matcher.matches(NOW.addSeconds(1)));
+	}
+
+	@isTest
+	private static void whenDatetimeBetweenWithInclusiveToStringReturnsExpectedString()
+	{
+		// Given
+		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 3, 12, 0, 0);
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(fromDate, true, toDate, true);
+
+		// When
+		String actual = '' + matcher;
+
+		// Then
+		System.assertEquals('[on or after "2019-01-01T12:00:00.000Z" and on or before "2019-01-03T12:00:00.000Z"]', actual);
+	}
+
+	@isTest
+	private static void whenDatetimeBetweenWithNotInclusiveToStringReturnsExpectedString()
+	{
+		// Given
+		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 3, 12, 0, 0);
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(fromDate, false, toDate, false);
+
+		// When
+		String actual = '' + matcher;
+
+		// Then
+		System.assertEquals('[after "2019-01-01T12:00:00.000Z" and before "2019-01-03T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -779,11 +984,23 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenIsNullToStringReturnsExpectedString()
+	{
+		System.assertEquals('[is null]', '' + new fflib_MatcherDefinitions.IsNull());
+	}
+
+	@isTest
 	private static void whenIsNotNullMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.IsNotNull();
 		System.assert(!matcher.matches(null));
 		System.assert(matcher.matches('bob'));
+	}
+
+	@isTest
+	private static void whenIsNotNullToStringReturnsExpectedString()
+	{
+		System.assertEquals('[is not null]', '' + new fflib_MatcherDefinitions.IsNotNull());
 	}
 
 	@isTest
@@ -800,6 +1017,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenListContainsToStringReturnsExpectedString()
+	{
+		System.assertEquals('[list containing "hello"]', '' + new fflib_MatcherDefinitions.ListContains('hello'));
+	}
+
+	@isTest
 	private static void whenListIsEmptyMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.ListIsEmpty();
@@ -811,6 +1034,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches(names));
 		System.assert(matcher.matches(empty));
 		System.assert(!matcher.matches('NotAList'));
+	}
+
+	@isTest
+	private static void whenListIsEmptyToStringReturnsExpectedString()
+	{
+		System.assertEquals('[empty list]', '' + new fflib_MatcherDefinitions.ListIsEmpty());
 	}
 
 	@isTest
@@ -838,6 +1067,12 @@ public class fflib_MatcherDefinitionsTest
 
 		System.assert(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
 		System.assert(matcher.matches(ACCOUNT_RECORD));
+	}
+
+	@isTest
+	private static void whenSObjectOfTypeToStringReturnsExpectedString()
+	{
+		System.assertEquals('[SObject of type Account]', '' + new fflib_MatcherDefinitions.SObjectOfType(ACCOUNT_OBJECT_TYPE));
 	}
 
 	@isTest
@@ -897,6 +1132,15 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(matcher.matches(ACCOUNT_RECORD));
 
 		System.assert(!new fflib_MatcherDefinitions.SObjectWith(notQueriedFieldValues).matches(ACCOUNT_RECORD));
+	}
+
+	@isTest
+	private static void whenSObjectWithToStringReturnsExpectedString()
+	{
+		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWith(new Map<Schema.SObjectField, Object>{
+			Account.Name => 'Test'
+		});
+		System.assertEquals('[SObject with fields {"Name":"Test"}]', '' + matcher);
 	}
 
 	@isTest
@@ -1033,6 +1277,19 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenSObjectsWithToStringReturnsExpectedString()
+	{
+		List<Map<Schema.SObjectField, Object>> toMatch = new List<Map<Schema.SObjectField, Object>>{
+			new Map<Schema.SObjectField, Object> {
+				Account.Name => 'Test'
+			}
+		};
+
+		System.assertEquals('[ordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, true));
+		System.assertEquals('[unordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, false));
+	}
+
+	@isTest
 	private static void constructSObjectWithId_WithNullArg_ThrowsException()
 	{
 		try
@@ -1057,6 +1314,13 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches('NotASObject'));
 
 		System.assert(matcher.matches(ACCOUNT_RECORD));
+	}
+
+	@isTest
+	private static void whenSObjectWithIdToStringReturnsExpectedString()
+	{
+		Id recordId = '001000000000001AAA';
+		System.assertEquals('[SObject with Id "001000000000001AAA"]', '' + new fflib_MatcherDefinitions.SObjectWithId(recordId));
 	}
 
 	@isTest
@@ -1087,6 +1351,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenSObjectWithNameToStringReturnsExpectedString()
+	{
+		System.assertEquals('[SObject with Name "Test"]', '' + new fflib_MatcherDefinitions.SObjectWithName('Test'));
+	}
+
+	@isTest
 	private static void whenStringContainsMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringContains('bob');
@@ -1110,6 +1380,12 @@ public class fflib_MatcherDefinitionsTest
 		{
 			System.assertEquals('Arg cannot be null: null', e.getMessage());
 		}
+	}
+
+	@isTest
+	private static void whenStringContainsToStringReturnsExpectedStrings()
+	{
+		System.assertEquals('[contains "hello"]', '' + new fflib_MatcherDefinitions.StringContains('hello'));
 	}
 
 	@isTest
@@ -1139,6 +1415,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenStringEndsWithToStringReturnsExpectedStrings()
+	{
+		System.assertEquals('[ends with "hello"]', '' + new fflib_MatcherDefinitions.StringEndsWith('hello'));
+	}
+
+	@isTest
 	private static void whenIsBlankWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringIsBlank();
@@ -1149,6 +1431,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenStringIsBlankToStringReturnsExpectedStrings()
+	{
+		System.assertEquals('[blank String]', '' + new fflib_MatcherDefinitions.StringIsBlank());
+	}
+
+	@isTest
 	private static void whenIsNotBlankWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringIsNotBlank();
@@ -1156,6 +1444,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches(null));
 		System.assert(!matcher.matches(''));
 		System.assert(matcher.matches('bob'));
+	}
+
+	@isTest
+	private static void whenStringIsNotBlankToStringReturnsExpectedStrings()
+	{
+		System.assertEquals('[non-blank String]', '' + new fflib_MatcherDefinitions.StringIsNotBlank());
 	}
 
 	@isTest
@@ -1170,6 +1464,12 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches('bob1'));
 		System.assert(matcher.matches('bobby'));
 		System.assert(matcher.matches('mo'));
+	}
+
+	@isTest
+	private static void whenStringMatchesToStringReturnsExpectedStrings()
+	{
+		System.assertEquals('[matches regex "hello"]', '' + new fflib_MatcherDefinitions.StringMatches('hello'));
 	}
 
 	@isTest
@@ -1199,6 +1499,12 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenStringStartsWithToStringReturnsExpectedStrings()
+	{
+		System.assertEquals('[starts with "hello"]', '' + new fflib_MatcherDefinitions.StringStartsWith('hello'));
+	}
+
+	@isTest
 	private static void constructStringStartsWith_WithNullArg_ThrowsException()
 	{
 		try
@@ -1209,6 +1515,26 @@ public class fflib_MatcherDefinitionsTest
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
 			System.assertEquals('Arg cannot be null: null', e.getMessage());
+		}
+	}
+
+	private class StringMatcher implements fflib_IMatcher
+	{
+		private final String value;
+
+		public StringMatcher(String value)
+		{
+			this.value = value;
+		}
+
+		public Boolean matches(Object arg)
+		{
+			return true;
+		}
+
+		public override String toString()
+		{
+			return '"' + value + '"';
 		}
 	}
 }
