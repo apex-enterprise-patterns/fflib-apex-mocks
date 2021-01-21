@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - 80-trying-pull-request-target
   pull_request_target:
   
   
@@ -13,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: echo ${{github.event}}
       - uses: actions/checkout@v2 #Check out this repo
         with:
           ref: ${{github.event.pull_request.head.ref}}
