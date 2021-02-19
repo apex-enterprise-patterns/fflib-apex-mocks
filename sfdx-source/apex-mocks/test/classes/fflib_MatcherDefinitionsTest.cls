@@ -218,6 +218,13 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenRefEqToStringReturnsExpectedString()
+	{
+        List<String> s1 = new List<String> {'bob', 'tom'};
+		System.assertEquals('[reference equals ' + JSON.serialize(s1, false) + ']', '' + new fflib_MatcherDefinitions.RefEq(s1));
+	}
+
+	@isTest
 	private static void whenAnyBooleanMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyBoolean();
@@ -837,6 +844,24 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenDecimalBetweenToStringReturnsExpectedString()
+	{
+		Integer lower = 5;
+		Integer upper = 10;
+
+		List<Integer> formatList = new List<Integer>{lower, upper};
+
+		System.assertEquals(String.format('greater than {0} and less than {1}', formatList), 
+			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, false, upper, false));
+		System.assertEquals(String.format('greater than {0} and less than or equal to {1}', formatList),
+			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, false, upper, true));
+		System.assertEquals(String.format('greater than or equal to {0} and less than {1}', formatList),
+			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, true, upper, false));
+		System.assertEquals(String.format('greater than or equal to {0} and less than or equal to {1}', formatList),
+			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, true, upper, true));
+	}
+
+	@isTest
 	private static void constructDecimalLessThan_WithNullToMatch_ThrowsException()
 	{
 		try
@@ -885,6 +910,17 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!inclusive.matches(toMatch + 1));
 		System.assert(!inclusive.matches(null));
 		System.assert(!inclusive.matches('NotADecimal'));
+	}
+
+	@isTest
+	private static void whenDecimalLessThanToStringReturnsExpectedString()
+	{
+		Integer toMatch = 5;
+
+		System.assertEquals('[less than or equal to ' + toMatch + ']',
+			'' + new fflib_MatcherDefinitions.DecimalLessThan(toMatch, true));
+		System.assertEquals('[less than ' + toMatch + ']', 
+			'' + new fflib_MatcherDefinitions.DecimalLessThan(toMatch, false));
 	}
 
 	@isTest
@@ -939,6 +975,17 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenDecimalMoreThanToStringReturnsExpectedString()
+	{
+		Integer toMatch = 5;
+
+		System.assertEquals('[greater than or equal to ' + toMatch + ']',
+			'' + new fflib_MatcherDefinitions.DecimalMoreThan(toMatch, true));
+		System.assertEquals('[greater than ' + toMatch + ']', 
+			'' + new fflib_MatcherDefinitions.DecimalMoreThan(toMatch, false));
+	}
+
+	@isTest
 	private static void constructFieldSetEquivalentTo_WithNullFieldSet_ThrowsException()
 	{
 		try
@@ -973,6 +1020,20 @@ public class fflib_MatcherDefinitionsTest
 		System.assert(!matcher.matches(null));
 		System.assert(!matcher.matches('hello'));
 		System.assert(matcher.matches(anyFieldSet));
+	}
+
+	@isTest
+	private static void whenFieldSetEquivalentToToStringReturnsExpectedString()
+	{
+		Schema.FieldSet anyFieldSet = fflib_ApexMocksUtilsTest.findAnyFieldSet();
+		if (anyFieldSet == null)
+		{
+			return;
+		}
+		Set<Schema.FieldSetMember> fieldSetMembers = new Set<Schema.FieldSetMember>((anyFieldSet).getFields());
+
+		System.assertEquals('[FieldSet with fields ' + JSON.serialize(fieldSetMembers, false) + ']', 
+			'' + new fflib_MatcherDefinitions.FieldSetEquivalentTo(anyFieldSet));
 	}
 
 	@isTest
