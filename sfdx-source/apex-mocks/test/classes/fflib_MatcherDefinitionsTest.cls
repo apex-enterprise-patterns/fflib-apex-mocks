@@ -1351,6 +1351,31 @@ public class fflib_MatcherDefinitionsTest
 	}
 
 	@isTest
+	private static void whenSObjectsWithDifferentArityMatchesShouldReturnFalse()
+	{
+		List<Map<Schema.SObjectField, Object>> toMatch = new List<Map<Schema.SObjectField, Object>>{
+			new Map<Schema.SObjectField, Object> {
+				Account.Name => 'Test'
+			}
+		};
+		Boolean matchResult = new fflib_MatcherDefinitions.SObjectsWith(toMatch).matches(new List<SObject>{});
+		System.assertEquals(matchResult, false);	
+	}
+
+	@isTest
+	private static void constructSObjectsWith_WithNullArg_ThrowsException()
+	{
+		try {
+			new fflib_MatcherDefinitions.SObjectsWith(null);
+			System.assert(false, 'Expected exception');
+		}
+		catch (fflib_ApexMocks.ApexMocksException e)
+		{
+			System.assertEquals('Arg cannot be null/empty/other than list of map<Schema.SobjectField,Object>: null', e.getMessage());
+		}
+	}
+
+	@isTest
 	private static void constructSObjectWithId_WithNullArg_ThrowsException()
 	{
 		try
@@ -1577,6 +1602,14 @@ public class fflib_MatcherDefinitionsTest
 		{
 			System.assertEquals('Arg cannot be null: null', e.getMessage());
 		}
+	}
+
+	@isTest
+	private static void whenJSONExceptionOccursStringifyShouldReturnsObjectToString()
+	{
+		// SObjectField object definitely can't be serialized by JSON.serialize() method
+		Schema.SObjectField sObjField = Account.Description;
+		System.assertEquals('' + sObjField, fflib_MatcherDefinitions.stringify(sObjField));
 	}
 
 	private class StringMatcher implements fflib_IMatcher
