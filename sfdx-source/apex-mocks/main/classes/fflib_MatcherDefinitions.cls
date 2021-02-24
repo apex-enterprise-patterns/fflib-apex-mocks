@@ -200,7 +200,7 @@ public with sharing class fflib_MatcherDefinitions
 
 		public override String toString()
 		{
-			return '[reference equals ' + stringify(toMatch) + ']';
+			return '[reference equals ' + fflib_MatcherDefinitions.stringify(toMatch) + ']';
 		}
 	}
 	
@@ -1097,11 +1097,11 @@ public with sharing class fflib_MatcherDefinitions
 		{
 			if (matchInOrder)
 			{
-				return '[ordered SObjects with ' + stringify(toMatch) + ']';
+				return '[ordered SObjects with ' + fflib_MatcherDefinitions.stringify(toMatch) + ']';
 			}
 			else
 			{
-				return '[unordered SObjects with ' + stringify(toMatch) + ']';
+				return '[unordered SObjects with ' + fflib_MatcherDefinitions.stringify(toMatch) + ']';
 			}
 		}
         
