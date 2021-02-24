@@ -3,10 +3,10 @@
  */
 public with sharing class fflib_QualifiedMethod
 {
-	private Object mockInstance;
-	private String typeName;
-	private String methodName;
-	private List<Type> methodArgTypes;
+	public final Object mockInstance;
+	public final String typeName;
+	public final String methodName;
+	public final List<Type> methodArgTypes;
 	
 	public fflib_QualifiedMethod(String typeName, String methodName, List<Type> methodArgTypes)
 	{
@@ -69,5 +69,14 @@ public with sharing class fflib_QualifiedMethod
 	public override String toString()
 	{
 		return typeName + '.' + methodName + methodArgTypes;
+	}
+
+	/**
+	 * Predicate describing whether the qualified method accepts arguments or not.
+	 * @return True if the method accepts arguments.
+	 */
+	public Boolean hasArguments()
+	{
+		return this.methodArgTypes != null && !this.methodArgTypes.isEmpty();
 	}
 }

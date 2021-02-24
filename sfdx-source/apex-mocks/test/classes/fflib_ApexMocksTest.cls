@@ -1598,6 +1598,12 @@ private class fflib_ApexMocksTest
 	{
 		System.assertEquals(expectedValue, MY_MOCK_LIST.get2(2, 'Hello.'), 'the method did not returned the expected value');
 	}
+	
+	@isTest
+	static void thatToStringReturnsSimpleStringValue()
+	{
+		System.assertEquals('fflib_ApexMocks', '' + new fflib_ApexMocks());
+	}
 
 	private class MyException extends Exception
 	{

@@ -111,30 +111,36 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	 * The in-order verifier remembers the last method invocation it successfully verified,
 	 * and only considers subsequent method invocations for subsequent verifications.
 	 * @param qualifiedMethod The method to be verified.
-	 * @param methodArg The arguments of the method that needs to be verified.
+	 * @param expectedArguments The arguments of the method that needs to be verified.
 	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
 	 */
 	protected override void verify(
 		fflib_QualifiedMethod qm,
-		fflib_MethodArgValues methodArg,
+		fflib_MethodArgValues expectedArguments,
 		fflib_VerificationMode verificationMode)
 	{
-		String inOrder = 'In Order: ';
-		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(methodArg.argValues.size()) : null;
+		String inOrder = ' in order';
+		List<fflib_IMatcher> matchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(expectedArguments.argValues.size()) : null;
+		List<fflib_InvocationOnMock> actualInvocations = fflib_MethodCountRecorder.getOrderedMethodCalls();
+		List<fflib_MethodArgValues> actualArguments = new List<fflib_MethodArgValues>();
+		for (fflib_InvocationOnMock invocation : actualInvocations)
+		{
+			actualArguments.add(invocation.getMethodArgValues());
+		}
 
 		if( verificationMode.VerifyMin == 0 && verificationMode.VerifyMax == 0)
 		{
-			Integer methodCounts = countInteractions(matchers, qm, methodArg);
+			Integer methodCounts = countInteractions(matchers, qm, expectedArguments);
 			if(methodCounts != 0 )
-				throwException(qm, inOrder, fflib_ApexMocks.NEVER, '', methodCounts, verificationMode.CustomAssertMessage);
+				throwException(qm, inOrder, fflib_ApexMocks.NEVER, '', methodCounts, verificationMode.CustomAssertMessage, expectedArguments, matchers, actualArguments);
 		}
 
 		Integer i=0;
-		for ( ; i<verificationMode.VerifyMin; i++)
+		for ( ; i<verificationMode.VerifyMin; i++ )
 		{
-			if(!verifyMethodCalled(matchers, qm, methodArg))
+			if(!verifyMethodCalled(matchers, qm, expectedArguments))
 			{
-				throwException(qm, inOrder, verificationMode.VerifyMin, '', i, verificationMode.CustomAssertMessage);
+				throwException(qm, inOrder, verificationMode.VerifyMin, '', i, verificationMode.CustomAssertMessage, expectedArguments, matchers, actualArguments);
 			}
 		}
 
@@ -145,10 +151,10 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 				fflib_InvocationOnMock nextMethod = getNextMethodCall(false);
 
 				if(nextMethod.getMethod() == qm &&
-					argumentsMatch(nextMethod.getMethodArgValues(), matchers, methodArg))
+					argumentsMatch(nextMethod.getMethodArgValues(), matchers, expectedArguments))
 				{
-					Integer methodCounts = i + countInteractions(matchers, qm, methodArg);
-					throwException(qm, inOrder, verificationMode.VerifyMin, '', methodCounts, verificationMode.CustomAssertMessage);
+					Integer methodCounts = i + countInteractions(matchers, qm, expectedArguments);
+					throwException(qm, inOrder, verificationMode.VerifyMin, '', methodCounts, verificationMode.CustomAssertMessage, expectedArguments, matchers, actualArguments);
 				}
 			}
 
@@ -159,7 +165,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 		if(verificationMode.Method == fflib_VerificationMode.ModeName.atLeast
 			|| verificationMode.Method == fflib_VerificationMode.ModeName.atLeastOnce)
 		{
-			consumeInteractions(matchers, qm, methodArg);
+			consumeInteractions(matchers, qm, expectedArguments);
 		}
 	}
 
@@ -268,7 +274,7 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 
 	private fflib_InvocationOnMock getNextMethodCall()
 	{
-			return getNextMethodCall(true);
+		return getNextMethodCall(true);
 	}
 
 	private fflib_InvocationOnMock getNextMethodCall(Boolean updateIdxMethodCall)

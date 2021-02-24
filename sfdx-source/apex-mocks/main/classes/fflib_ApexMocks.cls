@@ -418,4 +418,15 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	{
 		this.methodVerifier = verifyOrderingMode;
 	}
+	
+	/**
+	 * A simple override to suppress the default toString logic, which is noisy and rarely useful.
+	 * In some cases, the Salesforce default implementation of toString here can cause internal Salesforce errors
+	 * if it has circular references.
+	 * @return "fflib_ApexMocks" String literal
+	 */
+	public override String toString()
+	{
+		return 'fflib_ApexMocks';
+	}
 }
