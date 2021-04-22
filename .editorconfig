@@ -1,0 +1,21 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_style = space
+insert_final_newline = false
+tab_width = 2
+trim_trailing_whitespace = false
+
+[*.{cmp,page,component}]
+tab_width = 2
+
+[*.{cls,trigger}]
+tab_width = 4
+
+[*.xml]
+tab_width = 4
+
+[sfdx-project.json]
+tab_width = 4
