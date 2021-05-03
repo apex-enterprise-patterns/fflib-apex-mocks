@@ -4,7 +4,7 @@
 
 Before you begin:
 
-- Check out the [existing issues](https://github.com/apex-enterprise-patterns/fflib-apex-mocks/issues) & see if any [Pull Requests]([#types-of-contributions-memo](https://github.com/apex-enterprise-patterns/fflib-apex-mocks/pulls)) already exist for your feature/enhancement/bug.
+- Check out the [existing issues](https://github.com/apex-enterprise-patterns/fflib-apex-mocks/issues) & see if any [Pull Requests](https://github.com/apex-enterprise-patterns/fflib-apex-mocks/pulls) already exist for your feature/enhancement/bug.
 
 ### Don't see your issue? Open one
 
