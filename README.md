@@ -122,3 +122,7 @@ fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 * [Answering](https://xonoxforce.wordpress.com/2017/03/31/answering-with-apex-mocks/)
 * [Counters](https://xonoxforce.wordpress.com/2017/04/01/counters-in-apex-mocks-verifications/)
 * [Troubleshooting](https://salesforce.stackexchange.com/questions/252460/my-apexmocks-arent-working-what-could-be-wrong)
+
+## Contributing
+
+If you are interested in contributing to this codebase, we encourage you to review our [Contributing](CONTRIBUTING.md) guide to learn more.
