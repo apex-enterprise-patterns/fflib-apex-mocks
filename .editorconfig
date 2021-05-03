@@ -12,10 +12,8 @@ trim_trailing_whitespace = false
 tab_width = 2
 
 [*.{cls,trigger}]
+indent_style = tab
 tab_width = 4
 
 [*.xml]
-tab_width = 4
-
-[sfdx-project.json]
 tab_width = 4
