@@ -1,6 +1,7 @@
 # FFLib ApexMocks Framework
 
 ![Push Source and Run Apex Tests](https://github.com/apex-enterprise-patterns/fflib-apex-mocks/workflows/Create%20a%20Scratch%20Org,%20Push%20Source%20and%20Run%20Apex%20Tests/badge.svg)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ApexMocks is a mocking framework for the Salesforce Lightning Apex language. 
 
