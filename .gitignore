@@ -45,3 +45,6 @@ package-lock.json
 
 sfdx-source/group*
 research/
+
+.cci
+test_results.*

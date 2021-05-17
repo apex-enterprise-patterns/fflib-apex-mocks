@@ -11,6 +11,10 @@ It derives its inspiration from the well known Java mocking framework [Mockito](
 	   src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
+# Importat note
+
+This is a Credimi fork to be used in CumulusCI setup
+
 ## Using ApexMocks on the Salesforce Lightning Platform
 
 ApexMocks allows you to write tests to both verify behavior and stub dependencies.

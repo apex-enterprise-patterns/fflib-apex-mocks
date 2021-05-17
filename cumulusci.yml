@@ -1,0 +1,23 @@
+minimum_cumulusci_version: '3.35.0'
+project:
+    name: fflib-apex-mocks
+    package:
+        name: fflib-apex-mocks
+        api_version: '50.0'
+    git:
+
+tasks:
+    robot:
+        options:
+            suites: robot/fflib-apex-mocks/tests
+            options:
+                outputdir: robot/fflib-apex-mocks/results
+
+    robot_testdoc:
+        options:
+            path: robot/fflib-apex-mocks/tests
+            output: robot/fflib-apex-mocks/doc/fflib-apex-mocks_tests.html
+
+    run_tests:
+        options:
+            required_org_code_coverage_percent: 75

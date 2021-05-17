@@ -1,0 +1,78 @@
+version: "1.0"
+
+stages:
+  - git
+  - cci
+  - test  
+  - post-scratch
+
+steps:
+  main_clone:
+    title: Main clone
+    stage: git
+    type: git-clone
+    repo: "${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}"
+    revision: "${{CF_REVISION}}"
+    git: github
+
+  create_org:
+    title: Create org
+    stage: cci
+    description: Create org
+    image: credimi/cumulusci:master
+    working_directory: ${{main_clone}}
+    volumes:
+      - ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/.sfdx:/root/.sfdx
+      - ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/.cumulusci:/root/.cumulusci
+    commands:
+      - echo $CODEFRESH_CONNECTEDAPP_PRIVATEKEY | base64 -d > /tmp/jwt.key
+      - sfdx force:auth:jwt:grant -u $CODEFRESH_SFDEVHUB_USERNAME -i $CODEFRESH_PROD_CONNECTEDAPP_CLIENTID -f /tmp/jwt.key -r $SF_PRODINSTANCE_LOGINURL -d --json
+      - cci org scratch_delete ${{CF_BRANCH}} || true
+      - cci org scratch dev ${{CF_BRANCH}}
+      - cci flow run dev_org --org ${{CF_BRANCH}}
+
+  extract_org_info:
+    title: Extract org info
+    stage: cci
+    description: Extract org info to env
+    image: credimi/cumulusci:master
+    working_directory: ${{main_clone}}
+    volumes:
+      - ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/.sfdx:/root/.sfdx
+      - ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/.cumulusci:/root/.cumulusci
+    commands:
+      - cci task run write_org_info_to_env_file -o path ${{CF_VOLUME_PATH}}/env_vars_to_export --org ${{CF_BRANCH}}
+
+  post_scratch_parallel:
+    type: parallel
+    stage: post-scratch
+    steps:
+      push_environment_to_slack:
+        title: Sending message to slack        
+        image: codefresh/slack-message-sender
+        commands:
+          - slack-message-sender send --webhook-url https://hooks.slack.com/services/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 --message "A new organization has been created\n• project *$CF_REPO_NAME*\n• branch *$CF_BRANCH*\n• build $CF_BUILD_URL\n• login uri $CURRENT_ORG_LOGIN_URL\n• oauth token $CURRENT_ORG_OAUTH_TOKEN\n• username $CURRENT_ORG_USERNAME\n• password $CURRENT_ORG_PASSWORD\nThe identity verification token will be forwarded to distribution lists"
+
+      run_apex_tests:
+        title: Run apex tests
+        description: run apex tests        
+        image: credimi/cumulusci:master
+        working_directory: ${{main_clone}}
+        volumes:
+          - ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/.sfdx:/root/.sfdx
+          - ${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/.cumulusci:/root/.cumulusci
+        commands:
+          - cci task run run_tests --org ${{CF_BRANCH}}
+
+      
+      publish_secrets:
+        title: Publish salesforce secrets on target namespace
+        type: codefresh-run
+        arguments:
+          PIPELINE_ID: portfolio-core/secrets
+          TRIGGER_ID: Disabled-git-trigger
+          SHA: ${{CF_REVISION}}
+          BRANCH: "${{CF_BRANCH}}"
+          VARIABLE:
+            - CURRENT_ORG_OAUTH_TOKEN_BASE64=${{CURRENT_ORG_OAUTH_TOKEN_BASE64}}
+            - CURRENT_ORG_LOGIN_URL_BASE64=${{CURRENT_ORG_LOGIN_URL_BASE64}}
