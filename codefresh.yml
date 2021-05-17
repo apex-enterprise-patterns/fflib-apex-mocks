@@ -51,7 +51,7 @@ steps:
         title: Sending message to slack        
         image: codefresh/slack-message-sender
         commands:
-          - slack-message-sender send --webhook-url https://hooks.slack.com/services/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 --message "A new organization has been created\n• project *$CF_REPO_NAME*\n• branch *$CF_BRANCH*\n• build $CF_BUILD_URL\n• login uri $CURRENT_ORG_LOGIN_URL\n• oauth token $CURRENT_ORG_OAUTH_TOKEN\n• username $CURRENT_ORG_USERNAME\n• password $CURRENT_ORG_PASSWORD\nThe identity verification token will be forwarded to distribution lists"
+          - slack-message-sender send --webhook-url ${{SCRATCH_ORG_WEBHOOK}} --message "A new organization has been created\n• project *$CF_REPO_NAME*\n• branch *$CF_BRANCH*\n• build $CF_BUILD_URL\n• login uri $CURRENT_ORG_LOGIN_URL\n• oauth token $CURRENT_ORG_OAUTH_TOKEN\n• username $CURRENT_ORG_USERNAME\n• password $CURRENT_ORG_PASSWORD\nThe identity verification token will be forwarded to distribution lists"
 
       run_apex_tests:
         title: Run apex tests
