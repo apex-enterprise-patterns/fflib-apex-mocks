@@ -258,4 +258,21 @@ public class fflib_ApexMocksUtilsTest
 
 		System.assertEquals(isDeleted, acc.IsDeleted);
 	}
+
+	@isTest
+	static void setReadOnlyFields_PolymorphicRelationJoin_FieldSetSuccessfully() {
+
+		Account acc = new Account(Name='TestAccount');
+		Task t = new Task();
+
+		Test.startTest();
+		t = (Task)fflib_ApexMocksUtils.setReadOnlyFields(
+			t,
+			Task.class,
+			new Map<String, Object> {'What' => acc}
+		);
+		Test.stopTest();
+
+		System.assertEquals(acc.Name, t.What.Name);
+	}
 }

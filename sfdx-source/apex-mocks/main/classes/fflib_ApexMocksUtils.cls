@@ -97,15 +97,27 @@ public class fflib_ApexMocksUtils
 	 */
 	public static Object setReadOnlyFields(SObject objInstance, Type deserializeType, Map<SObjectField, Object> properties) {
 
-		Map<String, Object> mergedMap = new Map<String, Object>(objInstance.getPopulatedFieldsAsMap());
+		Map<String, Object> fieldNameMap = new Map<String, Object>();
 		for (SObjectField field : properties.keySet()) {
-			// Merge the values from the properties map into the fields already set on the object
-			mergedMap.put(field.getDescribe().getName(), properties.get(field));
+			// Resolve the fieldNames from the FieldTokens
+			fieldNameMap.put(field.getDescribe().getName(), properties.get(field));
 		}
+		return (SObject) setReadOnlyFields(objInstance, deserializeType, fieldNameMap);
+	}
+
+	/**
+	 * Generic overload to setReadOnlyFields. Enables setting test
+	 * values on read-only fields by their name
+	 */
+	public static Object setReadOnlyFields(SObject objInstance, Type deserializeType, Map<String, Object> properties) {
+
+		Map<String, Object> mergedMap = new Map<String, Object>(objInstance.getPopulatedFieldsAsMap());
+		// Merge the values from the properties map into the fields already set on the object
+		mergedMap.putAll(properties);
 		// Serialize the merged map, and then deserialize it as the desired object type.
 		String jsonString = JSON.serializePretty(mergedMap);
 		return (SObject) JSON.deserialize(jsonString, deserializeType);
-	} 
+	}
 
 	/**
 	 * Helper Methods
