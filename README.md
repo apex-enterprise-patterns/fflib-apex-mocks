@@ -89,36 +89,12 @@ System.assertEquals(mockFormulaResult, acc.Your_Formula_Field__c);
 ```
 
 ## Stub API
-ApexMocks now implements the [Stub API](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_testing_stub_api.htm)!
-
-Previously, stub objects had to be generated using the ApexMocks generator at compile time.
-Now, stub objects can be generated dynamically at run time.
+Using Salesforce's [Stub API](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_testing_stub_api.htm), stub objects are generated dynamically at run time.
 ```Java
 fflib_ApexMocks mocks = new fflib_ApexMocks();
 fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 ```
-You can continue to use the ApexMocks generator, if you wish, but this is no longer a prerequisite to using ApexMocks.
 
-## Generating Mock files
-
-Run the apex mocks generator from the command line.
-```Bash
-java -jar apex-mocks-generator-4.0.0.jar
-	<Filepath to source files>
-	<Filepath to interface properties file>
-	<Name of generated mocks class>
-	<Filepath to target files - can be the same as filepath to source files>
-	<API version of generated mocks class - optional argument, 30.0 by default>
-
-# E.g. the command used to generate the current version of fflib_Mocks.
-java -jar apex-mocks-generator-4.0.0.jar "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "/Users/jbloggs/Dev/fflib-apex-mocks/interfacemocks.properties" "fflib_Mocks" "/Users/jbloggs/Dev/fflib-apex-mocks/src/classes" "30.0"
-```
-
-Instantiate the generated classes as follows:
-```Java
-fflib_ApexMocks mocks = new fflib_ApexMocks();
-fflib_MyList.IList mockList = new MockMyList(mocks);
-```
 ## Documentation
 
 * [ApexMocks Framework Tutorial](http://code4cloud.wordpress.com/2014/05/06/apexmocks-framework-tutorial/)
