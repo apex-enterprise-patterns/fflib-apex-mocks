@@ -29,7 +29,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
-			Assert.isTrue(false, 'It should fail because 1-2 is in the wrong order');
+			Assert.fail('It should fail because 1-2 is in the wrong order');
 		}
 		catch (fflib_ApexMocks.ApexMocksException error)
 		{
@@ -88,7 +88,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-			Assert.isTrue(false, 'It should fail because 1-1 is called before the addMore(1-1)');
+			Assert.fail('It should fail because 1-1 is called before the addMore(1-1)');
 		}
 		catch (fflib_ApexMocks.ApexMocksException error)
 		{
@@ -123,7 +123,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).addMore('1-1');
-			Assert.isTrue(false, 'It should fail because addMore(1-1) is called only Once');
+			Assert.fail('It should fail because addMore(1-1) is called only Once');
 		}
 		catch (fflib_ApexMocks.ApexMocksException error)
 		{
@@ -179,7 +179,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-11');
-			Assert.isTrue(false, 'It should fail because addMore(1-11) has been already verified using the matchers');
+			Assert.fail('It should fail because addMore(1-11) has been already verified using the matchers');
 		}
 		catch (fflib_ApexMocks.ApexMocksException error)
 		{
@@ -265,7 +265,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add('1-11');
-			Assert.isTrue(false, 'It should fail because only one call for the 2- is available to verify');
+			Assert.fail('It should fail because only one call for the 2- is available to verify');
 		}
 		catch (fflib_ApexMocks.ApexMocksException error)
 		{
@@ -301,7 +301,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('1-2');
-			Assert.isTrue(false, 'It should fail because is out of order');
+			Assert.fail('It should fail because is out of order');
 		}
 		catch (fflib_ApexMocks.ApexMocksException error)
 		{
@@ -376,7 +376,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(4))).add('1-2');
-			Assert.isTrue(false, 'It should fail because is actually called only 3 times');
+			Assert.fail('It should fail because is actually called only 3 times');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -485,7 +485,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(secondMock, MY_MOCKS.calls(1))).add('2-1');
-			Assert.isTrue(false, 'An exception was expected, because this verify is not in the list of the mocks to verify');
+			Assert.fail('An exception was expected, because this verify is not in the list of the mocks to verify');
 		}
 		catch(fflib_ApexMocks.ApexMocksException mockexcep)
 		{
@@ -520,7 +520,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.description(customErrorMesage))).add('1-1');
-			Assert.isTrue(false, 'expected some exception ');
+			Assert.fail('expected some exception ');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -559,7 +559,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atMost(3))).add('1-1');
-			Assert.isTrue(false, 'an exception was expected because the method is not implemented for the InOrder class');
+			Assert.fail('an exception was expected because the method is not implemented for the InOrder class');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -591,7 +591,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.between(3, 5))).add('1-1');
-			Assert.isTrue(false, 'an exception was expected because the method is not implemented for the InOrder class');
+			Assert.fail('an exception was expected because the method is not implemented for the InOrder class');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -669,7 +669,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.never())).add('1-1');
-			Assert.isTrue(false, 'expected some exception because the method has been called');
+			Assert.fail('expected some exception because the method has been called');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -708,7 +708,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.never())).add(fflib_Match.stringStartsWith('1-'));
-			Assert.isTrue(false, 'expected some exception because the method has been called');
+			Assert.fail('expected some exception because the method has been called');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -740,7 +740,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList) MY_MOCKS.verify(firstMock, MY_MOCKS.calls(1))).add('1-1');
-			Assert.isTrue(false, 'an exception was expected because the method is only implemented for the InOrder class');
+			Assert.fail('an exception was expected because the method is only implemented for the InOrder class');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -767,7 +767,7 @@ private class fflib_InOrderTest
 		try
 		{
 			inOrder1.verifyNoMoreInteractions();
-			Assert.isTrue(false, 'an exception was expected because there are other interactions');
+			Assert.fail('an exception was expected because there are other interactions');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -794,7 +794,7 @@ private class fflib_InOrderTest
 		try
 		{
 			inOrder1.verifyNoMoreInteractions();
-			Assert.isTrue(false, 'an exception was expected because there are other interactions');
+			Assert.fail('an exception was expected because there are other interactions');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -846,7 +846,7 @@ private class fflib_InOrderTest
 		try
 		{
 			inOrder1.verifyNoMoreInteractions();
-			Assert.isTrue(false, 'an exception was expected because there are other interactions');
+			Assert.fail('an exception was expected because there are other interactions');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -871,7 +871,7 @@ private class fflib_InOrderTest
 		try
 		{
 			inOrder1.verifyNoInteractions();
-			Assert.isTrue(false, 'an exception was expected because there are other interactions');
+			Assert.fail('an exception was expected because there are other interactions');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1002,7 +1002,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeast(4))).add('1-1');
-			Assert.isTrue(false, 'an exception was expected because the atLeast is asserting for 4 calls when instead there are only 3 not consumed calls');
+			Assert.fail('an exception was expected because the atLeast is asserting for 4 calls when instead there are only 3 not consumed calls');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1045,7 +1045,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-			Assert.isTrue(false, 'an exception was expected because the atLeast have consumed all the interactions of 1-1');
+			Assert.fail('an exception was expected because the atLeast have consumed all the interactions of 1-1');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1131,7 +1131,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.atLeastOnce())).add('1-3');
-			Assert.isTrue(false, 'an exception was expected because the atLeastOnce is asserting for 1 calls when instead the method is not called at all with that argument');
+			Assert.fail('an exception was expected because the atLeastOnce is asserting for 1 calls when instead the method is not called at all with that argument');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1168,7 +1168,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-			Assert.isTrue(false, 'an exception was expected because the atLeast have consumed all the interactions of 1-1');
+			Assert.fail('an exception was expected because the atLeast have consumed all the interactions of 1-1');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1228,7 +1228,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(2))).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1266,7 +1266,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(4))).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1420,7 +1420,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.times(5))).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1486,7 +1486,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock)).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1546,7 +1546,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, 2)).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1584,7 +1584,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, 4)).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1648,7 +1648,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, 5)).add('1-1');
-			Assert.isTrue(false, 'exception expected because the method is called more times than expected in the verification');
+			Assert.fail('exception expected because the method is called more times than expected in the verification');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{
@@ -1740,7 +1740,7 @@ private class fflib_InOrderTest
 		try
 		{
 			((fflib_MyList.IList)inOrder1.verify(firstMock, MY_MOCKS.calls(1))).add('2-1');
-			Assert.isTrue(false, 'exception expected because the atLeast have consumed all the calls');
+			Assert.fail('exception expected because the atLeast have consumed all the calls');
 		}
 		catch (fflib_ApexMocks.ApexMocksException mockExcept)
 		{

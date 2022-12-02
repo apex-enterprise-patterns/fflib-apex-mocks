@@ -68,7 +68,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(null, INTERNAL_MATCHERS);
-			Assert.isTrue(false, 'Expecting exception');
+			Assert.fail('Expecting exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -82,7 +82,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, null);
-			Assert.isTrue(false, 'Expecting exception');
+			Assert.fail('Expecting exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -96,7 +96,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, new List<fflib_IMatcher>());
-			Assert.isTrue(false, 'Expecting exception');
+			Assert.fail('Expecting exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -166,7 +166,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.Eq(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -198,7 +198,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.RefEq(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -475,7 +475,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeAfter(null, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -489,7 +489,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeAfter(System.now(), null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -553,7 +553,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBefore(null, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -567,7 +567,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBefore(System.now(), null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -631,7 +631,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(null, true, System.now(), true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -645,7 +645,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(System.now(), true, null, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -659,7 +659,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(System.now(), null, System.now(), true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -673,7 +673,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(System.now(), true, System.now(), null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -741,7 +741,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(null, true, 123, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -755,7 +755,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(123, null, 123, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -769,7 +769,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(123, true, null, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -783,7 +783,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(123, true, 123, null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -867,7 +867,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalLessThan(null, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -881,7 +881,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalLessThan(123, null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -929,7 +929,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalMoreThan(null, true);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -943,7 +943,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalMoreThan(123, null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -991,7 +991,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.FieldSetEquivalentTo(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1109,7 +1109,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectOfType(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1142,7 +1142,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWith(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1156,7 +1156,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWith(new Map<Schema.SObjectField, Object>());	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1367,7 +1367,7 @@ public class fflib_MatcherDefinitionsTest
 	{
 		try {
 			new fflib_MatcherDefinitions.SObjectsWith(null);
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1381,7 +1381,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWithId(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1415,7 +1415,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWithName(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1460,7 +1460,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringContains(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1492,7 +1492,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringEndsWith(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1564,7 +1564,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringMatches(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1596,7 +1596,7 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringStartsWith(null);	
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{

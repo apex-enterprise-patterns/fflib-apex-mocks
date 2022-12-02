@@ -216,7 +216,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.times(4))).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -241,7 +241,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.times(2))).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -266,7 +266,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.times(4))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -291,7 +291,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.times(2))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -322,7 +322,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.times(2).description(customAssertMessage))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -396,7 +396,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atLeast(3))).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called 3 times when instead is called only twice');
+			Assert.fail('an exception was expected because we are asserting that the method is called 3 times when instead is called only twice');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -460,7 +460,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atLeast(3))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called 3 times when instead is called only twice');
+			Assert.fail('an exception was expected because we are asserting that the method is called 3 times when instead is called only twice');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -537,7 +537,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atMost(3))).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called 3 times when instead is called four times');
+			Assert.fail('an exception was expected because we are asserting that the method is called 3 times when instead is called four times');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -603,7 +603,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atMost(3))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called 3 times when instead is called four times');
+			Assert.fail('an exception was expected because we are asserting that the method is called 3 times when instead is called four times');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -672,7 +672,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atLeastOnce())).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called at least once when instead is never called');
+			Assert.fail('an exception was expected because we are asserting that the method is called at least once when instead is never called');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -739,7 +739,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atLeastOnce())).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called at lest once when instead is never called');
+			Assert.fail('an exception was expected because we are asserting that the method is called at lest once when instead is never called');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -797,7 +797,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.between(3, 5))).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called at least 3 times when instead is called only twice');
+			Assert.fail('an exception was expected because we are asserting that the method is called at least 3 times when instead is called only twice');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -846,7 +846,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.between(3, 5))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called 3 times when instead is called only twice');
+			Assert.fail('an exception was expected because we are asserting that the method is called 3 times when instead is called only twice');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -885,7 +885,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.between(3, 5))).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called at most 5 times when instead is called six times');
+			Assert.fail('an exception was expected because we are asserting that the method is called at most 5 times when instead is called six times');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -921,7 +921,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.between(3, 5))).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called 5 times when instead is called six times');
+			Assert.fail('an exception was expected because we are asserting that the method is called 5 times when instead is called six times');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -989,7 +989,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.never())).add('bob');
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -1014,7 +1014,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.never())).add(fflib_Match.anyString());
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(Exception exc)
 		{
@@ -1081,7 +1081,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atLeastOnce())).add('rob');
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called one times when instead is not called');
+			Assert.fail('an exception was expected because we are asserting that the method is called one times when instead is not called');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{
@@ -1145,7 +1145,7 @@ private class fflib_AnyOrderTest
 		{
 			((fflib_MyList.IList) mocks.verify(mockList, mocks.atLeastOnce())).add(fflib_Match.stringStartsWith('rob'));
 
-			Assert.isTrue(false, 'an exception was expected because we are asserting that the method is called once when instead is not called');
+			Assert.fail('an exception was expected because we are asserting that the method is called once when instead is not called');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ex)
 		{

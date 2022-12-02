@@ -60,7 +60,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.add('Hi Hello Hi');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (MyException e)
 		{
@@ -176,7 +176,7 @@ private class fflib_ApexMocksTest
 		{
 			mocks.startStubbing();
 			mocks.when(mockList.get2(fflib_Match.anyInteger(), 'String literal')).thenReturn('fail');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -202,7 +202,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			((fflib_MyList.IList) mocks.verify(mockList)).get2(fflib_Match.anyInteger(), 'String literal');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -253,7 +253,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.add('Non-matcher first');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -263,7 +263,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.add('Matcher first');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -497,7 +497,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.get(0);
-			Assert.isTrue(false, 'Stubbed exception should have been thrown.');
+			Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
@@ -522,7 +522,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			Assert.isTrue(false, 'Stubbed exception should have been thrown.');
+			Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
@@ -548,7 +548,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			Assert.isTrue(false, 'Stubbed exception should have been thrown.');
+			Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
@@ -561,7 +561,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.add('bob');
-			Assert.isTrue(false, 'Stubbed exception should have been thrown.');
+			Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
@@ -586,7 +586,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			Assert.isTrue(false, 'Stubbed exception should have been thrown.');
+			Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
@@ -599,7 +599,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			Assert.isTrue(false, 'Stubbed exception should have been thrown.');
+			Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
@@ -1431,7 +1431,7 @@ private class fflib_ApexMocksTest
 		{
 			MY_MOCK_LIST.get(1);
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
@@ -1449,7 +1449,7 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.startStubbing();
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<Object>());
 			MY_MOCKS.stopStubbing();
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
@@ -1467,7 +1467,7 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.startStubbing();
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(null);
 			MY_MOCKS.stopStubbing();
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
@@ -1485,7 +1485,7 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.startStubbing();
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>());
 			MY_MOCKS.stopStubbing();
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
@@ -1504,7 +1504,7 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(null);
 			MY_MOCKS.stopStubbing();
 
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
@@ -1542,7 +1542,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.get(1);
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
@@ -1555,7 +1555,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.get2(2, 'Hello.');
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
@@ -1568,7 +1568,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.add('Hello');
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
@@ -1581,7 +1581,7 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.addMore('Hello');
-			Assert.isTrue(false, 'an exception was expected');
+			Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{

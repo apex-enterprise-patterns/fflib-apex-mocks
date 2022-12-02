@@ -26,7 +26,7 @@ private class fflib_AnswerTest
 		try
 		{
 			mockList.get2(0, 'Hi hi Hello Hi hi');
-			Assert.isTrue(false, 'an exception is expected to be thrown on the answer execution');
+			Assert.fail('an exception is expected to be thrown on the answer execution');
 		}
 		catch(fflib_ApexMocks.ApexMocksException ansExpt)
 		{
@@ -338,7 +338,7 @@ private class fflib_AnswerTest
 			try
 			{
 				Object noExistingObj = invocation.getArgument(2);
-				Assert.isTrue(false, 'an exception was expected because the argument in the method are only 2');
+				Assert.fail('an exception was expected because the argument in the method are only 2');
 			}
 			catch(fflib_ApexMocks.ApexMocksException exp)
 			{
@@ -359,7 +359,7 @@ private class fflib_AnswerTest
 			try
 			{
 				Object noExistingObj = invocation.getArgument(-1);
-				Assert.isTrue(false, 'an exception was expected because the argument index cannot be negative');
+				Assert.fail('an exception was expected because the argument index cannot be negative');
 			}
 			catch(fflib_ApexMocks.ApexMocksException exp)
 			{

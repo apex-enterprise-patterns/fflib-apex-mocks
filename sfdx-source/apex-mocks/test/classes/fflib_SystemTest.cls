@@ -10,7 +10,7 @@ private class fflib_SystemTest
 		try
 		{
 			fflib_System.assertEquals('Test String', 'Test String');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -29,7 +29,7 @@ private class fflib_SystemTest
 		try
 		{
 			fflib_System.assertEquals(fflib_Match.stringStartsWith('Test S'), 'Test String');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -43,7 +43,7 @@ private class fflib_SystemTest
 		try
 		{
 			fflib_System.assertEquals(fflib_Match.stringStartsWith('Test X'), 'Test String');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -75,7 +75,7 @@ private class fflib_SystemTest
 		try
 		{
 			fflib_System.assertEquals('Test String', 'Test String', 'My Custom Message');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -94,7 +94,7 @@ private class fflib_SystemTest
 		try
 		{
 			fflib_System.assertEquals(fflib_Match.stringStartsWith('Test S'), 'Test String', 'My Custom Message');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -108,7 +108,7 @@ private class fflib_SystemTest
 		try
 		{
 			fflib_System.assertEquals(fflib_Match.stringStartsWith('Test X'), 'Test String', 'My Custom Message');
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{

@@ -140,7 +140,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			fflib_Match.matchesAllArgs(methodArg, targetMatchers);
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -160,7 +160,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			fflib_Match.matchesAllArgs(methodArg, targetMatchers);
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -180,7 +180,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			fflib_Match.matchesAllArgs(methodArg, targetMatchers);
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -200,7 +200,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			fflib_Match.matchesAllArgs(methodArg, targetMatchers);
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -263,7 +263,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			Object x = fflib_Match.allOf((List<Object>)null);
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -279,7 +279,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			Object x = fflib_Match.allOf(new List<Object>{});
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -297,7 +297,7 @@ public with sharing class fflib_MatchTest
 			//Should be using fflib_Match.allOf(new List<Object>{ fflib_Match.myMatcher('Hello') })
 			//to register the inner matcher.
 			Object x = fflib_Match.allOf(new List<Object>{ 'Hello' });
-			Assert.isTrue(false, 'Expected exception');
+			Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
@@ -1018,7 +1018,7 @@ public with sharing class fflib_MatchTest
 		try
 		{
 			fflib_Match.fieldSetEquivalentTo(null);
-			Assert.isTrue(false, 'ExpectedException');
+			Assert.fail('ExpectedException');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
