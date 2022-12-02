@@ -9,9 +9,9 @@ public class fflib_InheritorTest
     {
         fflib_ApexMocks mocks = new fflib_ApexMocks();
         Object inheritor = mocks.mock(fflib_Inheritor.class);
-        System.assert(inheritor instanceof fflib_Inheritor.IA);
-        System.assert(inheritor instanceof fflib_Inheritor.IB);
-        System.assert(inheritor instanceof fflib_Inheritor.IC);
+        Assert.isInstanceOfType(inheritor, fflib_Inheritor.IA.class);
+        Assert.isInstanceOfType(inheritor, fflib_Inheritor.IB.class);
+        Assert.isInstanceOfType(inheritor, fflib_Inheritor.IC.class);
     }
 
  	@isTest
@@ -26,8 +26,8 @@ public class fflib_InheritorTest
         mocks.when(inheritor.doC()).thenReturn('Did not do C');
         mocks.stopStubbing();
         
-        System.assertEquals('Did not do A', inheritor.doA());
-        System.assertEquals('Did not do B', inheritor.doB());
-        System.assertEquals('Did not do C', inheritor.doC());
+        Assert.areEqual('Did not do A', inheritor.doA());
+        Assert.areEqual('Did not do B', inheritor.doB());
+        Assert.areEqual('Did not do C', inheritor.doC());
     }
 }
