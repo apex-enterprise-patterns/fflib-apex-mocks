@@ -108,10 +108,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenCombinedMatchesWithAllExpressionShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, INTERNAL_MATCHERS);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('ted'));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches('tomfred'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('ted'));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches('tomfred'));
 		Assert.isTrue(matcher.matches('bobtomfred'));
 	}
 
@@ -119,8 +119,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenCombinedMatchesWithAtLeastOneExpressionShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.AT_LEAST_ONE, INTERNAL_MATCHERS);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('ted'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('ted'));
 		Assert.isTrue(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches('tomfred'));
 		Assert.isTrue(matcher.matches('bobtomfred'));
@@ -132,9 +132,9 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.NONE, INTERNAL_MATCHERS);
 		Assert.isTrue(matcher.matches(null));
 		Assert.isTrue(matcher.matches('ted'));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches('tomfred'));
-		Assert.isTrue(!matcher.matches('bobtomfred'));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches('tomfred'));
+		Assert.isFalse(matcher.matches('bobtomfred'));
 	}
 
 	@isTest
@@ -180,8 +180,8 @@ public class fflib_MatcherDefinitionsTest
 		List<String> s1 = new List<String> {'bob', 'tom'};
 		List<String> s2 = new List<String> {'bob', 'tom'};
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Eq(s1);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(new List<String> {'bob'}));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(new List<String> {'bob'}));
 		Assert.isTrue(matcher.matches(s2));
 		Assert.isTrue(matcher.matches(s1));
 	}
@@ -212,8 +212,8 @@ public class fflib_MatcherDefinitionsTest
 		List<String> s1 = new List<String> {'bob', 'tom'};
 		List<String> s2 = new List<String> {'bob', 'tom'};
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.RefEq(s1);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(s2));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(s2));
 		Assert.isTrue(matcher.matches(s1));
 	}
 
@@ -228,8 +228,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyBooleanMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyBoolean();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(9));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(9));
 		Assert.isTrue(matcher.matches(true));
 		Assert.isTrue(matcher.matches(false));
 	}
@@ -244,8 +244,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyDateMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDate();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(NOW));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(TODAY));
 	}
 
@@ -259,7 +259,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyDatetimeMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDatetime();
-		Assert.isTrue(!matcher.matches(null));
+		Assert.isFalse(matcher.matches(null));
 		Assert.isTrue(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(TODAY));
 	}
@@ -274,8 +274,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyDecimalMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDecimal();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(9));
 		Assert.isTrue(matcher.matches(9L));
 		Assert.isTrue(matcher.matches(9.99));
@@ -291,8 +291,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyDoubleMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDouble();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(9));
 		Assert.isTrue(matcher.matches(9L));
 		Assert.isTrue(matcher.matches(9.99));
@@ -308,8 +308,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyFieldSetMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyFieldSet();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
 
 		Schema.FieldSet anyFieldSet = fflib_ApexMocksUtilsTest.findAnyFieldSet();
 		if (anyFieldSet != null)
@@ -330,8 +330,8 @@ public class fflib_MatcherDefinitionsTest
 		String idString = fflib_IDGenerator.generate(Account.SObjectType);
 		Id accountId = fflib_IDGenerator.generate(Account.SObjectType);
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyId();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(idString));
 		Assert.isTrue(matcher.matches(accountId));
 	}
@@ -346,10 +346,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyIntegerMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyInteger();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(9L));
-		Assert.isTrue(!matcher.matches(9.99));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(9L));
+		Assert.isFalse(matcher.matches(9.99));
 		Assert.isTrue(matcher.matches(9));
 	}
 
@@ -363,8 +363,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyListMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyList();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(new List<String>()));
 		Assert.isTrue(matcher.matches(new List<Integer>()));
 		Assert.isTrue(matcher.matches(new List<Object>()));
@@ -380,9 +380,9 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyLongMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyLong();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(9.99));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(9.99));
 		Assert.isTrue(matcher.matches(9));
 		Assert.isTrue(matcher.matches(9L));
 	}
@@ -397,7 +397,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyObjectMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyObject();
-		Assert.isTrue(!matcher.matches(null));
+		Assert.isFalse(matcher.matches(null));
 		Assert.isTrue(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(9));
 		Assert.isTrue(matcher.matches(new List<String>()));
@@ -413,8 +413,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnyStringMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyString();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(9));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(9));
 		Assert.isTrue(matcher.matches('bob'));
 	}
 
@@ -428,8 +428,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnySObjectMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObject();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(new Account()));
 	}
 
@@ -443,8 +443,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnySObjectFieldMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObjectField();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(new Account()));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(new Account()));
 		Assert.isTrue(matcher.matches(Account.Id));
 	}
 
@@ -458,8 +458,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenAnySObjectTypeMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObjectType();
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(new Account()));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(new Account()));
 		Assert.isTrue(matcher.matches(Account.SObjectType));
 	}
 
@@ -501,10 +501,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeAfterMatchesWithoutInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(NOW, false);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(-1)));
-		Assert.isTrue(!matcher.matches(NOW));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
+		Assert.isFalse(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
 	}
 
@@ -512,9 +512,9 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeAfterMatchesWithInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(NOW, true);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(-1)));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
 		Assert.isTrue(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
 	}
@@ -579,10 +579,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBeforeMatchesWithoutInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(NOW, false);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(1)));
-		Assert.isTrue(!matcher.matches(NOW));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
+		Assert.isFalse(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
 	}
 
@@ -590,9 +590,9 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBeforeMatchesWithInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(NOW, true);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(1)));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
 		Assert.isTrue(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
 	}
@@ -685,10 +685,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBetweenMatchesWithInclusiveFromWithoutInclusiveToShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(NOW.addSeconds(-1), true, NOW.addSeconds(1), false);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(-2)));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(1)));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(-2)));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
 		Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
 		Assert.isTrue(matcher.matches(NOW));
 	}
@@ -697,10 +697,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBetweenMatchesWithInclusiveToWithoutInclusiveFromShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(NOW.addSeconds(-1), false, NOW.addSeconds(1), true);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bob'));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(2)));
-		Assert.isTrue(!matcher.matches(NOW.addSeconds(-1)));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(2)));
+		Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
 		Assert.isTrue(matcher.matches(NOW));
 		Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
 	}
@@ -803,44 +803,44 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher inLowerInUpper = new fflib_MatcherDefinitions.DecimalBetween(lower, true, upper, true);
 
 		//Exclusive lower, exclusive upper
-		Assert.isTrue(!exLowerExUpper.matches(lower - 1));
-		Assert.isTrue(!exLowerExUpper.matches(lower));
+		Assert.isFalse(exLowerExUpper.matches(lower - 1));
+		Assert.isFalse(exLowerExUpper.matches(lower));
 		Assert.isTrue(exLowerExUpper.matches(lower + 1));
 		Assert.isTrue(exLowerExUpper.matches(upper - 1));
-		Assert.isTrue(!exLowerExUpper.matches(upper));
-		Assert.isTrue(!exLowerExUpper.matches(upper + 1));
-		Assert.isTrue(!exLowerExUpper.matches(null));
-		Assert.isTrue(!exLowerExUpper.matches('NotADecimal'));
+		Assert.isFalse(exLowerExUpper.matches(upper));
+		Assert.isFalse(exLowerExUpper.matches(upper + 1));
+		Assert.isFalse(exLowerExUpper.matches(null));
+		Assert.isFalse(exLowerExUpper.matches('NotADecimal'));
 
 		//Exclusive lower, inclusive upper
-		Assert.isTrue(!exLowerInUpper.matches(lower - 1));
-		Assert.isTrue(!exLowerInUpper.matches(lower));
+		Assert.isFalse(exLowerInUpper.matches(lower - 1));
+		Assert.isFalse(exLowerInUpper.matches(lower));
 		Assert.isTrue(exLowerInUpper.matches(lower + 1));
 		Assert.isTrue(exLowerInUpper.matches(upper - 1));
 		Assert.isTrue(exLowerInUpper.matches(upper));
-		Assert.isTrue(!exLowerInUpper.matches(upper + 1));
-		Assert.isTrue(!exLowerInUpper.matches(null));
-		Assert.isTrue(!exLowerInUpper.matches('NotADecimal'));
+		Assert.isFalse(exLowerInUpper.matches(upper + 1));
+		Assert.isFalse(exLowerInUpper.matches(null));
+		Assert.isFalse(exLowerInUpper.matches('NotADecimal'));
 		
 		//Inclusive lower, exclusive upper
-		Assert.isTrue(!inLowerExUpper.matches(lower - 1));
+		Assert.isFalse(inLowerExUpper.matches(lower - 1));
 		Assert.isTrue(inLowerExUpper.matches(lower));
 		Assert.isTrue(inLowerExUpper.matches(lower + 1));
 		Assert.isTrue(inLowerExUpper.matches(upper - 1));
-		Assert.isTrue(!inLowerExUpper.matches(upper));
-		Assert.isTrue(!inLowerExUpper.matches(upper + 1));
-		Assert.isTrue(!inLowerExUpper.matches(null));
-		Assert.isTrue(!inLowerExUpper.matches('NotADecimal'));
+		Assert.isFalse(inLowerExUpper.matches(upper));
+		Assert.isFalse(inLowerExUpper.matches(upper + 1));
+		Assert.isFalse(inLowerExUpper.matches(null));
+		Assert.isFalse(inLowerExUpper.matches('NotADecimal'));
 		
 		//Inclusive lower, inclusive upper
-		Assert.isTrue(!inLowerInUpper.matches(lower - 1));
+		Assert.isFalse(inLowerInUpper.matches(lower - 1));
 		Assert.isTrue(inLowerInUpper.matches(lower));
 		Assert.isTrue(inLowerInUpper.matches(lower + 1));
 		Assert.isTrue(inLowerInUpper.matches(upper - 1));
 		Assert.isTrue(inLowerInUpper.matches(upper));
-		Assert.isTrue(!inLowerInUpper.matches(upper + 1));
-		Assert.isTrue(!inLowerInUpper.matches(null));
-		Assert.isTrue(!inLowerInUpper.matches('NotADecimal'));
+		Assert.isFalse(inLowerInUpper.matches(upper + 1));
+		Assert.isFalse(inLowerInUpper.matches(null));
+		Assert.isFalse(inLowerInUpper.matches('NotADecimal'));
 	}
 
 	@isTest
@@ -899,17 +899,17 @@ public class fflib_MatcherDefinitionsTest
 		
 		//Exclusive
 		Assert.isTrue(exclusive.matches(toMatch - 1));
-		Assert.isTrue(!exclusive.matches(toMatch));
-		Assert.isTrue(!exclusive.matches(toMatch + 1));
-		Assert.isTrue(!exclusive.matches(null));
-		Assert.isTrue(!exclusive.matches('NotADecimal'));
+		Assert.isFalse(exclusive.matches(toMatch));
+		Assert.isFalse(exclusive.matches(toMatch + 1));
+		Assert.isFalse(exclusive.matches(null));
+		Assert.isFalse(exclusive.matches('NotADecimal'));
 
 		//Inclusive
 		Assert.isTrue(inclusive.matches(toMatch - 1));
 		Assert.isTrue(inclusive.matches(toMatch));
-		Assert.isTrue(!inclusive.matches(toMatch + 1));
-		Assert.isTrue(!inclusive.matches(null));
-		Assert.isTrue(!inclusive.matches('NotADecimal'));
+		Assert.isFalse(inclusive.matches(toMatch + 1));
+		Assert.isFalse(inclusive.matches(null));
+		Assert.isFalse(inclusive.matches('NotADecimal'));
 	}
 
 	@isTest
@@ -960,18 +960,18 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher inclusive = new fflib_MatcherDefinitions.DecimalMoreThan(toMatch, true);
 		
 		//Exclusive
-		Assert.isTrue(!exclusive.matches(toMatch - 1));
-		Assert.isTrue(!exclusive.matches(toMatch));
+		Assert.isFalse(exclusive.matches(toMatch - 1));
+		Assert.isFalse(exclusive.matches(toMatch));
 		Assert.isTrue(exclusive.matches(toMatch + 1));
-		Assert.isTrue(!exclusive.matches(null));
-		Assert.isTrue(!exclusive.matches('NotADecimal'));
+		Assert.isFalse(exclusive.matches(null));
+		Assert.isFalse(exclusive.matches('NotADecimal'));
 
 		//Inclusive
-		Assert.isTrue(!inclusive.matches(toMatch - 1));
+		Assert.isFalse(inclusive.matches(toMatch - 1));
 		Assert.isTrue(inclusive.matches(toMatch));
 		Assert.isTrue(inclusive.matches(toMatch + 1));
-		Assert.isTrue(!inclusive.matches(null));
-		Assert.isTrue(!inclusive.matches('NotADecimal'));
+		Assert.isFalse(inclusive.matches(null));
+		Assert.isFalse(inclusive.matches('NotADecimal'));
 	}
 
 	@isTest
@@ -1004,7 +1004,7 @@ public class fflib_MatcherDefinitionsTest
 	{
 		//Cheap test to maintain 100% code coverage, even in orgs without field sets defined.
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.FieldSetEquivalentTo();
-		Assert.isTrue(!matcher.matches(null));
+		Assert.isFalse(matcher.matches(null));
 	}
 
 	@isTest
@@ -1017,8 +1017,8 @@ public class fflib_MatcherDefinitionsTest
 		}
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.FieldSetEquivalentTo(anyFieldSet);
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('hello'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('hello'));
 		Assert.isTrue(matcher.matches(anyFieldSet));
 	}
 
@@ -1040,7 +1040,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenIsNullMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.IsNull();
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(null));
 	}
 
@@ -1054,7 +1054,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenIsNotNullMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.IsNotNull();
-		Assert.isTrue(!matcher.matches(null));
+		Assert.isFalse(matcher.matches(null));
 		Assert.isTrue(matcher.matches('bob'));
 	}
 
@@ -1070,11 +1070,11 @@ public class fflib_MatcherDefinitionsTest
 		List<String> names = new List<String>{ 'bob', 'tom', 'fred' };
 		List<String> empty = new List<String>();
 		
-		Assert.isTrue(!new fflib_MatcherDefinitions.ListContains('fred').matches(null));
-		Assert.isTrue(!new fflib_MatcherDefinitions.ListContains('fred').matches(empty));
-		Assert.isTrue(!new fflib_MatcherDefinitions.ListContains('jack').matches(names));
+		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches(null));
+		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches(empty));
+		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('jack').matches(names));
 		Assert.isTrue(new fflib_MatcherDefinitions.ListContains('fred').matches(names));
-		Assert.isTrue(!new fflib_MatcherDefinitions.ListContains('fred').matches('NotAList'));
+		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches('NotAList'));
 	}
 
 	@isTest
@@ -1091,10 +1091,10 @@ public class fflib_MatcherDefinitionsTest
 		List<String> names = new List<String>{ 'bob', 'tom', 'fred' };
 		List<String> empty = new List<String>();
 		
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(names));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(names));
 		Assert.isTrue(matcher.matches(empty));
-		Assert.isTrue(!matcher.matches('NotAList'));
+		Assert.isFalse(matcher.matches('NotAList'));
 	}
 
 	@isTest
@@ -1122,9 +1122,9 @@ public class fflib_MatcherDefinitionsTest
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectOfType(ACCOUNT_OBJECT_TYPE);
 
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches('NotASObject'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches('NotASObject'));
 
 		Assert.isTrue(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
 		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
@@ -1185,14 +1185,14 @@ public class fflib_MatcherDefinitionsTest
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWith(queriedFieldValues);
 		
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches('NotASObject'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches('NotASObject'));
 
 		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 
-		Assert.isTrue(!new fflib_MatcherDefinitions.SObjectWith(notQueriedFieldValues).matches(ACCOUNT_RECORD));
+		Assert.isFalse(new fflib_MatcherDefinitions.SObjectWith(notQueriedFieldValues).matches(ACCOUNT_RECORD));
 	}
 
 	@isTest
@@ -1254,28 +1254,28 @@ public class fflib_MatcherDefinitionsTest
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectsWith(queriedFieldValues);
 		
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(new list<SObject>
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            OPPORTUNITY_OBJECT_TYPE.newSObject(),
                                            OPPORTUNITY_OBJECT_TYPE.newSObject()    
                                        }
                                       ));
-		Assert.isTrue(!matcher.matches(new list<SObject>
+		Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            GROUP_OBJECT_TYPE.newSObject(),
                                            GROUP_OBJECT_TYPE.newSObject()
                                        }
                                       ),'sObjectsWith arity agrees but arg doesn\'t');
-		Assert.isTrue(!matcher.matches('NotAListofSObject'));
+		Assert.isFalse(matcher.matches('NotAListofSObject'));
 
 		Assert.isTrue(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order');
         Assert.isTrue (!matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
                                      'sObjectsWith toMatch and args have same arity but args are in different order than toMatch') ;            
                       
 
-		Assert.isTrue(!new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues).matches(GROUP_RECORDS));
-		Assert.isTrue(!new fflib_MatcherDefinitions.SObjectsWith(failingFieldValues).matches(GROUP_RECORDS));
+		Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues).matches(GROUP_RECORDS));
+		Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(failingFieldValues).matches(GROUP_RECORDS));
 	}
 
     @isTest
@@ -1314,27 +1314,27 @@ public class fflib_MatcherDefinitionsTest
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectsWith(queriedFieldValues,false); // any order
 		
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(new list<SObject>
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            OPPORTUNITY_OBJECT_TYPE.newSObject(),
                                            OPPORTUNITY_OBJECT_TYPE.newSObject()    
                                        }
                                       ));
-		Assert.isTrue(!matcher.matches(new list<SObject>
+		Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            GROUP_OBJECT_TYPE.newSObject(),
                                            GROUP_OBJECT_TYPE.newSObject()
                                        }
                                       ),'sObjectsWith arity agrees but arg doesn\'t match matcher');
-		Assert.isTrue(!matcher.matches('NotAListofSObject'));
+		Assert.isFalse(matcher.matches('NotAListofSObject'));
 
 		Assert.isTrue(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order. Match should be OK');
         Assert.isTrue (matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
                                      'sObjectsWith toMatch and args have same arity but args are in diff order than matcher. Should be OK') ;            
                       
 
-		Assert.isTrue(!new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues,false).matches(GROUP_RECORDS));
+		Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues,false).matches(GROUP_RECORDS));
 	}
 
 	@isTest
@@ -1394,10 +1394,10 @@ public class fflib_MatcherDefinitionsTest
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWithId(ACCOUNT_RECORD.Id);
 
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches('NotASObject'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches('NotASObject'));
 
 		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 	}
@@ -1428,10 +1428,10 @@ public class fflib_MatcherDefinitionsTest
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWithName((String)ACCOUNT_RECORD.get('Name'));
 
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(!matcher.matches('NotASObject'));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		Assert.isFalse(matcher.matches('NotASObject'));
 
 		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 	}
@@ -1446,10 +1446,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenStringContainsMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringContains('bob');
-		Assert.isTrue(!matcher.matches(7));
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(''));
-		Assert.isTrue(!matcher.matches('blob'));
+		Assert.isFalse(matcher.matches(7));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(''));
+		Assert.isFalse(matcher.matches('blob'));
 		Assert.isTrue(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches('bobby'));
 	}
@@ -1478,10 +1478,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenStringEndsWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringEndsWith('bob');
-		Assert.isTrue(!matcher.matches(7));
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(''));
-		Assert.isTrue(!matcher.matches('bobby'));
+		Assert.isFalse(matcher.matches(7));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(''));
+		Assert.isFalse(matcher.matches('bobby'));
 		Assert.isTrue(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches('jimbob'));
 	}
@@ -1510,8 +1510,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenIsBlankWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringIsBlank();
-		Assert.isTrue(!matcher.matches(7));
-		Assert.isTrue(!matcher.matches('bob'));
+		Assert.isFalse(matcher.matches(7));
+		Assert.isFalse(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches(null));
 		Assert.isTrue(matcher.matches(''));
 	}
@@ -1526,9 +1526,9 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenIsNotBlankWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringIsNotBlank();
-		Assert.isTrue(!matcher.matches(7));
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(''));
+		Assert.isFalse(matcher.matches(7));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(''));
 		Assert.isTrue(matcher.matches('bob'));
 	}
 
@@ -1542,12 +1542,12 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenStringMatchesMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringMatches('(b|m)o[a-z]*');
-		Assert.isTrue(!matcher.matches(7));
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches('bib'));
-		Assert.isTrue(!matcher.matches('jimbob'));
-		Assert.isTrue(!matcher.matches('tom'));
-		Assert.isTrue(!matcher.matches('bob1'));
+		Assert.isFalse(matcher.matches(7));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches('bib'));
+		Assert.isFalse(matcher.matches('jimbob'));
+		Assert.isFalse(matcher.matches('tom'));
+		Assert.isFalse(matcher.matches('bob1'));
 		Assert.isTrue(matcher.matches('bobby'));
 		Assert.isTrue(matcher.matches('mo'));
 	}
@@ -1576,10 +1576,10 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenStringStartsWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringStartsWith('bob');
-		Assert.isTrue(!matcher.matches(7));
-		Assert.isTrue(!matcher.matches(null));
-		Assert.isTrue(!matcher.matches(''));
-		Assert.isTrue(!matcher.matches('jimbob'));
+		Assert.isFalse(matcher.matches(7));
+		Assert.isFalse(matcher.matches(null));
+		Assert.isFalse(matcher.matches(''));
+		Assert.isFalse(matcher.matches('jimbob'));
 		Assert.isTrue(matcher.matches('bob'));
 		Assert.isTrue(matcher.matches('bobby'));
 	}

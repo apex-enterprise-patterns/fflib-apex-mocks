@@ -257,7 +257,7 @@ private class fflib_ArgumentCaptorTest
 
 		Assert.areEqual(0, argsCaptured.size(), 'expected 0 argument to be captured');
 
-		Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
+		Assert.isNull(argument.getValue(), 'no value should be captured, so must return null');
 	}
 
 	@isTest
@@ -318,7 +318,7 @@ private class fflib_ArgumentCaptorTest
 
 		Assert.areEqual(0, capturedValues.size(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
-		Assert.areEqual(null, (String)argument.getValue(),
+		Assert.isNull((String)argument.getValue(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 
@@ -592,7 +592,7 @@ private class fflib_ArgumentCaptorTest
 
 		Assert.areEqual(0, argsCaptured.size(), 'expected 0 argument to be captured');
 
-		Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
+		Assert.isNull(argument.getValue(), 'no value should be captured, so must return null');
 	}
 
 	@isTest
@@ -657,7 +657,7 @@ private class fflib_ArgumentCaptorTest
 
 		Assert.areEqual(0, capturedValues.size(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
-		Assert.areEqual(null, (String)argument.getValue(),
+		Assert.isNull((String)argument.getValue(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 

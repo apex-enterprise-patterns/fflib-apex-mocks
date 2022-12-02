@@ -76,7 +76,7 @@ public with sharing class fflib_MatchTest
 		Boolean match = fflib_Match.matchesAllArgs(argValues, targetMatchers);
 
 		//Then
-		Assert.isTrue(!match);
+		Assert.isFalse(match);
 	}
 	
 	@isTest
@@ -101,7 +101,7 @@ public with sharing class fflib_MatchTest
 		Boolean match = fflib_Match.matchesAllArgs(argValues, targetMatchers);
 
 		//Then
-		Assert.isTrue(!match);
+		Assert.isFalse(match);
 	}
 	
 	@isTest
@@ -126,7 +126,7 @@ public with sharing class fflib_MatchTest
 		Boolean match = fflib_Match.matchesAllArgs(argValues, targetMatchers);
 
 		//Then
-		Assert.isTrue(!match);
+		Assert.isFalse(match);
 	}
 	
 	@isTest
@@ -240,7 +240,7 @@ public with sharing class fflib_MatchTest
 		
 		Assert.areNotEqual(null, registeredMatchers);
 		Assert.areEqual(1, registeredMatchers.size());
-		Assert.isTrue(matcher === registeredMatchers[0]);
+		Assert.areEqual(matcher, registeredMatchers[0]);
 	}
 	
 	@isTest
@@ -253,7 +253,7 @@ public with sharing class fflib_MatchTest
 		Object retval = fflib_Match.matches(matcher);
 		
 		//Then
-		Assert.areEqual(null, retval);
+		Assert.isNull(retval);
 	}
 
 	@isTest
