@@ -68,20 +68,20 @@ public class fflib_ApexMocksUtilsTest
 		))[0];
 
 		//Then
-		Assert.areEqual(acc.Id, accWithRelationships.Id);
-		Assert.areEqual(acc.Name, accWithRelationships.Name);
-		Assert.areEqual(acc.NumberOfEmployees, accWithRelationships.NumberOfEmployees);
+		System.Assert.areEqual(acc.Id, accWithRelationships.Id);
+		System.Assert.areEqual(acc.Name, accWithRelationships.Name);
+		System.Assert.areEqual(acc.NumberOfEmployees, accWithRelationships.NumberOfEmployees);
 		
 		//Assert relationship fields
 		List<Contact> contacts = accWithRelationships.Contacts;
-		Assert.areNotEqual(null, contacts);
-		Assert.areEqual(2, contacts.size());
+		System.Assert.areNotEqual(null, contacts);
+		System.Assert.areEqual(2, contacts.size());
 
-		Assert.areEqual(contact1.Id, contacts[0].Id);
-		Assert.areEqual(contact1.DoNotCall, contacts[0].DoNotCall);
+		System.Assert.areEqual(contact1.Id, contacts[0].Id);
+		System.Assert.areEqual(contact1.DoNotCall, contacts[0].DoNotCall);
 
-		Assert.areEqual(contact2.Id, contacts[1].Id);
-		Assert.areEqual(contact2.DoNotCall, contacts[1].DoNotCall);
+		System.Assert.areEqual(contact2.Id, contacts[1].Id);
+		System.Assert.areEqual(contact2.DoNotCall, contacts[1].DoNotCall);
 	}
 
 	@isTest
@@ -111,20 +111,20 @@ public class fflib_ApexMocksUtilsTest
 		))[0];
 
 		//Then
-		Assert.areEqual(acc.Id, accWithRelationships.Id);
-		Assert.areEqual(acc.get('Name'), accWithRelationships.get('Name'));
-		Assert.areEqual(acc.get('NumberOfEmployees'), accWithRelationships.get('NumberOfEmployees'));
+		System.Assert.areEqual(acc.Id, accWithRelationships.Id);
+		System.Assert.areEqual(acc.get('Name'), accWithRelationships.get('Name'));
+		System.Assert.areEqual(acc.get('NumberOfEmployees'), accWithRelationships.get('NumberOfEmployees'));
 
 		//Assert relationship fields
 		List<SObject> contacts = accWithRelationships.getSObjects('Contacts');
-		Assert.areNotEqual(null, contacts);
-		Assert.areEqual(2, contacts.size());
+		System.Assert.areNotEqual(null, contacts);
+		System.Assert.areEqual(2, contacts.size());
 
-		Assert.areEqual(contact1.Id, contacts[0].Id);
-		Assert.areEqual((Boolean)contact1.get('DoNotCall'), (Boolean)contacts[0].get('DoNotCall'));
+		System.Assert.areEqual(contact1.Id, contacts[0].Id);
+		System.Assert.areEqual((Boolean)contact1.get('DoNotCall'), (Boolean)contacts[0].get('DoNotCall'));
 
-		Assert.areEqual(contact2.Id, contacts[1].Id);
-		Assert.areEqual((Boolean)contact2.get('DoNotCall'), (Boolean)contacts[1].get('DoNotCall'));
+		System.Assert.areEqual(contact2.Id, contacts[1].Id);
+		System.Assert.areEqual((Boolean)contact2.get('DoNotCall'), (Boolean)contacts[1].get('DoNotCall'));
 	}
 
 	@isTest
@@ -151,7 +151,7 @@ public class fflib_ApexMocksUtilsTest
 		} catch (Exception exc) {
 			errorMessage = exc.getMessage();
 		}
-		Assert.areEqual('SObject type not found: MyInvalidParentType', errorMessage);
+		System.Assert.areEqual('SObject type not found: MyInvalidParentType', errorMessage);
 	}
 
 	@isTest
@@ -178,7 +178,7 @@ public class fflib_ApexMocksUtilsTest
 		} catch (Exception exc) {
 			errorMessage = exc.getMessage();
 		}
-		Assert.areEqual('SObject type not found: MyInvalidChildType', errorMessage);
+		System.Assert.areEqual('SObject type not found: MyInvalidChildType', errorMessage);
 	}
 
 	@isTest
@@ -205,7 +205,7 @@ public class fflib_ApexMocksUtilsTest
 		} catch (Exception exc) {
 			errorMessage = exc.getMessage();
 		}
-		Assert.areEqual('SObject field not found: MyInvalidField', errorMessage);
+		System.Assert.areEqual('SObject field not found: MyInvalidField', errorMessage);
 	}
 
 	@isTest
@@ -222,7 +222,7 @@ public class fflib_ApexMocksUtilsTest
 		);
 		Test.stopTest();
 
-		Assert.areEqual(userId, acc.CreatedById);
+		System.Assert.areEqual(userId, acc.CreatedById);
 	}
 
 	@isTest
@@ -239,7 +239,7 @@ public class fflib_ApexMocksUtilsTest
 		);
 		Test.stopTest();
 
-		Assert.areEqual(lastRefDate, acc.LastReferencedDate);
+		System.Assert.areEqual(lastRefDate, acc.LastReferencedDate);
 	}
 
 	@isTest
@@ -256,7 +256,7 @@ public class fflib_ApexMocksUtilsTest
 		);
 		Test.stopTest();
 
-		Assert.areEqual(isDeleted, acc.IsDeleted);
+		System.Assert.areEqual(isDeleted, acc.IsDeleted);
 	}
 
 	@isTest
@@ -273,6 +273,6 @@ public class fflib_ApexMocksUtilsTest
 		);
 		Test.stopTest();
 
-		Assert.areEqual(acc.Name, t.What.Name);
+		System.Assert.areEqual(acc.Name, t.What.Name);
 	}
 }

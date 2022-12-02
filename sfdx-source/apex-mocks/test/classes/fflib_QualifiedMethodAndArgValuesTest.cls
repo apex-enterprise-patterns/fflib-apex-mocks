@@ -15,10 +15,10 @@ public class fflib_QualifiedMethodAndArgValuesTest
         Object obj2 = qmaav.getMockInstance();
         String string1 = qmaav.toString();
 
-        Assert.areEqual(qm1, qm2);
-        Assert.areEqual(mav1, mav2);
-        Assert.areEqual(obj1, obj2);
-        Assert.areEqual('Type1.Method1(Integer) with args: [hello]', string1);
+        System.Assert.areEqual(qm1, qm2);
+        System.Assert.areEqual(mav1, mav2);
+        System.Assert.areEqual(obj1, obj2);
+        System.Assert.areEqual('Type1.Method1(Integer) with args: [hello]', string1);
 
     }
 }

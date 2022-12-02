@@ -68,11 +68,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(null, INTERNAL_MATCHERS);
-			Assert.fail('Expecting exception');
+			System.Assert.fail('Expecting exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Invalid connective expression: null', e.getMessage());
+			System.Assert.areEqual('Invalid connective expression: null', e.getMessage());
 		}
 	}
 
@@ -82,11 +82,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, null);
-			Assert.fail('Expecting exception');
+			System.Assert.fail('Expecting exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Invalid inner matchers: null', e.getMessage());
+			System.Assert.areEqual('Invalid inner matchers: null', e.getMessage());
 		}
 	}
 
@@ -96,11 +96,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, new List<fflib_IMatcher>());
-			Assert.fail('Expecting exception');
+			System.Assert.fail('Expecting exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Invalid inner matchers: ()', e.getMessage());
+			System.Assert.areEqual('Invalid inner matchers: ()', e.getMessage());
 		}
 	}
 
@@ -108,33 +108,33 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenCombinedMatchesWithAllExpressionShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, INTERNAL_MATCHERS);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('ted'));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches('tomfred'));
-		Assert.isTrue(matcher.matches('bobtomfred'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('ted'));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches('tomfred'));
+		System.Assert.isTrue(matcher.matches('bobtomfred'));
 	}
 
 	@isTest
 	private static void whenCombinedMatchesWithAtLeastOneExpressionShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.AT_LEAST_ONE, INTERNAL_MATCHERS);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('ted'));
-		Assert.isTrue(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches('tomfred'));
-		Assert.isTrue(matcher.matches('bobtomfred'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('ted'));
+		System.Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches('tomfred'));
+		System.Assert.isTrue(matcher.matches('bobtomfred'));
 	}
 
 	@isTest
 	private static void whenCombinedMatchesWithNoneExpressionShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.NONE, INTERNAL_MATCHERS);
-		Assert.isTrue(matcher.matches(null));
-		Assert.isTrue(matcher.matches('ted'));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches('tomfred'));
-		Assert.isFalse(matcher.matches('bobtomfred'));
+		System.Assert.isTrue(matcher.matches(null));
+		System.Assert.isTrue(matcher.matches('ted'));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches('tomfred'));
+		System.Assert.isFalse(matcher.matches('bobtomfred'));
 	}
 
 	@isTest
@@ -146,15 +146,15 @@ public class fflib_MatcherDefinitionsTest
 			new StringMatcher('three')
 		};
 
-		Assert.areEqual(
+		System.Assert.areEqual(
 			'[any of: "one", "two", "three"]',
 			'' + new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.AT_LEAST_ONE, innerMatchers)
 		);
-		Assert.areEqual(
+		System.Assert.areEqual(
 			'[all of: "one", "two", "three"]',
 			'' + new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.ALL, innerMatchers)
 		);
-		Assert.areEqual(
+		System.Assert.areEqual(
 			'[none of: "one", "two", "three"]',
 			'' + new fflib_MatcherDefinitions.Combined(fflib_MatcherDefinitions.Connective.NONE, innerMatchers)
 		);
@@ -166,11 +166,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.Eq(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -180,16 +180,16 @@ public class fflib_MatcherDefinitionsTest
 		List<String> s1 = new List<String> {'bob', 'tom'};
 		List<String> s2 = new List<String> {'bob', 'tom'};
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.Eq(s1);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(new List<String> {'bob'}));
-		Assert.isTrue(matcher.matches(s2));
-		Assert.isTrue(matcher.matches(s1));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(new List<String> {'bob'}));
+		System.Assert.isTrue(matcher.matches(s2));
+		System.Assert.isTrue(matcher.matches(s1));
 	}
 
 	@isTest
 	private static void whenEqToStringShouldReturnExpectedString()
 	{
-		Assert.areEqual('[equals 1]', '' + new fflib_MatcherDefinitions.Eq(1));
+		System.Assert.areEqual('[equals 1]', '' + new fflib_MatcherDefinitions.Eq(1));
 	}
 
 	@isTest
@@ -198,11 +198,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.RefEq(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -212,116 +212,116 @@ public class fflib_MatcherDefinitionsTest
 		List<String> s1 = new List<String> {'bob', 'tom'};
 		List<String> s2 = new List<String> {'bob', 'tom'};
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.RefEq(s1);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(s2));
-		Assert.isTrue(matcher.matches(s1));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(s2));
+		System.Assert.isTrue(matcher.matches(s1));
 	}
 
 	@isTest
 	private static void whenRefEqToStringReturnsExpectedString()
 	{
         List<String> s1 = new List<String> {'bob', 'tom'};
-		Assert.areEqual('[reference equals ' + JSON.serialize(s1, false) + ']', '' + new fflib_MatcherDefinitions.RefEq(s1));
+		System.Assert.areEqual('[reference equals ' + JSON.serialize(s1, false) + ']', '' + new fflib_MatcherDefinitions.RefEq(s1));
 	}
 
 	@isTest
 	private static void whenAnyBooleanMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyBoolean();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(9));
-		Assert.isTrue(matcher.matches(true));
-		Assert.isTrue(matcher.matches(false));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(9));
+		System.Assert.isTrue(matcher.matches(true));
+		System.Assert.isTrue(matcher.matches(false));
 	}
 
 	@isTest
 	private static void whenAnyBooleanToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Boolean]', '' + new fflib_MatcherDefinitions.AnyBoolean());
+		System.Assert.areEqual('[any Boolean]', '' + new fflib_MatcherDefinitions.AnyBoolean());
 	}
 
 	@isTest
 	private static void whenAnyDateMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDate();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(TODAY));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(TODAY));
 	}
 
 	@isTest
 	private static void whenAnyDateToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Date]', '' + new fflib_MatcherDefinitions.AnyDate());
+		System.Assert.areEqual('[any Date]', '' + new fflib_MatcherDefinitions.AnyDate());
 	}
 
 	@isTest
 	private static void whenAnyDatetimeMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDatetime();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isTrue(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(TODAY));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isTrue(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(TODAY));
 	}
 
 	@isTest
 	private static void whenAnyDatetimeToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any DateTime]', '' + new fflib_MatcherDefinitions.AnyDatetime());
+		System.Assert.areEqual('[any DateTime]', '' + new fflib_MatcherDefinitions.AnyDatetime());
 	}
 
 	@isTest
 	private static void whenAnyDecimalMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDecimal();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(9));
-		Assert.isTrue(matcher.matches(9L));
-		Assert.isTrue(matcher.matches(9.99));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(9));
+		System.Assert.isTrue(matcher.matches(9L));
+		System.Assert.isTrue(matcher.matches(9.99));
 	}
 
 	@isTest
 	private static void whenAnyDecimalToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Decimal]', '' + new fflib_MatcherDefinitions.AnyDecimal());
+		System.Assert.areEqual('[any Decimal]', '' + new fflib_MatcherDefinitions.AnyDecimal());
 	}
 
 	@isTest
 	private static void whenAnyDoubleMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyDouble();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(9));
-		Assert.isTrue(matcher.matches(9L));
-		Assert.isTrue(matcher.matches(9.99));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(9));
+		System.Assert.isTrue(matcher.matches(9L));
+		System.Assert.isTrue(matcher.matches(9.99));
 	}
 
 	@isTest
 	private static void whenAnyDoubleToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Double]', '' + new fflib_MatcherDefinitions.AnyDouble());
+		System.Assert.areEqual('[any Double]', '' + new fflib_MatcherDefinitions.AnyDouble());
 	}
 
 	@isTest
 	private static void whenAnyFieldSetMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyFieldSet();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
 
 		Schema.FieldSet anyFieldSet = fflib_ApexMocksUtilsTest.findAnyFieldSet();
 		if (anyFieldSet != null)
 		{
-			Assert.isTrue(matcher.matches(anyFieldSet));
+			System.Assert.isTrue(matcher.matches(anyFieldSet));
 		}
 	}
 
 	@isTest
 	private static void whenAnyFieldSetToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any FieldSet]', '' + new fflib_MatcherDefinitions.AnyFieldSet());
+		System.Assert.areEqual('[any FieldSet]', '' + new fflib_MatcherDefinitions.AnyFieldSet());
 	}
 
 	@isTest
@@ -330,143 +330,143 @@ public class fflib_MatcherDefinitionsTest
 		String idString = fflib_IDGenerator.generate(Account.SObjectType);
 		Id accountId = fflib_IDGenerator.generate(Account.SObjectType);
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyId();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(idString));
-		Assert.isTrue(matcher.matches(accountId));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(idString));
+		System.Assert.isTrue(matcher.matches(accountId));
 	}
 
 	@isTest
 	private static void whenAnyIdToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Id]', '' + new fflib_MatcherDefinitions.AnyId());
+		System.Assert.areEqual('[any Id]', '' + new fflib_MatcherDefinitions.AnyId());
 	}
 
 	@isTest
 	private static void whenAnyIntegerMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyInteger();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(9L));
-		Assert.isFalse(matcher.matches(9.99));
-		Assert.isTrue(matcher.matches(9));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(9L));
+		System.Assert.isFalse(matcher.matches(9.99));
+		System.Assert.isTrue(matcher.matches(9));
 	}
 
 	@isTest
 	private static void whenAnyIntegerToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Integer]', '' + new fflib_MatcherDefinitions.AnyInteger());
+		System.Assert.areEqual('[any Integer]', '' + new fflib_MatcherDefinitions.AnyInteger());
 	}
 
 	@isTest
 	private static void whenAnyListMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyList();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(new List<String>()));
-		Assert.isTrue(matcher.matches(new List<Integer>()));
-		Assert.isTrue(matcher.matches(new List<Object>()));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(new List<String>()));
+		System.Assert.isTrue(matcher.matches(new List<Integer>()));
+		System.Assert.isTrue(matcher.matches(new List<Object>()));
 	}
 
 	@isTest
 	private static void whenAnyListToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any list]', '' + new fflib_MatcherDefinitions.AnyList());
+		System.Assert.areEqual('[any list]', '' + new fflib_MatcherDefinitions.AnyList());
 	}
 
 	@isTest
 	private static void whenAnyLongMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyLong();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(9.99));
-		Assert.isTrue(matcher.matches(9));
-		Assert.isTrue(matcher.matches(9L));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(9.99));
+		System.Assert.isTrue(matcher.matches(9));
+		System.Assert.isTrue(matcher.matches(9L));
 	}
 
 	@isTest
 	private static void whenAnyLongToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Long]', '' + new fflib_MatcherDefinitions.AnyLong());
+		System.Assert.areEqual('[any Long]', '' + new fflib_MatcherDefinitions.AnyLong());
 	}
 
 	@isTest
 	private static void whenAnyObjectMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyObject();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isTrue(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(9));
-		Assert.isTrue(matcher.matches(new List<String>()));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(9));
+		System.Assert.isTrue(matcher.matches(new List<String>()));
 	}
 
 	@isTest
 	private static void whenAnyObjectToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any Object]', '' + new fflib_MatcherDefinitions.AnyObject());
+		System.Assert.areEqual('[any Object]', '' + new fflib_MatcherDefinitions.AnyObject());
 	}
 
 	@isTest
 	private static void whenAnyStringMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnyString();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(9));
-		Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(9));
+		System.Assert.isTrue(matcher.matches('bob'));
 	}
 
 	@isTest
 	private static void whenAnyStringToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any String]', '' + new fflib_MatcherDefinitions.AnyString());
+		System.Assert.areEqual('[any String]', '' + new fflib_MatcherDefinitions.AnyString());
 	}
 
 	@isTest
 	private static void whenAnySObjectMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObject();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(new Account()));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(new Account()));
 	}
 
 	@isTest
 	private static void whenAnySObjectToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any SObject]', '' + new fflib_MatcherDefinitions.AnySObject());
+		System.Assert.areEqual('[any SObject]', '' + new fflib_MatcherDefinitions.AnySObject());
 	}
 
 	@isTest
 	private static void whenAnySObjectFieldMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObjectField();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(new Account()));
-		Assert.isTrue(matcher.matches(Account.Id));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(new Account()));
+		System.Assert.isTrue(matcher.matches(Account.Id));
 	}
 
 	@isTest
 	private static void whenAnySObjectFieldToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any SObjectField]', '' + new fflib_MatcherDefinitions.AnySObjectField());
+		System.Assert.areEqual('[any SObjectField]', '' + new fflib_MatcherDefinitions.AnySObjectField());
 	}
 
 	@isTest
 	private static void whenAnySObjectTypeMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.AnySObjectType();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(new Account()));
-		Assert.isTrue(matcher.matches(Account.SObjectType));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(new Account()));
+		System.Assert.isTrue(matcher.matches(Account.SObjectType));
 	}
 
 	@isTest
 	private static void whenAnySObjectTypeToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[any SObjectType]', '' + new fflib_MatcherDefinitions.AnySObjectType());
+		System.Assert.areEqual('[any SObjectType]', '' + new fflib_MatcherDefinitions.AnySObjectType());
 	}
 
 	@isTest
@@ -475,11 +475,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeAfter(null, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -489,11 +489,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeAfter(System.now(), null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -501,22 +501,22 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeAfterMatchesWithoutInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(NOW, false);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
-		Assert.isFalse(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
+		System.Assert.isFalse(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
 	}
 
 	@isTest
 	private static void whenDatetimeAfterMatchesWithInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(NOW, true);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
-		Assert.isTrue(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
+		System.Assert.isTrue(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
 	}
 
 	@isTest
@@ -530,7 +530,7 @@ public class fflib_MatcherDefinitionsTest
 		String actual = '' + matcher;
 
 		// Then
-		Assert.areEqual('[on or after "2019-01-01T12:00:00.000Z"]', actual);
+		System.Assert.areEqual('[on or after "2019-01-01T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -544,7 +544,7 @@ public class fflib_MatcherDefinitionsTest
 		String actual = '' + matcher;
 
 		// Then
-		Assert.areEqual('[after "2019-01-01T12:00:00.000Z"]', actual);
+		System.Assert.areEqual('[after "2019-01-01T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -553,11 +553,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBefore(null, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -567,11 +567,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBefore(System.now(), null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -579,22 +579,22 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBeforeMatchesWithoutInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(NOW, false);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
-		Assert.isFalse(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
+		System.Assert.isFalse(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
 	}
 
 	@isTest
 	private static void whenDatetimeBeforeMatchesWithInclusiveShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(NOW, true);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
-		Assert.isTrue(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
+		System.Assert.isTrue(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
 	}
 
 	@isTest
@@ -608,7 +608,7 @@ public class fflib_MatcherDefinitionsTest
 		String actual = '' + matcher;
 
 		// Then
-		Assert.areEqual('[on or before "2019-01-01T12:00:00.000Z"]', actual);
+		System.Assert.areEqual('[on or before "2019-01-01T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -622,7 +622,7 @@ public class fflib_MatcherDefinitionsTest
 		String actual = '' + matcher;
 
 		// Then
-		Assert.areEqual('[before "2019-01-01T12:00:00.000Z"]', actual);
+		System.Assert.areEqual('[before "2019-01-01T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -631,11 +631,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(null, true, System.now(), true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -645,11 +645,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(System.now(), true, null, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -659,11 +659,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(System.now(), null, System.now(), true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -673,11 +673,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DatetimeBetween(System.now(), true, System.now(), null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -685,24 +685,24 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBetweenMatchesWithInclusiveFromWithoutInclusiveToShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(NOW.addSeconds(-1), true, NOW.addSeconds(1), false);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(-2)));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
-		Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
-		Assert.isTrue(matcher.matches(NOW));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(-2)));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(1)));
+		System.Assert.isTrue(matcher.matches(NOW.addSeconds(-1)));
+		System.Assert.isTrue(matcher.matches(NOW));
 	}
 
 	@isTest
 	private static void whenDatetimeBetweenMatchesWithInclusiveToWithoutInclusiveFromShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(NOW.addSeconds(-1), false, NOW.addSeconds(1), true);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(2)));
-		Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
-		Assert.isTrue(matcher.matches(NOW));
-		Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(2)));
+		System.Assert.isFalse(matcher.matches(NOW.addSeconds(-1)));
+		System.Assert.isTrue(matcher.matches(NOW));
+		System.Assert.isTrue(matcher.matches(NOW.addSeconds(1)));
 	}
 
 	@isTest
@@ -717,7 +717,7 @@ public class fflib_MatcherDefinitionsTest
 		String actual = '' + matcher;
 
 		// Then
-		Assert.areEqual('[on or after "2019-01-01T12:00:00.000Z" and on or before "2019-01-03T12:00:00.000Z"]', actual);
+		System.Assert.areEqual('[on or after "2019-01-01T12:00:00.000Z" and on or before "2019-01-03T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -732,7 +732,7 @@ public class fflib_MatcherDefinitionsTest
 		String actual = '' + matcher;
 
 		// Then
-		Assert.areEqual('[after "2019-01-01T12:00:00.000Z" and before "2019-01-03T12:00:00.000Z"]', actual);
+		System.Assert.areEqual('[after "2019-01-01T12:00:00.000Z" and before "2019-01-03T12:00:00.000Z"]', actual);
 	}
 
 	@isTest
@@ -741,11 +741,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(null, true, 123, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -755,11 +755,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(123, null, 123, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -769,11 +769,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(123, true, null, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -783,11 +783,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalBetween(123, true, 123, null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -803,44 +803,44 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher inLowerInUpper = new fflib_MatcherDefinitions.DecimalBetween(lower, true, upper, true);
 
 		//Exclusive lower, exclusive upper
-		Assert.isFalse(exLowerExUpper.matches(lower - 1));
-		Assert.isFalse(exLowerExUpper.matches(lower));
-		Assert.isTrue(exLowerExUpper.matches(lower + 1));
-		Assert.isTrue(exLowerExUpper.matches(upper - 1));
-		Assert.isFalse(exLowerExUpper.matches(upper));
-		Assert.isFalse(exLowerExUpper.matches(upper + 1));
-		Assert.isFalse(exLowerExUpper.matches(null));
-		Assert.isFalse(exLowerExUpper.matches('NotADecimal'));
+		System.Assert.isFalse(exLowerExUpper.matches(lower - 1));
+		System.Assert.isFalse(exLowerExUpper.matches(lower));
+		System.Assert.isTrue(exLowerExUpper.matches(lower + 1));
+		System.Assert.isTrue(exLowerExUpper.matches(upper - 1));
+		System.Assert.isFalse(exLowerExUpper.matches(upper));
+		System.Assert.isFalse(exLowerExUpper.matches(upper + 1));
+		System.Assert.isFalse(exLowerExUpper.matches(null));
+		System.Assert.isFalse(exLowerExUpper.matches('NotADecimal'));
 
 		//Exclusive lower, inclusive upper
-		Assert.isFalse(exLowerInUpper.matches(lower - 1));
-		Assert.isFalse(exLowerInUpper.matches(lower));
-		Assert.isTrue(exLowerInUpper.matches(lower + 1));
-		Assert.isTrue(exLowerInUpper.matches(upper - 1));
-		Assert.isTrue(exLowerInUpper.matches(upper));
-		Assert.isFalse(exLowerInUpper.matches(upper + 1));
-		Assert.isFalse(exLowerInUpper.matches(null));
-		Assert.isFalse(exLowerInUpper.matches('NotADecimal'));
+		System.Assert.isFalse(exLowerInUpper.matches(lower - 1));
+		System.Assert.isFalse(exLowerInUpper.matches(lower));
+		System.Assert.isTrue(exLowerInUpper.matches(lower + 1));
+		System.Assert.isTrue(exLowerInUpper.matches(upper - 1));
+		System.Assert.isTrue(exLowerInUpper.matches(upper));
+		System.Assert.isFalse(exLowerInUpper.matches(upper + 1));
+		System.Assert.isFalse(exLowerInUpper.matches(null));
+		System.Assert.isFalse(exLowerInUpper.matches('NotADecimal'));
 		
 		//Inclusive lower, exclusive upper
-		Assert.isFalse(inLowerExUpper.matches(lower - 1));
-		Assert.isTrue(inLowerExUpper.matches(lower));
-		Assert.isTrue(inLowerExUpper.matches(lower + 1));
-		Assert.isTrue(inLowerExUpper.matches(upper - 1));
-		Assert.isFalse(inLowerExUpper.matches(upper));
-		Assert.isFalse(inLowerExUpper.matches(upper + 1));
-		Assert.isFalse(inLowerExUpper.matches(null));
-		Assert.isFalse(inLowerExUpper.matches('NotADecimal'));
+		System.Assert.isFalse(inLowerExUpper.matches(lower - 1));
+		System.Assert.isTrue(inLowerExUpper.matches(lower));
+		System.Assert.isTrue(inLowerExUpper.matches(lower + 1));
+		System.Assert.isTrue(inLowerExUpper.matches(upper - 1));
+		System.Assert.isFalse(inLowerExUpper.matches(upper));
+		System.Assert.isFalse(inLowerExUpper.matches(upper + 1));
+		System.Assert.isFalse(inLowerExUpper.matches(null));
+		System.Assert.isFalse(inLowerExUpper.matches('NotADecimal'));
 		
 		//Inclusive lower, inclusive upper
-		Assert.isFalse(inLowerInUpper.matches(lower - 1));
-		Assert.isTrue(inLowerInUpper.matches(lower));
-		Assert.isTrue(inLowerInUpper.matches(lower + 1));
-		Assert.isTrue(inLowerInUpper.matches(upper - 1));
-		Assert.isTrue(inLowerInUpper.matches(upper));
-		Assert.isFalse(inLowerInUpper.matches(upper + 1));
-		Assert.isFalse(inLowerInUpper.matches(null));
-		Assert.isFalse(inLowerInUpper.matches('NotADecimal'));
+		System.Assert.isFalse(inLowerInUpper.matches(lower - 1));
+		System.Assert.isTrue(inLowerInUpper.matches(lower));
+		System.Assert.isTrue(inLowerInUpper.matches(lower + 1));
+		System.Assert.isTrue(inLowerInUpper.matches(upper - 1));
+		System.Assert.isTrue(inLowerInUpper.matches(upper));
+		System.Assert.isFalse(inLowerInUpper.matches(upper + 1));
+		System.Assert.isFalse(inLowerInUpper.matches(null));
+		System.Assert.isFalse(inLowerInUpper.matches('NotADecimal'));
 	}
 
 	@isTest
@@ -851,13 +851,13 @@ public class fflib_MatcherDefinitionsTest
 
 		List<Integer> formatList = new List<Integer>{lower, upper};
 
-		Assert.areEqual(String.format('greater than {0} and less than {1}', formatList),
+		System.Assert.areEqual(String.format('greater than {0} and less than {1}', formatList),
 			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, false, upper, false));
-		Assert.areEqual(String.format('greater than {0} and less than or equal to {1}', formatList),
+		System.Assert.areEqual(String.format('greater than {0} and less than or equal to {1}', formatList),
 			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, false, upper, true));
-		Assert.areEqual(String.format('greater than or equal to {0} and less than {1}', formatList),
+		System.Assert.areEqual(String.format('greater than or equal to {0} and less than {1}', formatList),
 			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, true, upper, false));
-		Assert.areEqual(String.format('greater than or equal to {0} and less than or equal to {1}', formatList),
+		System.Assert.areEqual(String.format('greater than or equal to {0} and less than or equal to {1}', formatList),
 			'' + new fflib_MatcherDefinitions.DecimalBetween(lower, true, upper, true));
 	}
 
@@ -867,11 +867,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalLessThan(null, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -881,11 +881,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalLessThan(123, null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -898,18 +898,18 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher inclusive = new fflib_MatcherDefinitions.DecimalLessThan(toMatch, true);
 		
 		//Exclusive
-		Assert.isTrue(exclusive.matches(toMatch - 1));
-		Assert.isFalse(exclusive.matches(toMatch));
-		Assert.isFalse(exclusive.matches(toMatch + 1));
-		Assert.isFalse(exclusive.matches(null));
-		Assert.isFalse(exclusive.matches('NotADecimal'));
+		System.Assert.isTrue(exclusive.matches(toMatch - 1));
+		System.Assert.isFalse(exclusive.matches(toMatch));
+		System.Assert.isFalse(exclusive.matches(toMatch + 1));
+		System.Assert.isFalse(exclusive.matches(null));
+		System.Assert.isFalse(exclusive.matches('NotADecimal'));
 
 		//Inclusive
-		Assert.isTrue(inclusive.matches(toMatch - 1));
-		Assert.isTrue(inclusive.matches(toMatch));
-		Assert.isFalse(inclusive.matches(toMatch + 1));
-		Assert.isFalse(inclusive.matches(null));
-		Assert.isFalse(inclusive.matches('NotADecimal'));
+		System.Assert.isTrue(inclusive.matches(toMatch - 1));
+		System.Assert.isTrue(inclusive.matches(toMatch));
+		System.Assert.isFalse(inclusive.matches(toMatch + 1));
+		System.Assert.isFalse(inclusive.matches(null));
+		System.Assert.isFalse(inclusive.matches('NotADecimal'));
 	}
 
 	@isTest
@@ -917,9 +917,9 @@ public class fflib_MatcherDefinitionsTest
 	{
 		Integer toMatch = 5;
 
-		Assert.areEqual('[less than or equal to ' + toMatch + ']',
+		System.Assert.areEqual('[less than or equal to ' + toMatch + ']',
 			'' + new fflib_MatcherDefinitions.DecimalLessThan(toMatch, true));
-		Assert.areEqual('[less than ' + toMatch + ']',
+		System.Assert.areEqual('[less than ' + toMatch + ']',
 			'' + new fflib_MatcherDefinitions.DecimalLessThan(toMatch, false));
 	}
 
@@ -929,11 +929,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalMoreThan(null, true);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 		
@@ -943,11 +943,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.DecimalMoreThan(123, null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 		
@@ -960,18 +960,18 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher inclusive = new fflib_MatcherDefinitions.DecimalMoreThan(toMatch, true);
 		
 		//Exclusive
-		Assert.isFalse(exclusive.matches(toMatch - 1));
-		Assert.isFalse(exclusive.matches(toMatch));
-		Assert.isTrue(exclusive.matches(toMatch + 1));
-		Assert.isFalse(exclusive.matches(null));
-		Assert.isFalse(exclusive.matches('NotADecimal'));
+		System.Assert.isFalse(exclusive.matches(toMatch - 1));
+		System.Assert.isFalse(exclusive.matches(toMatch));
+		System.Assert.isTrue(exclusive.matches(toMatch + 1));
+		System.Assert.isFalse(exclusive.matches(null));
+		System.Assert.isFalse(exclusive.matches('NotADecimal'));
 
 		//Inclusive
-		Assert.isFalse(inclusive.matches(toMatch - 1));
-		Assert.isTrue(inclusive.matches(toMatch));
-		Assert.isTrue(inclusive.matches(toMatch + 1));
-		Assert.isFalse(inclusive.matches(null));
-		Assert.isFalse(inclusive.matches('NotADecimal'));
+		System.Assert.isFalse(inclusive.matches(toMatch - 1));
+		System.Assert.isTrue(inclusive.matches(toMatch));
+		System.Assert.isTrue(inclusive.matches(toMatch + 1));
+		System.Assert.isFalse(inclusive.matches(null));
+		System.Assert.isFalse(inclusive.matches('NotADecimal'));
 	}
 
 	@isTest
@@ -979,9 +979,9 @@ public class fflib_MatcherDefinitionsTest
 	{
 		Integer toMatch = 5;
 
-		Assert.areEqual('[greater than or equal to ' + toMatch + ']',
+		System.Assert.areEqual('[greater than or equal to ' + toMatch + ']',
 			'' + new fflib_MatcherDefinitions.DecimalMoreThan(toMatch, true));
-		Assert.areEqual('[greater than ' + toMatch + ']',
+		System.Assert.areEqual('[greater than ' + toMatch + ']',
 			'' + new fflib_MatcherDefinitions.DecimalMoreThan(toMatch, false));
 	}
 
@@ -991,11 +991,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.FieldSetEquivalentTo(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -1004,7 +1004,7 @@ public class fflib_MatcherDefinitionsTest
 	{
 		//Cheap test to maintain 100% code coverage, even in orgs without field sets defined.
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.FieldSetEquivalentTo();
-		Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(null));
 	}
 
 	@isTest
@@ -1017,9 +1017,9 @@ public class fflib_MatcherDefinitionsTest
 		}
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.FieldSetEquivalentTo(anyFieldSet);
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('hello'));
-		Assert.isTrue(matcher.matches(anyFieldSet));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('hello'));
+		System.Assert.isTrue(matcher.matches(anyFieldSet));
 	}
 
 	@isTest
@@ -1032,7 +1032,7 @@ public class fflib_MatcherDefinitionsTest
 		}
 		Set<Schema.FieldSetMember> fieldSetMembers = new Set<Schema.FieldSetMember>((anyFieldSet).getFields());
 
-		Assert.areEqual('[FieldSet with fields ' + JSON.serialize(fieldSetMembers, false) + ']',
+		System.Assert.areEqual('[FieldSet with fields ' + JSON.serialize(fieldSetMembers, false) + ']',
 			'' + new fflib_MatcherDefinitions.FieldSetEquivalentTo(anyFieldSet));
 	}
 
@@ -1040,28 +1040,28 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenIsNullMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.IsNull();
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(null));
 	}
 
 	@isTest
 	private static void whenIsNullToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[is null]', '' + new fflib_MatcherDefinitions.IsNull());
+		System.Assert.areEqual('[is null]', '' + new fflib_MatcherDefinitions.IsNull());
 	}
 
 	@isTest
 	private static void whenIsNotNullMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.IsNotNull();
-		Assert.isFalse(matcher.matches(null));
-		Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isTrue(matcher.matches('bob'));
 	}
 
 	@isTest
 	private static void whenIsNotNullToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[is not null]', '' + new fflib_MatcherDefinitions.IsNotNull());
+		System.Assert.areEqual('[is not null]', '' + new fflib_MatcherDefinitions.IsNotNull());
 	}
 
 	@isTest
@@ -1070,17 +1070,17 @@ public class fflib_MatcherDefinitionsTest
 		List<String> names = new List<String>{ 'bob', 'tom', 'fred' };
 		List<String> empty = new List<String>();
 		
-		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches(null));
-		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches(empty));
-		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('jack').matches(names));
-		Assert.isTrue(new fflib_MatcherDefinitions.ListContains('fred').matches(names));
-		Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches('NotAList'));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches(null));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches(empty));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.ListContains('jack').matches(names));
+		System.Assert.isTrue(new fflib_MatcherDefinitions.ListContains('fred').matches(names));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.ListContains('fred').matches('NotAList'));
 	}
 
 	@isTest
 	private static void whenListContainsToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[list containing "hello"]', '' + new fflib_MatcherDefinitions.ListContains('hello'));
+		System.Assert.areEqual('[list containing "hello"]', '' + new fflib_MatcherDefinitions.ListContains('hello'));
 	}
 
 	@isTest
@@ -1091,16 +1091,16 @@ public class fflib_MatcherDefinitionsTest
 		List<String> names = new List<String>{ 'bob', 'tom', 'fred' };
 		List<String> empty = new List<String>();
 		
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(names));
-		Assert.isTrue(matcher.matches(empty));
-		Assert.isFalse(matcher.matches('NotAList'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(names));
+		System.Assert.isTrue(matcher.matches(empty));
+		System.Assert.isFalse(matcher.matches('NotAList'));
 	}
 
 	@isTest
 	private static void whenListIsEmptyToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[empty list]', '' + new fflib_MatcherDefinitions.ListIsEmpty());
+		System.Assert.areEqual('[empty list]', '' + new fflib_MatcherDefinitions.ListIsEmpty());
 	}
 
 	@isTest
@@ -1109,11 +1109,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectOfType(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -1122,18 +1122,18 @@ public class fflib_MatcherDefinitionsTest
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectOfType(ACCOUNT_OBJECT_TYPE);
 
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches('NotASObject'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches('NotASObject'));
 
-		Assert.isTrue(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
+		System.Assert.isTrue(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		System.Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 	}
 
 	@isTest
 	private static void whenSObjectOfTypeToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[SObject of type Account]', '' + new fflib_MatcherDefinitions.SObjectOfType(ACCOUNT_OBJECT_TYPE));
+		System.Assert.areEqual('[SObject of type Account]', '' + new fflib_MatcherDefinitions.SObjectOfType(ACCOUNT_OBJECT_TYPE));
 	}
 
 	@isTest
@@ -1142,11 +1142,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWith(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null/empty: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null/empty: null', e.getMessage());
 		}
 	}
 
@@ -1156,11 +1156,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWith(new Map<Schema.SObjectField, Object>());	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null/empty: {}', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null/empty: {}', e.getMessage());
 		}
 	}
 
@@ -1185,14 +1185,14 @@ public class fflib_MatcherDefinitionsTest
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWith(queriedFieldValues);
 		
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches('NotASObject'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches('NotASObject'));
 
-		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
+		System.Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 
-		Assert.isFalse(new fflib_MatcherDefinitions.SObjectWith(notQueriedFieldValues).matches(ACCOUNT_RECORD));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.SObjectWith(notQueriedFieldValues).matches(ACCOUNT_RECORD));
 	}
 
 	@isTest
@@ -1201,7 +1201,7 @@ public class fflib_MatcherDefinitionsTest
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWith(new Map<Schema.SObjectField, Object>{
 			Account.Name => 'Test'
 		});
-		Assert.areEqual('[SObject with fields {"Name":"Test"}]', '' + matcher);
+		System.Assert.areEqual('[SObject with fields {"Name":"Test"}]', '' + matcher);
 	}
 
 	@isTest
@@ -1254,28 +1254,28 @@ public class fflib_MatcherDefinitionsTest
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectsWith(queriedFieldValues);
 		
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(new list<SObject>
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            OPPORTUNITY_OBJECT_TYPE.newSObject(),
                                            OPPORTUNITY_OBJECT_TYPE.newSObject()    
                                        }
                                       ));
-		Assert.isFalse(matcher.matches(new list<SObject>
+		System.Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            GROUP_OBJECT_TYPE.newSObject(),
                                            GROUP_OBJECT_TYPE.newSObject()
                                        }
                                       ),'sObjectsWith arity agrees but arg doesn\'t');
-		Assert.isFalse(matcher.matches('NotAListofSObject'));
+		System.Assert.isFalse(matcher.matches('NotAListofSObject'));
 
-		Assert.isTrue(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order');
-        Assert.isTrue (!matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
+		System.Assert.isTrue(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order');
+        System.Assert.isTrue (!matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
                                      'sObjectsWith toMatch and args have same arity but args are in different order than toMatch') ;            
                       
 
-		Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues).matches(GROUP_RECORDS));
-		Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(failingFieldValues).matches(GROUP_RECORDS));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues).matches(GROUP_RECORDS));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(failingFieldValues).matches(GROUP_RECORDS));
 	}
 
     @isTest
@@ -1314,27 +1314,27 @@ public class fflib_MatcherDefinitionsTest
 
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectsWith(queriedFieldValues,false); // any order
 		
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(new list<SObject>
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            OPPORTUNITY_OBJECT_TYPE.newSObject(),
                                            OPPORTUNITY_OBJECT_TYPE.newSObject()    
                                        }
                                       ));
-		Assert.isFalse(matcher.matches(new list<SObject>
+		System.Assert.isFalse(matcher.matches(new list<SObject>
                                        {
                                            GROUP_OBJECT_TYPE.newSObject(),
                                            GROUP_OBJECT_TYPE.newSObject()
                                        }
                                       ),'sObjectsWith arity agrees but arg doesn\'t match matcher');
-		Assert.isFalse(matcher.matches('NotAListofSObject'));
+		System.Assert.isFalse(matcher.matches('NotAListofSObject'));
 
-		Assert.isTrue(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order. Match should be OK');
-        Assert.isTrue (matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
+		System.Assert.isTrue(matcher.matches(GROUP_RECORDS),'toMatch and args have same arity and in same order. Match should be OK');
+        System.Assert.isTrue (matcher.matches(new list<SObject> {GROUP_RECORDS[1],GROUP_RECORDS[0]}),
                                      'sObjectsWith toMatch and args have same arity but args are in diff order than matcher. Should be OK') ;            
                       
 
-		Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues,false).matches(GROUP_RECORDS));
+		System.Assert.isFalse(new fflib_MatcherDefinitions.SObjectsWith(notQueriedFieldValues,false).matches(GROUP_RECORDS));
 	}
 
 	@isTest
@@ -1346,8 +1346,8 @@ public class fflib_MatcherDefinitionsTest
 			}
 		};
 
-		Assert.areEqual('[ordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, true));
-		Assert.areEqual('[unordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, false));
+		System.Assert.areEqual('[ordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, true));
+		System.Assert.areEqual('[unordered SObjects with [{"Name":"Test"}]]', '' + new fflib_MatcherDefinitions.SObjectsWith(toMatch, false));
 	}
 
 	@isTest
@@ -1359,7 +1359,7 @@ public class fflib_MatcherDefinitionsTest
 			}
 		};
 		Boolean matchResult = new fflib_MatcherDefinitions.SObjectsWith(toMatch).matches(new List<SObject>{});
-		Assert.areEqual(matchResult, false);
+		System.Assert.areEqual(matchResult, false);
 	}
 
 	@isTest
@@ -1367,11 +1367,11 @@ public class fflib_MatcherDefinitionsTest
 	{
 		try {
 			new fflib_MatcherDefinitions.SObjectsWith(null);
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null/empty/other than list of map<Schema.SobjectField,Object>: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null/empty/other than list of map<Schema.SobjectField,Object>: null', e.getMessage());
 		}
 	}
 
@@ -1381,11 +1381,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWithId(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -1394,19 +1394,19 @@ public class fflib_MatcherDefinitionsTest
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWithId(ACCOUNT_RECORD.Id);
 
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches('NotASObject'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches('NotASObject'));
 
-		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
+		System.Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 	}
 
 	@isTest
 	private static void whenSObjectWithIdToStringReturnsExpectedString()
 	{
 		Id recordId = '001000000000001AAA';
-		Assert.areEqual('[SObject with Id "001000000000001AAA"]', '' + new fflib_MatcherDefinitions.SObjectWithId(recordId));
+		System.Assert.areEqual('[SObject with Id "001000000000001AAA"]', '' + new fflib_MatcherDefinitions.SObjectWithId(recordId));
 	}
 
 	@isTest
@@ -1415,11 +1415,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.SObjectWithName(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -1428,30 +1428,30 @@ public class fflib_MatcherDefinitionsTest
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.SObjectWithName((String)ACCOUNT_RECORD.get('Name'));
 
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
-		Assert.isFalse(matcher.matches('NotASObject'));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(OPPORTUNITY_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches(ACCOUNT_OBJECT_TYPE.newSObject()));
+		System.Assert.isFalse(matcher.matches('NotASObject'));
 
-		Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
+		System.Assert.isTrue(matcher.matches(ACCOUNT_RECORD));
 	}
 
 	@isTest
 	private static void whenSObjectWithNameToStringReturnsExpectedString()
 	{
-		Assert.areEqual('[SObject with Name "Test"]', '' + new fflib_MatcherDefinitions.SObjectWithName('Test'));
+		System.Assert.areEqual('[SObject with Name "Test"]', '' + new fflib_MatcherDefinitions.SObjectWithName('Test'));
 	}
 
 	@isTest
 	private static void whenStringContainsMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringContains('bob');
-		Assert.isFalse(matcher.matches(7));
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(''));
-		Assert.isFalse(matcher.matches('blob'));
-		Assert.isTrue(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches('bobby'));
+		System.Assert.isFalse(matcher.matches(7));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(''));
+		System.Assert.isFalse(matcher.matches('blob'));
+		System.Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches('bobby'));
 	}
 
 	@isTest
@@ -1460,30 +1460,30 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringContains(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
 	@isTest
 	private static void whenStringContainsToStringReturnsExpectedStrings()
 	{
-		Assert.areEqual('[contains "hello"]', '' + new fflib_MatcherDefinitions.StringContains('hello'));
+		System.Assert.areEqual('[contains "hello"]', '' + new fflib_MatcherDefinitions.StringContains('hello'));
 	}
 
 	@isTest
 	private static void whenStringEndsWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringEndsWith('bob');
-		Assert.isFalse(matcher.matches(7));
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(''));
-		Assert.isFalse(matcher.matches('bobby'));
-		Assert.isTrue(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches('jimbob'));
+		System.Assert.isFalse(matcher.matches(7));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(''));
+		System.Assert.isFalse(matcher.matches('bobby'));
+		System.Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches('jimbob'));
 	}
 
 	@isTest
@@ -1492,70 +1492,70 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringEndsWith(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
 	@isTest
 	private static void whenStringEndsWithToStringReturnsExpectedStrings()
 	{
-		Assert.areEqual('[ends with "hello"]', '' + new fflib_MatcherDefinitions.StringEndsWith('hello'));
+		System.Assert.areEqual('[ends with "hello"]', '' + new fflib_MatcherDefinitions.StringEndsWith('hello'));
 	}
 
 	@isTest
 	private static void whenIsBlankWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringIsBlank();
-		Assert.isFalse(matcher.matches(7));
-		Assert.isFalse(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches(null));
-		Assert.isTrue(matcher.matches(''));
+		System.Assert.isFalse(matcher.matches(7));
+		System.Assert.isFalse(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches(null));
+		System.Assert.isTrue(matcher.matches(''));
 	}
 
 	@isTest
 	private static void whenStringIsBlankToStringReturnsExpectedStrings()
 	{
-		Assert.areEqual('[blank String]', '' + new fflib_MatcherDefinitions.StringIsBlank());
+		System.Assert.areEqual('[blank String]', '' + new fflib_MatcherDefinitions.StringIsBlank());
 	}
 
 	@isTest
 	private static void whenIsNotBlankWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringIsNotBlank();
-		Assert.isFalse(matcher.matches(7));
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(''));
-		Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isFalse(matcher.matches(7));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(''));
+		System.Assert.isTrue(matcher.matches('bob'));
 	}
 
 	@isTest
 	private static void whenStringIsNotBlankToStringReturnsExpectedStrings()
 	{
-		Assert.areEqual('[non-blank String]', '' + new fflib_MatcherDefinitions.StringIsNotBlank());
+		System.Assert.areEqual('[non-blank String]', '' + new fflib_MatcherDefinitions.StringIsNotBlank());
 	}
 
 	@isTest
 	private static void whenStringMatchesMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringMatches('(b|m)o[a-z]*');
-		Assert.isFalse(matcher.matches(7));
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches('bib'));
-		Assert.isFalse(matcher.matches('jimbob'));
-		Assert.isFalse(matcher.matches('tom'));
-		Assert.isFalse(matcher.matches('bob1'));
-		Assert.isTrue(matcher.matches('bobby'));
-		Assert.isTrue(matcher.matches('mo'));
+		System.Assert.isFalse(matcher.matches(7));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches('bib'));
+		System.Assert.isFalse(matcher.matches('jimbob'));
+		System.Assert.isFalse(matcher.matches('tom'));
+		System.Assert.isFalse(matcher.matches('bob1'));
+		System.Assert.isTrue(matcher.matches('bobby'));
+		System.Assert.isTrue(matcher.matches('mo'));
 	}
 
 	@isTest
 	private static void whenStringMatchesToStringReturnsExpectedStrings()
 	{
-		Assert.areEqual('[matches regex "hello"]', '' + new fflib_MatcherDefinitions.StringMatches('hello'));
+		System.Assert.areEqual('[matches regex "hello"]', '' + new fflib_MatcherDefinitions.StringMatches('hello'));
 	}
 
 	@isTest
@@ -1564,11 +1564,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringMatches(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -1576,18 +1576,18 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenStringStartsWithMatchesShouldReturnCorrectResults()
 	{
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.StringStartsWith('bob');
-		Assert.isFalse(matcher.matches(7));
-		Assert.isFalse(matcher.matches(null));
-		Assert.isFalse(matcher.matches(''));
-		Assert.isFalse(matcher.matches('jimbob'));
-		Assert.isTrue(matcher.matches('bob'));
-		Assert.isTrue(matcher.matches('bobby'));
+		System.Assert.isFalse(matcher.matches(7));
+		System.Assert.isFalse(matcher.matches(null));
+		System.Assert.isFalse(matcher.matches(''));
+		System.Assert.isFalse(matcher.matches('jimbob'));
+		System.Assert.isTrue(matcher.matches('bob'));
+		System.Assert.isTrue(matcher.matches('bobby'));
 	}
 
 	@isTest
 	private static void whenStringStartsWithToStringReturnsExpectedStrings()
 	{
-		Assert.areEqual('[starts with "hello"]', '' + new fflib_MatcherDefinitions.StringStartsWith('hello'));
+		System.Assert.areEqual('[starts with "hello"]', '' + new fflib_MatcherDefinitions.StringStartsWith('hello'));
 	}
 
 	@isTest
@@ -1596,11 +1596,11 @@ public class fflib_MatcherDefinitionsTest
 		try
 		{
 			new fflib_MatcherDefinitions.StringStartsWith(null);	
-			Assert.fail('Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			Assert.areEqual('Arg cannot be null: null', e.getMessage());
+			System.Assert.areEqual('Arg cannot be null: null', e.getMessage());
 		}
 	}
 
@@ -1609,7 +1609,7 @@ public class fflib_MatcherDefinitionsTest
 	{
 		// SObjectField object definitely can't be serialized by JSON.serialize() method
 		Schema.SObjectField sObjField = Account.Description;
-		Assert.areEqual('' + sObjField, fflib_MatcherDefinitions.stringify(sObjField));
+		System.Assert.areEqual('' + sObjField, fflib_MatcherDefinitions.stringify(sObjField));
 	}
 
 	private class StringMatcher implements fflib_IMatcher
