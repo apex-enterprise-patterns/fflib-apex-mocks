@@ -257,7 +257,7 @@ private class fflib_ArgumentCaptorTest
 
 		System.Assert.areEqual(0, argsCaptured.size(), 'expected 0 argument to be captured');
 
-		System.Assert.isNull(argument.getValue(), 'no value should be captured, so must return null');
+		System.Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
 	}
 
 	@isTest
@@ -592,7 +592,7 @@ private class fflib_ArgumentCaptorTest
 
 		System.Assert.areEqual(0, argsCaptured.size(), 'expected 0 argument to be captured');
 
-		System.Assert.isNull(argument.getValue(), 'no value should be captured, so must return null');
+		System.Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
 	}
 
 	@isTest

@@ -253,7 +253,7 @@ public with sharing class fflib_MatchTest
 		Object retval = fflib_Match.matches(matcher);
 		
 		//Then
-		System.Assert.isNull(retval);
+		System.Assert.areEqual(null, retval);
 	}
 
 	@isTest

@@ -162,8 +162,8 @@ private class fflib_AnswerTest
 
 		// Then
 		System.Assert.areEqual('Bye hi Hello Bye hi', actualValue2, 'the answer is not correct');
-		System.Assert.isNull(actualValue1, 'the answer is not correct');
-		System.Assert.isNull(actualValue3, 'the answer is not correct');
+		System.Assert.areEqual(null, actualValue1, 'the answer is not correct');
+		System.Assert.areEqual(null, actualValue3, 'the answer is not correct');
 	}
 
 	@isTest
@@ -291,8 +291,8 @@ private class fflib_AnswerTest
 		fflib_AnswerTest.FirstAnswer answer1 = new fflib_AnswerTest.FirstAnswer();
 		fflib_AnswerTest.SecondAnswer answer2 = new fflib_AnswerTest.SecondAnswer();
 
-		System.Assert.isNull(answer1.getMessage(), 'the answer message should be null at this stage');
-		System.Assert.isNull(answer2.getMessage(), 'the answer message should be null at this stage');
+		System.Assert.areEqual(null, answer1.getMessage(), 'the answer message should be null at this stage');
+		System.Assert.areEqual(null, answer2.getMessage(), 'the answer message should be null at this stage');
 
 		mocks.startStubbing();
 		((fflib_MyList) mocks.doAnswer(answer1, mockList)).addMore('Hi hi Hello Hi hi');

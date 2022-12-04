@@ -304,7 +304,7 @@ private class fflib_ApexMocksTest
 		String actualValue = mockList.get(0);
 
 		// Then
-		System.Assert.isNull(actualValue);
+		System.Assert.areEqual(null, actualValue);
 	}
 
 	@isTest
@@ -327,7 +327,7 @@ private class fflib_ApexMocksTest
 		// Then
 		System.Assert.areEqual('bob', actualValueArg0);
 		System.Assert.areEqual('fred', actualValueArg1);
-		System.Assert.isNull(actualValueArg2);
+		System.Assert.areEqual(null, actualValueArg2);
 	}
 
 	@isTest
@@ -661,7 +661,7 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('fred', actualValueArg1);
 		System.Assert.areEqual('bob', actualValueArg2);
 		System.Assert.areEqual('bub', actualValueArg3);
-		System.Assert.isNull(actualValueArg4);
+		System.Assert.areEqual(null, actualValueArg4);
 	}
 
 	@isTest
@@ -744,9 +744,9 @@ private class fflib_ApexMocksTest
 		mocks.stopStubbing();
 
 		// Then
-		System.Assert.isNull(mockList.get(0));
+		System.Assert.areEqual(null, mockList.get(0));
 		System.Assert.areEqual('One', mockList.get(1));
-		System.Assert.isNull(mockList.get(2));
+		System.Assert.areEqual(null, mockList.get(2));
 		System.Assert.areEqual('>Two', mockList.get(3));
 	}
 
@@ -1522,7 +1522,7 @@ private class fflib_ApexMocksTest
 		MY_MOCKS.stopStubbing();
 
 
-		System.Assert.isNull(MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
+		System.Assert.areEqual(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
 	}
 
 	@isTest
@@ -1532,7 +1532,7 @@ private class fflib_ApexMocksTest
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrow(null);
 		MY_MOCKS.stopStubbing();
 
-		System.Assert.isNull(MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
+		System.Assert.areEqual(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
 	}
 
 
