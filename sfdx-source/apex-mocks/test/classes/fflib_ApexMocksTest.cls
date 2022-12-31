@@ -23,7 +23,7 @@ private class fflib_ApexMocksTest
 		String actualValue = mockList.get2(0, 'Hi hi Hello Hi hi');
 
 		// Then
-		System.assertEquals('hello', actualValue);
+		System.Assert.areEqual('hello', actualValue);
 	}
 
 	@isTest
@@ -60,12 +60,12 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.add('Hi Hello Hi');
-			System.assert(false, 'Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (MyException e)
 		{
 			//Then
-			System.assertEquals('Matcher Exception', e.getMessage());
+			System.Assert.areEqual('Matcher Exception', e.getMessage());
 		}
 	}
 
@@ -133,11 +133,11 @@ private class fflib_ApexMocksTest
 		String s5 = mockList.get(5);
 
 		// Then
-		System.assertEquals('Odd', s1);
-		System.assertEquals('Even', s2);
-		System.assertEquals('Odd', s3);
-		System.assertEquals('Even', s4);
-		System.assertEquals('Odd', s5);
+		System.Assert.areEqual('Odd', s1);
+		System.Assert.areEqual('Even', s2);
+		System.Assert.areEqual('Odd', s3);
+		System.Assert.areEqual('Even', s4);
+		System.Assert.areEqual('Odd', s5);
 	}
 
 	@isTest
@@ -176,11 +176,11 @@ private class fflib_ApexMocksTest
 		{
 			mocks.startStubbing();
 			mocks.when(mockList.get2(fflib_Match.anyInteger(), 'String literal')).thenReturn('fail');
-			System.assert(false, 'Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			System.assertEquals(expectedError, e.getMessage());
+			System.Assert.areEqual(expectedError, e.getMessage());
 		}
 	}
 
@@ -202,11 +202,11 @@ private class fflib_ApexMocksTest
 		try
 		{
 			((fflib_MyList.IList) mocks.verify(mockList)).get2(fflib_Match.anyInteger(), 'String literal');
-			System.assert(false, 'Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			System.assertEquals(expectedError, e.getMessage());
+			System.Assert.areEqual(expectedError, e.getMessage());
 		}
 	}
 
@@ -228,8 +228,8 @@ private class fflib_ApexMocksTest
 		mocks.stopStubbing();
 
 		// When/Thens
-		System.assertEquals('Good', mockList.get2(1, 'Non-matcher first'));
-		System.assertEquals('Good', mockList.get2(1, 'Matcher first'));
+		System.Assert.areEqual('Good', mockList.get2(1, 'Non-matcher first'));
+		System.Assert.areEqual('Good', mockList.get2(1, 'Matcher first'));
 	}
 
 	@isTest
@@ -253,21 +253,21 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.add('Non-matcher first');
-			System.assert(false, 'Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			System.assertEquals('Good', e.getMessage());
+			System.Assert.areEqual('Good', e.getMessage());
 		}
 
 		try
 		{
 			mockList.add('Matcher first');
-			System.assert(false, 'Expected exception');
+			System.Assert.fail('Expected exception');
 		}
 		catch (fflib_ApexMocks.ApexMocksException e)
 		{
-			System.assertEquals('Good', e.getMessage());
+			System.Assert.areEqual('Good', e.getMessage());
 		}
 	}
 
@@ -286,7 +286,7 @@ private class fflib_ApexMocksTest
 		String actualValue = mockList.get(0);
 
 		// Then
-		System.assertEquals('bob', actualValue);
+		System.Assert.areEqual('bob', actualValue);
 	}
 
 	@isTest
@@ -304,7 +304,7 @@ private class fflib_ApexMocksTest
 		String actualValue = mockList.get(0);
 
 		// Then
-		System.assertEquals(null, actualValue);
+		System.Assert.areEqual(null, actualValue);
 	}
 
 	@isTest
@@ -325,9 +325,9 @@ private class fflib_ApexMocksTest
 		String actualValueArg2 = mockList.get(2);
 
 		// Then
-		System.assertEquals('bob', actualValueArg0);
-		System.assertEquals('fred', actualValueArg1);
-		System.assertEquals(null, actualValueArg2);
+		System.Assert.areEqual('bob', actualValueArg0);
+		System.Assert.areEqual('fred', actualValueArg1);
+		System.Assert.areEqual(null, actualValueArg2);
 	}
 
 	@isTest
@@ -346,7 +346,7 @@ private class fflib_ApexMocksTest
 		String actualValue = mockList.get(0);
 
 		// Then
-		System.assertEquals('bob2', actualValue);
+		System.Assert.areEqual('bob2', actualValue);
 	}
 
 	@isTest
@@ -364,7 +364,7 @@ private class fflib_ApexMocksTest
 		Boolean actualValue = mockList.isEmpty();
 
 		// Then
-		System.assertEquals(false, actualValue);
+		System.Assert.areEqual(false, actualValue);
 	}
 
 	@isTest
@@ -478,7 +478,7 @@ private class fflib_ApexMocksTest
 		Boolean actualValue = mockList.isEmpty();
 
 		// Then
-		System.assertEquals(false, actualValue);
+		System.Assert.areEqual(false, actualValue);
 		((fflib_MyList.IList) mocks.verify(mockList)).clear();
 	}
 
@@ -497,13 +497,13 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.get(0);
-			System.assert(false, 'Stubbed exception should have been thrown.');
+			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
 			// Then
-			System.assert(e instanceof MyException);
-			System.assertEquals('Stubbed exception.', e.getMessage());
+			System.Assert.isInstanceOfType(e, MyException.class);
+			System.Assert.areEqual('Stubbed exception.', e.getMessage());
 		}
 	}
 
@@ -522,13 +522,13 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			System.assert(false, 'Stubbed exception should have been thrown.');
+			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
 			// Then
-			System.assert(e instanceof MyException);
-			System.assertEquals('Stubbed exception.', e.getMessage());
+			System.Assert.isInstanceOfType(e, MyException.class);
+			System.Assert.areEqual('Stubbed exception.', e.getMessage());
 		}
 	}
 
@@ -548,26 +548,26 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			System.assert(false, 'Stubbed exception should have been thrown.');
+			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
 			// Then
-			System.assert(e instanceof MyException);
-			System.assertEquals('clear stubbed exception.', e.getMessage());
+			System.Assert.isInstanceOfType(e, MyException.class);
+			System.Assert.areEqual('clear stubbed exception.', e.getMessage());
 		}
 
 		// When
 		try
 		{
 			mockList.add('bob');
-			System.assert(false, 'Stubbed exception should have been thrown.');
+			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
 			// Then
-			System.assert(e instanceof MyException);
-			System.assertEquals('add stubbed exception.', e.getMessage());
+			System.Assert.isInstanceOfType(e, MyException.class);
+			System.Assert.areEqual('add stubbed exception.', e.getMessage());
 		}
 	}
 
@@ -586,26 +586,26 @@ private class fflib_ApexMocksTest
 		try
 		{
 			mockList.clear();
-			System.assert(false, 'Stubbed exception should have been thrown.');
+			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
 			// Then
-			System.assert(e instanceof MyException);
-			System.assertEquals('clear stubbed exception.', e.getMessage());
+			System.Assert.isInstanceOfType(e, MyException.class);
+			System.Assert.areEqual('clear stubbed exception.', e.getMessage());
 		}
 
 		// When
 		try
 		{
 			mockList.clear();
-			System.assert(false, 'Stubbed exception should have been thrown.');
+			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
 		catch(Exception e)
 		{
 			// Then
-			System.assert(e instanceof MyException);
-			System.assertEquals('clear stubbed exception.', e.getMessage());
+			System.Assert.isInstanceOfType(e, MyException.class);
+			System.Assert.areEqual('clear stubbed exception.', e.getMessage());
 		}
 	}
 
@@ -657,11 +657,11 @@ private class fflib_ApexMocksTest
 		String actualValueArg4 = mockList.get2(0, 'three');
 
 		// Then
-		System.assertEquals('bob', actualValueArg0);
-		System.assertEquals('fred', actualValueArg1);
-		System.assertEquals('bob', actualValueArg2);
-		System.assertEquals('bub', actualValueArg3);
-		System.assertEquals(null, actualValueArg4);
+		System.Assert.areEqual('bob', actualValueArg0);
+		System.Assert.areEqual('fred', actualValueArg1);
+		System.Assert.areEqual('bob', actualValueArg2);
+		System.Assert.areEqual('bub', actualValueArg3);
+		System.Assert.areEqual(null, actualValueArg4);
 	}
 
 	@isTest
@@ -681,7 +681,7 @@ private class fflib_ApexMocksTest
 		String actual = mockList.get(null);
 
 		// Then
-		System.assertEquals(expected, actual);
+		System.Assert.areEqual(expected, actual);
 	}
 
 	@isTest
@@ -697,7 +697,7 @@ private class fflib_ApexMocksTest
 		mocks.DoThrowWhenExceptions = expsList;
 
 		//Then
-		System.assert(expsList === mocks.DoThrowWhenExceptions);
+		System.Assert.areEqual(expsList, mocks.DoThrowWhenExceptions);
 	}
 
 	@isTest
@@ -744,10 +744,10 @@ private class fflib_ApexMocksTest
 		mocks.stopStubbing();
 
 		// Then
-		System.assertEquals(null, mockList.get(0));
-		System.assertEquals('One', mockList.get(1));
-		System.assertEquals(null, mockList.get(2));
-		System.assertEquals('>Two', mockList.get(3));
+		System.Assert.areEqual(null, mockList.get(0));
+		System.Assert.areEqual('One', mockList.get(1));
+		System.Assert.areEqual(null, mockList.get(2));
+		System.Assert.areEqual('>Two', mockList.get(3));
 	}
 
 	@isTest
@@ -769,7 +769,7 @@ private class fflib_ApexMocksTest
 		String actual = first.get(0);
 
 		// Then
-		System.assertEquals('First', actual, 'Should have returned stubbed value');
+		System.Assert.areEqual('First', actual, 'Should have returned stubbed value');
 		((fflib_MyList)mocks.verify(first)).get(0);
 		((fflib_MyList)mocks.verify(second, mocks.never())).get(0);
 	}
@@ -793,7 +793,7 @@ private class fflib_ApexMocksTest
 		String actual = first.get(0);
 
 		// Then
-		System.assertEquals('Second', actual, 'Should have returned stubbed value');
+		System.Assert.areEqual('Second', actual, 'Should have returned stubbed value');
 		((fflib_MyList)mocks.verify(first)).get(0);
 		((fflib_MyList)mocks.verify(second)).get(0);
 	}
@@ -1431,11 +1431,11 @@ private class fflib_ApexMocksTest
 		{
 			MY_MOCK_LIST.get(1);
 
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.assertEquals(
+			System.Assert.areEqual(
 				'The stubbing is not correct, no return values have been set.',
 				myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1449,11 +1449,11 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.startStubbing();
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<Object>());
 			MY_MOCKS.stopStubbing();
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.assertEquals(
+			System.Assert.areEqual(
 				'The stubbing is not correct, no return values have been set.',
 				myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1467,11 +1467,11 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.startStubbing();
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(null);
 			MY_MOCKS.stopStubbing();
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.assertEquals(
+			System.Assert.areEqual(
 				'The stubbing is not correct, no return values have been set.',
 				myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1485,11 +1485,11 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.startStubbing();
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>());
 			MY_MOCKS.stopStubbing();
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.assertEquals(
+			System.Assert.areEqual(
 				'The stubbing is not correct, no return values have been set.',
 				myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1504,11 +1504,11 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(null);
 			MY_MOCKS.stopStubbing();
 
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.assertEquals(
+			System.Assert.areEqual(
 				'The stubbing is not correct, no return values have been set.',
 				myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1522,7 +1522,7 @@ private class fflib_ApexMocksTest
 		MY_MOCKS.stopStubbing();
 
 
-		System.assertEquals(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
+		System.Assert.areEqual(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
 	}
 
 	@isTest
@@ -1532,7 +1532,7 @@ private class fflib_ApexMocksTest
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrow(null);
 		MY_MOCKS.stopStubbing();
 
-		System.assertEquals(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
+		System.Assert.areEqual(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
 	}
 
 
@@ -1542,11 +1542,11 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.get(1);
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
-			System.assertEquals(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
@@ -1555,11 +1555,11 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.get2(2, 'Hello.');
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
-			System.assertEquals(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
@@ -1568,11 +1568,11 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.add('Hello');
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
-			System.assertEquals(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
@@ -1581,28 +1581,28 @@ private class fflib_ApexMocksTest
 		try
 		{
 			MY_MOCK_LIST.addMore('Hello');
-			System.assert(false, 'an exception was expected');
+			System.Assert.fail('an exception was expected');
 		}
 		catch(MyException myex)
 		{
-			System.assertEquals(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
 	private static void assertReturnedValue(String expectedValue)
 	{
-		System.assertEquals(expectedValue, MY_MOCK_LIST.get(1), 'the method did not returned the expected value');
+		System.Assert.areEqual(expectedValue, MY_MOCK_LIST.get(1), 'the method did not returned the expected value');
 	}
 
 	private static void assertReturnedValueForGet2(String expectedValue)
 	{
-		System.assertEquals(expectedValue, MY_MOCK_LIST.get2(2, 'Hello.'), 'the method did not returned the expected value');
+		System.Assert.areEqual(expectedValue, MY_MOCK_LIST.get2(2, 'Hello.'), 'the method did not returned the expected value');
 	}
 	
 	@isTest
 	static void thatToStringReturnsSimpleStringValue()
 	{
-		System.assertEquals('fflib_ApexMocks', '' + new fflib_ApexMocks());
+		System.Assert.areEqual('fflib_ApexMocks', '' + new fflib_ApexMocks());
 	}
 
 	private class MyException extends Exception

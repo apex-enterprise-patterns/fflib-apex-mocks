@@ -16,32 +16,32 @@ public with sharing class fflib_QualifiedMethodTest
 		fflib_QualifiedMethod qm6 = new fflib_QualifiedMethod(null, null, null );
 
 		//When/thens
-		System.assertEquals(qm1, qm1);
-		System.assertEquals(qm1, qm2);
-		System.assertNotEquals(qm1, qm3);
-		System.assertNotEquals(qm1, qm4);
-		System.assertNotEquals(qm1, qm5);
-		System.assertNotEquals(qm1, qm6);
+		System.Assert.areEqual(qm1, qm1);
+		System.Assert.areEqual(qm1, qm2);
+		System.Assert.areNotEqual(qm1, qm3);
+		System.Assert.areNotEqual(qm1, qm4);
+		System.Assert.areNotEqual(qm1, qm5);
+		System.Assert.areNotEqual(qm1, qm6);
 
-		System.assertEquals(qm2, qm2);
-		System.assertNotEquals(qm2, qm3);
-		System.assertNotEquals(qm2, qm4);
-		System.assertNotEquals(qm2, qm5);
-		System.assertNotEquals(qm2, qm6);
+		System.Assert.areEqual(qm2, qm2);
+		System.Assert.areNotEqual(qm2, qm3);
+		System.Assert.areNotEqual(qm2, qm4);
+		System.Assert.areNotEqual(qm2, qm5);
+		System.Assert.areNotEqual(qm2, qm6);
 
-		System.assertEquals(qm3, qm3);
-		System.assertNotEquals(qm3, qm4);
-		System.assertNotEquals(qm3, qm5);
-		System.assertNotEquals(qm3, qm6);
+		System.Assert.areEqual(qm3, qm3);
+		System.Assert.areNotEqual(qm3, qm4);
+		System.Assert.areNotEqual(qm3, qm5);
+		System.Assert.areNotEqual(qm3, qm6);
 
-		System.assertEquals(qm4, qm4);
-		System.assertNotEquals(qm4, qm5);
-		System.assertNotEquals(qm4, qm6);
+		System.Assert.areEqual(qm4, qm4);
+		System.Assert.areNotEqual(qm4, qm5);
+		System.Assert.areNotEqual(qm4, qm6);
 
-		System.assertEquals(qm5, qm5);
-		System.assertNotEquals(qm5, qm6);
+		System.Assert.areEqual(qm5, qm5);
+		System.Assert.areNotEqual(qm5, qm6);
 
-		System.assertEquals(qm6, qm6);
+		System.Assert.areEqual(qm6, qm6);
 	}
 
 	@isTest
@@ -56,38 +56,38 @@ public with sharing class fflib_QualifiedMethodTest
 		fflib_QualifiedMethod qm6 = new fflib_QualifiedMethod(null, null, null );
 
 		//When/thens
-		System.assertEquals(qm1.hashCode(), qm1.hashCode());
-		System.assertEquals(qm1.hashCode(), qm2.hashCode());
-		System.assertNotEquals(qm1.hashCode(), qm3.hashCode());
-		System.assertNotEquals(qm1.hashCode(), qm4.hashCode());
-		System.assertNotEquals(qm1.hashCode(), qm5.hashCode());
-		System.assertNotEquals(qm1.hashCode(), qm6.hashCode());
+		System.Assert.areEqual(qm1.hashCode(), qm1.hashCode());
+		System.Assert.areEqual(qm1.hashCode(), qm2.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm3.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm4.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm5.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm6.hashCode());
 
-		System.assertEquals(qm2.hashCode(), qm2.hashCode());
-		System.assertNotEquals(qm2.hashCode(), qm3.hashCode());
-		System.assertNotEquals(qm2.hashCode(), qm4.hashCode());
-		System.assertNotEquals(qm2.hashCode(), qm5.hashCode());
-		System.assertNotEquals(qm2.hashCode(), qm6.hashCode());
+		System.Assert.areEqual(qm2.hashCode(), qm2.hashCode());
+		System.Assert.areNotEqual(qm2.hashCode(), qm3.hashCode());
+		System.Assert.areNotEqual(qm2.hashCode(), qm4.hashCode());
+		System.Assert.areNotEqual(qm2.hashCode(), qm5.hashCode());
+		System.Assert.areNotEqual(qm2.hashCode(), qm6.hashCode());
 
-		System.assertEquals(qm3.hashCode(), qm3.hashCode());
-		System.assertNotEquals(qm3.hashCode(), qm4.hashCode());
-		System.assertNotEquals(qm3.hashCode(), qm5.hashCode());
-		System.assertNotEquals(qm3.hashCode(), qm6.hashCode());
+		System.Assert.areEqual(qm3.hashCode(), qm3.hashCode());
+		System.Assert.areNotEqual(qm3.hashCode(), qm4.hashCode());
+		System.Assert.areNotEqual(qm3.hashCode(), qm5.hashCode());
+		System.Assert.areNotEqual(qm3.hashCode(), qm6.hashCode());
 
-		System.assertEquals(qm4.hashCode(), qm4.hashCode());
-		System.assertNotEquals(qm4.hashCode(), qm5.hashCode());
-		System.assertNotEquals(qm4.hashCode(), qm6.hashCode());
+		System.Assert.areEqual(qm4.hashCode(), qm4.hashCode());
+		System.Assert.areNotEqual(qm4.hashCode(), qm5.hashCode());
+		System.Assert.areNotEqual(qm4.hashCode(), qm6.hashCode());
 
-		System.assertEquals(qm5.hashCode(), qm5.hashCode());
-		System.assertNotEquals(qm5.hashCode(), qm6.hashCode());
+		System.Assert.areEqual(qm5.hashCode(), qm5.hashCode());
+		System.Assert.areNotEqual(qm5.hashCode(), qm6.hashCode());
 
-		System.assertEquals(qm6.hashCode(), qm6.hashCode());
+		System.Assert.areEqual(qm6.hashCode(), qm6.hashCode());
 	}
 
 	@isTest
 	public static void toStringReturnsExpectedResult()
 	{
-		System.assertEquals('MyClass.MyMethod(Integer)', new fflib_QualifiedMethod('MyClass', 'MyMethod', new List<Type>{ Integer.class }).toString());
+		System.Assert.areEqual('MyClass.MyMethod(Integer)', new fflib_QualifiedMethod('MyClass', 'MyMethod', new List<Type>{ Integer.class }).toString());
 	}
 
 	@isTest
@@ -104,20 +104,20 @@ public with sharing class fflib_QualifiedMethodTest
 		//When/thens
 		fflib_ApexMocksConfig.HasIndependentMocks = false;
 		
-		System.assertEquals(qm1, qm2);
-		System.assertEquals(qm1, qm3);
-		System.assertEquals(qm1, qm4);
+		System.Assert.areEqual(qm1, qm2);
+		System.Assert.areEqual(qm1, qm3);
+		System.Assert.areEqual(qm1, qm4);
 
 		fflib_ApexMocksConfig.HasIndependentMocks = true;
 
-		System.assertNotEquals(qm1, qm2);
-		System.assertNotEquals(qm1, qm3);
-		System.assertNotEquals(qm1, qm4);
+		System.Assert.areNotEqual(qm1, qm2);
+		System.Assert.areNotEqual(qm1, qm3);
+		System.Assert.areNotEqual(qm1, qm4);
 
-		System.assertEquals(qm2, qm3);
-		System.assertNotEquals(qm2, qm4);
+		System.Assert.areEqual(qm2, qm3);
+		System.Assert.areNotEqual(qm2, qm4);
 
-		System.assertNotEquals(qm3, qm4);
+		System.Assert.areNotEqual(qm3, qm4);
 	}
 
 	@isTest
@@ -134,19 +134,19 @@ public with sharing class fflib_QualifiedMethodTest
 		//When/thens
 		fflib_ApexMocksConfig.HasIndependentMocks = false;
 		
-		System.assertEquals(qm1.hashCode(), qm2.hashCode());
-		System.assertEquals(qm1.hashCode(), qm3.hashCode());
-		System.assertEquals(qm1.hashCode(), qm4.hashCode());
+		System.Assert.areEqual(qm1.hashCode(), qm2.hashCode());
+		System.Assert.areEqual(qm1.hashCode(), qm3.hashCode());
+		System.Assert.areEqual(qm1.hashCode(), qm4.hashCode());
 
 		fflib_ApexMocksConfig.HasIndependentMocks = true;
 
-		System.assertNotEquals(qm1.hashCode(), qm2.hashCode());
-		System.assertNotEquals(qm1.hashCode(), qm3.hashCode());
-		System.assertNotEquals(qm1.hashCode(), qm4.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm2.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm3.hashCode());
+		System.Assert.areNotEqual(qm1.hashCode(), qm4.hashCode());
 
-		System.assertEquals(qm2.hashCode(), qm3.hashCode());
-		System.assertNotEquals(qm2.hashCode(), qm4.hashCode());
+		System.Assert.areEqual(qm2.hashCode(), qm3.hashCode());
+		System.Assert.areNotEqual(qm2.hashCode(), qm4.hashCode());
 
-		System.assertNotEquals(qm3.hashCode(), qm4.hashCode());
+		System.Assert.areNotEqual(qm3.hashCode(), qm4.hashCode());
 	}
 }

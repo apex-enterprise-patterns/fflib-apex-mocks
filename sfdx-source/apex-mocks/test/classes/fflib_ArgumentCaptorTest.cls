@@ -21,7 +21,7 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 		((fflib_MyList.IList) mocks.verify(mockList)).add((String) argument.capture());
 
-		System.assertEquals('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
 	}
 
 	@isTest
@@ -44,14 +44,14 @@ private class fflib_ArgumentCaptorTest
 		((fflib_MyList.IList) mocks.verify(mockList)).set(fflib_Match.anyInteger(),  argument.capture());
 
 		Object capturedArg = argument.getValue();
-		System.assertNotEquals(null, capturedArg, 'CapturedArg should not be null');
+		System.Assert.areNotEqual(null, capturedArg, 'CapturedArg should not be null');
 
-		System.assert(capturedArg instanceof TestInnerClass, 'CapturedArg should be SObject, instead was ' + capturedArg);
+		System.Assert.isInstanceOfType(capturedArg, TestInnerClass.class, 'CapturedArg should be SObject, instead was ' + capturedArg);
 
 		TestInnerClass testValueCaptured = (TestInnerClass)capturedArg;
 
-		System.assertEquals(4, testValueCaptured.i, 'the values inside the argument captured should be the same of the original one');
-		System.assertEquals('5', testValueCaptured.s, 'the values inside the argument captured should be the same of the original one');
+		System.Assert.areEqual(4, testValueCaptured.i, 'the values inside the argument captured should be the same of the original one');
+		System.Assert.areEqual('5', testValueCaptured.s, 'the values inside the argument captured should be the same of the original one');
 	}
 
 	@isTest
@@ -72,8 +72,8 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 		((fflib_MyList.IList) mocks.verify(mockList)).add((String) argument.capture());
 
-		System.assertEquals('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
-		System.assertEquals(1, argument.getAllValues().size(), 'the argument captured should be only one');
+		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual(1, argument.getAllValues().size(), 'the argument captured should be only one');
 	}
 
 	@isTest
@@ -96,13 +96,13 @@ private class fflib_ArgumentCaptorTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add((String) argument.capture());
 		((fflib_MyList.IList) mocks.verify(mockList)).add((List<String>) argument.capture());
 
-		System.assertEquals(stringList, (List<String>)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual(stringList, (List<String>)argument.getValue(), 'the argument captured is not as expected');
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(2, argsCaptured.size(), 'expected 2 argument to be captured');
+		System.Assert.areEqual(2, argsCaptured.size(), 'expected 2 argument to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
 	}
 
 	@isTest
@@ -125,7 +125,7 @@ private class fflib_ArgumentCaptorTest
 				(String)  argument.capture(),
 				(String) fflib_Match.eq('Betty'));
 
-		System.assertEquals('Wilma', (String)argument.getValue(),
+		System.Assert.areEqual('Wilma', (String)argument.getValue(),
 			'the argument captured is not as expected, should be Wilma because is the 3rd parameter in the call');
 	}
 
@@ -145,7 +145,7 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) argument.capture());
 
-		System.assertEquals('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
 	}
 
 	@isTest
@@ -168,12 +168,12 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(4, argsCaptured.size(), 'expected 4 argument to be captured');
+		System.Assert.areEqual(4, argsCaptured.size(), 'expected 4 argument to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[1], 'the second value is not as expected');
-		System.assertEquals('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
-		System.assertEquals('Betty', (String) argsCaptured[3], 'the forth value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
+		System.Assert.areEqual('Betty', (String) argsCaptured[3], 'the forth value is not as expected');
 	}
 
 	@isTest
@@ -200,12 +200,12 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(3, argsCaptured.size(), 'expected 3 argument to be captured');
+		System.Assert.areEqual(3, argsCaptured.size(), 'expected 3 argument to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[1], 'the second value is not as expected');
 
-		System.assertEquals('pebble', (String) argsCaptured[2], 'the third value is not as expected');
+		System.Assert.areEqual('pebble', (String) argsCaptured[2], 'the third value is not as expected');
 	}
 
 	@isTest
@@ -230,11 +230,11 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(2, argsCaptured.size(), 'expected 2 argument to be captured');
+		System.Assert.areEqual(2, argsCaptured.size(), 'expected 2 argument to be captured');
 
-		System.assertEquals('Barney', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[0], 'the first value is not as expected');
 
-		System.assertEquals('Wilma', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Wilma', (String) argsCaptured[1], 'the second value is not as expected');
 	}
 
 	@isTest
@@ -255,9 +255,9 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(0, argsCaptured.size(), 'expected 0 argument to be captured');
+		System.Assert.areEqual(0, argsCaptured.size(), 'expected 0 argument to be captured');
 
-		System.assertEquals(null, argument.getValue(), 'no value should be captured, so must return null');
+		System.Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
 	}
 
 	@isTest
@@ -280,7 +280,7 @@ private class fflib_ArgumentCaptorTest
 			(String)argument.capture(),
 			fflib_Match.eqString('First call'));
 
-		System.assertEquals('First call', (String)argument.getValue());
+		System.Assert.areEqual('First call', (String)argument.getValue());
 	}
 
 	@isTest
@@ -316,9 +316,9 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> capturedValues = argument.getAllValues();
 
-		System.assertEquals(0, capturedValues.size(),
+		System.Assert.areEqual(0, capturedValues.size(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
-		System.assertEquals(null, (String)argument.getValue(),
+		System.Assert.isNull((String)argument.getValue(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 
@@ -338,7 +338,7 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList)inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
 
-		System.assertEquals('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
 	}
 
 	@isTest
@@ -363,14 +363,14 @@ private class fflib_ArgumentCaptorTest
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).set(fflib_Match.anyInteger(),  argument.capture());
 
 		Object capturedArg = argument.getValue();
-		System.assertNotEquals(null, capturedArg, 'CapturedArg should not be null');
+		System.Assert.areNotEqual(null, capturedArg, 'CapturedArg should not be null');
 
-		System.assert(capturedArg instanceof TestInnerClass, 'CapturedArg should be SObject, instead was ' + capturedArg);
+		System.Assert.isInstanceOfType(capturedArg, TestInnerClass.class, 'CapturedArg should be SObject, instead was ' + capturedArg);
 
 		TestInnerClass testValueCaptured = (TestInnerClass)capturedArg;
 
-		System.assertEquals(4, testValueCaptured.i, 'the values inside the argument captured should be the same of the original one');
-		System.assertEquals('5', testValueCaptured.s, 'the values inside the argument captured should be the same of the original one');
+		System.Assert.areEqual(4, testValueCaptured.i, 'the values inside the argument captured should be the same of the original one');
+		System.Assert.areEqual('5', testValueCaptured.s, 'the values inside the argument captured should be the same of the original one');
 	}
 
 	@isTest
@@ -393,8 +393,8 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
 
-		System.assertEquals('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
-		System.assertEquals(1, argument.getAllValues().size(), 'the argument captured should be only one');
+		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual(1, argument.getAllValues().size(), 'the argument captured should be only one');
 	}
 
 	@isTest
@@ -419,13 +419,13 @@ private class fflib_ArgumentCaptorTest
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((List<String>) argument.capture());
 
-		System.assertEquals(stringList, (List<String>)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual(stringList, (List<String>)argument.getValue(), 'the argument captured is not as expected');
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(2, argsCaptured.size(), 'expected 2 argument to be captured');
+		System.Assert.areEqual(2, argsCaptured.size(), 'expected 2 argument to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
 	}
 
 	@isTest
@@ -450,7 +450,7 @@ private class fflib_ArgumentCaptorTest
 				(String)  argument.capture(),
 				(String) fflib_Match.eq('Betty'));
 
-		System.assertEquals('Wilma', (String)argument.getValue(),
+		System.Assert.areEqual('Wilma', (String)argument.getValue(),
 			'the argument captured is not as expected, should be Wilma because is the 3rd parameter in the call');
 	}
 
@@ -472,7 +472,7 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(2))).add((String) argument.capture());
 
-		System.assertEquals('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
 	}
 
 	@isTest
@@ -497,12 +497,12 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(4, argsCaptured.size(), 'expected 4 argument to be captured');
+		System.Assert.areEqual(4, argsCaptured.size(), 'expected 4 argument to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[1], 'the second value is not as expected');
-		System.assertEquals('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
-		System.assertEquals('Betty', (String) argsCaptured[3], 'the forth value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
+		System.Assert.areEqual('Betty', (String) argsCaptured[3], 'the forth value is not as expected');
 	}
 
 	@isTest
@@ -531,12 +531,12 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(3, argsCaptured.size(), 'expected 3 argument to be captured');
+		System.Assert.areEqual(3, argsCaptured.size(), 'expected 3 argument to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[1], 'the second value is not as expected');
 
-		System.assertEquals('pebble', (String) argsCaptured[2], 'the third value is not as expected');
+		System.Assert.areEqual('pebble', (String) argsCaptured[2], 'the third value is not as expected');
 	}
 
 	@isTest
@@ -563,11 +563,11 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(2, argsCaptured.size(), 'expected 2 argument to be captured');
+		System.Assert.areEqual(2, argsCaptured.size(), 'expected 2 argument to be captured');
 
-		System.assertEquals('Barney', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[0], 'the first value is not as expected');
 
-		System.assertEquals('Wilma', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Wilma', (String) argsCaptured[1], 'the second value is not as expected');
 	}
 
 	@isTest
@@ -590,9 +590,9 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(0, argsCaptured.size(), 'expected 0 argument to be captured');
+		System.Assert.areEqual(0, argsCaptured.size(), 'expected 0 argument to be captured');
 
-		System.assertEquals(null, argument.getValue(), 'no value should be captured, so must return null');
+		System.Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
 	}
 
 	@isTest
@@ -617,7 +617,7 @@ private class fflib_ArgumentCaptorTest
 			(String)argument.capture(),
 			fflib_Match.eqString('First call'));
 
-		System.assertEquals('First call', (String)argument.getValue());
+		System.Assert.areEqual('First call', (String)argument.getValue());
 	}
 
 	@isTest
@@ -655,9 +655,9 @@ private class fflib_ArgumentCaptorTest
 
 		List<Object> capturedValues = argument.getAllValues();
 
-		System.assertEquals(0, capturedValues.size(),
+		System.Assert.areEqual(0, capturedValues.size(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
-		System.assertEquals(null, (String)argument.getValue(),
+		System.Assert.isNull((String)argument.getValue(),
 			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 
@@ -683,14 +683,14 @@ private class fflib_ArgumentCaptorTest
 
 		List<object> argsCaptured = argument.getAllValues();
 
-		System.assertEquals(6, argsCaptured.size(), 'expected 6 arguments to be captured');
+		System.Assert.areEqual(6, argsCaptured.size(), 'expected 6 arguments to be captured');
 
-		System.assertEquals('Fred', (String) argsCaptured[0], 'the first value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[1], 'the second value is not as expected');
-		System.assertEquals('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[3], 'the fourth value is not as expected');
-		System.assertEquals('Barney', (String) argsCaptured[4], 'the fifth value is not as expected');
-		System.assertEquals('Betty', (String) argsCaptured[5], 'the sixth value is not as expected');
+		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[1], 'the second value is not as expected');
+		System.Assert.areEqual('Wilma', (String) argsCaptured[2], 'the third value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[3], 'the fourth value is not as expected');
+		System.Assert.areEqual('Barney', (String) argsCaptured[4], 'the fifth value is not as expected');
+		System.Assert.areEqual('Betty', (String) argsCaptured[5], 'the sixth value is not as expected');
 	}
 
 
