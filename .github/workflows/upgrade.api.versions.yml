@@ -29,6 +29,6 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           title: 'Bump API Versions to ${{inputs.api-version}}'
-          body: Automatically performed by GitHub actions
+          body: 'Automatically bumped by GitHub Actions '
           branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
           commit-message: 'chore: bump api to v${{inputs.api-version}}'
