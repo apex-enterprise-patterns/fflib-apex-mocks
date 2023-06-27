@@ -35,4 +35,3 @@ jobs:
         with:
           title: 'Bump API Versions to ${{inputs.api-version}}'
           body: Automatically performed by GitHub actions
-          branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
