@@ -22,7 +22,7 @@ jobs:
           file_list=($(find ./sfdx-source -type f -exec grep -lP "<apiVersion>.*</apiVersion>" {} \;))
           for file in "${file_list[@]}"; do
             echo "Processing $file"
-            sed -i "s|<apiVersion>.*</apiVersion>|<apiVersion>${{api-version}}</apiVersion>|g" $file
+            sed -i "s|<apiVersion>.*</apiVersion>|<apiVersion>${{inputs.api-version}}</apiVersion>|g" $file
           done
       - name: Create Branch
         uses: EndBug/add-and-commit@v9
