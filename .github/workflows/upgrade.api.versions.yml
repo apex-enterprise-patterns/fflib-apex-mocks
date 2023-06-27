@@ -32,6 +32,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          title: 'Bump API Versions to ${{api-version}}'
+          title: 'Bump API Versions to ${{inputs.api-version}}'
           body: Automatically performed by GitHub actions
           branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
