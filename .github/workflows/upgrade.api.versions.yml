@@ -30,10 +30,10 @@ jobs:
         with:
           message: 'chore: bump api to v${{inputs.api-version}}'
           new_branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
+      - uses: actions/checkout@v3
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           title: 'Bump API Versions to ${{inputs.api-version}}'
           body: Automatically performed by GitHub actions
           branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
-          base: master
