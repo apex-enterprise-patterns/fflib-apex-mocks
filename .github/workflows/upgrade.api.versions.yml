@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       api-version:
-        description: 'api version in the format XX.X e.g 58.0'
+        description: 'api version in the format XX e.g 58'
         required: true
         type: string
 
@@ -19,12 +19,12 @@ jobs:
           file_list=($(find ./sfdx-source -type f -exec grep -lP "<apiVersion>.*</apiVersion>" {} \;))
           for file in "${file_list[@]}"; do
             echo "Processing $file"
-            sed -i "s|<apiVersion>.*</apiVersion>|<apiVersion>${{inputs.api-version}}</apiVersion>|g" $file
+            sed -i "s|<apiVersion>.*</apiVersion>|<apiVersion>${{inputs.api-version}}.0</apiVersion>|g" $file
           done
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           title: 'Bump API Versions to ${{inputs.api-version}}'
           body: 'Automatically bumped by GitHub Actions '
-          branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
-          commit-message: 'chore: bump api to v${{inputs.api-version}}'
+          branch: 'devops/bump-api-versions-v${{inputs.api-version}}.0'
+          commit-message: 'chore: bump api to v${{inputs.api-version}}.0'
