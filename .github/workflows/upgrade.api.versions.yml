@@ -21,7 +21,7 @@ jobs:
             echo "Processing $file"
             sed -i "s|<apiVersion>.*</apiVersion>|<apiVersion>${{inputs.api-version}}.0</apiVersion>|g" $file
           done
-          sed -i "s|"sourceApiVersion": "*"|"sourceApiVersion": "${{inputs.api-version}}.0"|g" sfdx-project.json
+          sed -i "s|\"sourceApiVersion\": \".*\"|\"sourceApiVersion\": \"58.0\"|g" sfdx-project.json
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
