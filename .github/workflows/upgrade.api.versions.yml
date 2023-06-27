@@ -19,7 +19,11 @@ jobs:
     steps:
       - name: Bump Version
         run: |
-          find ./ -type f -exec sed -i -e 's/apple/orange/g' {} \;
+          file_list=($(find ./sfdx-source -type f -exec grep -lP "<apiVersion>.*</apiVersion>" {} \;))
+          for file in "${file_list[@]}"; do
+            echo "Processing $file"
+            sed -i "s|<apiVersion>.*</apiVersion>|<apiVersion>${{api-version}}</apiVersion>|g" $file
+          done
           
   commit:
     needs: update
@@ -30,23 +34,3 @@ jobs:
         with:
           message: 'chore: bump api to v${{inputs.api-version}}'
           new_branch: 'devops/bump-api-versions-v${{inputs.api-version}}'
-          
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
