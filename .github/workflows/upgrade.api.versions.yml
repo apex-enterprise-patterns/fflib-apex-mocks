@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - uses: actions/checkout@v3
       - name: Bump Version
         run: |
           file_list=($(find ./sfdx-source -type f -exec grep -lP "<apiVersion>.*</apiVersion>" {} \;))
