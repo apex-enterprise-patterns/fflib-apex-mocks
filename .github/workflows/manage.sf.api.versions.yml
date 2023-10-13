@@ -1,6 +1,4 @@
-name: Upgrade API Versions
-env:
-  ACTIONS_STEP_DEBUG: true
+name: Manage SF API Versions
 on:
   workflow_dispatch:
     inputs:
@@ -13,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ClayChipps/manage-sf-api-version@v0.1.6
+      - uses: ClayChipps/manage-sf-api-version@v1.0.0
         with:
           api-version: ${{inputs.api-version}}
       - uses: peter-evans/create-pull-request@v5
