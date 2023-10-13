@@ -13,12 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Manage SF API Version
-        uses: ClayChipps/manage-sf-api-version@v0.1.3
+      - uses: ClayChipps/manage-sf-api-version@v0.1.3
         with:
           api-version: ${{inputs.api-version}}
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v5
         with:
           title: 'Bump API Versions to ${{inputs.api-version}}.0'
           body: 'Automatically bumped by GitHub Actions '
