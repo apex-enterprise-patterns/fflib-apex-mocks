@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ClayChipps/manage-sf-api-version@v0.1.4
+      - uses: ClayChipps/manage-sf-api-version@v0.1.5
         with:
           api-version: ${{inputs.api-version}}
       - uses: peter-evans/create-pull-request@v5
