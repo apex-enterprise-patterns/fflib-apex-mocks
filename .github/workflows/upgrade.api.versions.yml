@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Manage SF API Version
-        uses: ClayChipps/manage-sf-api-version@v0.0.1
+        uses: ClayChipps/manage-sf-api-version@v0.1.1
         with:
           api-version: ${{inputs.api-version}}
       - name: Create Pull Request
