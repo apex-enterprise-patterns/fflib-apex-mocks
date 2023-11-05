@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ClayChipps/manage-sf-api-version@v1.0.0
+      - uses: apex-enterprise-patterns/manage-sf-api-version@v1.0.0
         with:
           api-version: ${{inputs.api-version}}
       - uses: peter-evans/create-pull-request@v5
