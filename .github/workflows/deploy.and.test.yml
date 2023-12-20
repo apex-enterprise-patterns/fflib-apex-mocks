@@ -19,10 +19,14 @@ jobs:
         uses: apex-enterprise-patterns/setup-sfdx@v2 #We're using a fork of https://github.com/sfdx-actions/setup-sfdx for safety
         with:
           sfdx-auth-url: ${{ secrets.DEVHUB_SFDXURL }}
-      - run: sf config set target-dev-hub SFDX-ENV --global #Even though the setup-sfdx action uses --setdefaultdevhubusername, it doesn't seem to stick since it uses --setdefaultusername so we brute force it here
-      - run: sf org create scratch --definition-file config/project-scratch-def.json --set-default --duration-days 1 --no-track-source
-      - run: sf project deploy start
-      - run: sf apex run test --wait 5
+      - name: Setup the config parameters needed
+        run: sf config set target-dev-hub SFDX-ENV --global #Even though the setup-sfdx action uses --setdefaultdevhubusername, it doesn't seem to stick since it uses --setdefaultusername so we brute force it here
+      - name: Create the scratch org
+        run: sf org create scratch --definition-file config/project-scratch-def.json --set-default --duration-days 1 --no-track-source
+      - name: Deploy and compile the codebase
+        run: sf project deploy start
+      - name: Run the core framework tests
+        run: sf apex run test --wait 5
       - name: Destroy scratch org
         run: sf org delete scratch --no-prompt
         if: always()
