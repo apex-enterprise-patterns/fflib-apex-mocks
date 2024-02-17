@@ -17,4 +17,6 @@ public interface fflib_Answer
 	 */
 	Object answer(fflib_InvocationOnMock invocation);
 	// this is my edit
+	// I tried to edit again
+	// and another line
 }
