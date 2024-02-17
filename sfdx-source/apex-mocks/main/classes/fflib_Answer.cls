@@ -16,4 +16,5 @@ public interface fflib_Answer
 	 *	@return The value to be returned.
 	 */
 	Object answer(fflib_InvocationOnMock invocation);
+	// this is my edit
 }
