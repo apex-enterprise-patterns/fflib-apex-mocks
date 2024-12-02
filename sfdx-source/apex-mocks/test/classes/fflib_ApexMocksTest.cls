@@ -720,7 +720,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -735,7 +735,7 @@ private class fflib_ApexMocksTest
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList.IList mockList = new fflib_Mocks.Mockfflib_MyList(mocks);
+		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
 
 		// When
 		mocks.startStubbing();
