@@ -85,7 +85,8 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	private static void makeRelationship_GenericOverload_ReturnsObjectsWithRelationFieldSet() {
+	private static void makeRelationship_GenericOverload_ReturnsObjectsWithRelationFieldSet() 
+	{
 		//Given
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
 		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
@@ -128,8 +129,8 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidParentType() {
-
+	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidParentType() 
+	{
 		// Setup parent object
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
 		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
@@ -155,8 +156,8 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidChildType() {
-
+	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidChildType() 
+	{
 		// Setup parent object
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
 		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
@@ -182,8 +183,8 @@ public class fflib_ApexMocksUtilsTest
 	}
 
 	@isTest
-	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidFieldName() {
-
+	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidFieldName() 
+	{
 		// Setup parent object
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
 		acc.put('Id', fflib_IDGenerator.generate(acc.getSObjectType()));
@@ -206,6 +207,67 @@ public class fflib_ApexMocksUtilsTest
 			errorMessage = exc.getMessage();
 		}
 		System.Assert.areEqual('SObject field not found: MyInvalidField', errorMessage);
+	}
+
+	@IsTest 
+	private static void makeRelationship_ObjectWithNull_DoesNotThrowErrorOnJSONExceptionCanNotWriteAFieldNameExpectingAValue() 
+	{	
+		// Given
+		Product2 prod1 = new Product2(
+			Id = fflib_IDGenerator.generate(Product2.SObjectType),
+			Name = 'Product1',
+			ProductCode = 'P1',
+			Description = null,
+			StockKeepingUnit = 'P1'
+		);
+
+		Product2 prod2 = new Product2(
+			Id = fflib_IDGenerator.generate(Product2.SObjectType),
+			Name = 'Product2',
+			ProductCode = 'P2',
+			Description = 'this is another product',
+			StockKeepingUnit = 'P2'
+		);
+
+		OrderItem oi1 = new OrderItem(
+			Id = fflib_IDGenerator.generate(OrderItem.SObjectType),
+			Product2Id = prod1.Id,
+			Product2 = prod1,
+			UnitPrice = 10,
+			Quantity = 1
+		);
+
+		OrderItem oi2 = new OrderItem(
+			Id = fflib_IDGenerator.generate(OrderItem.SObjectType),
+			Product2Id = prod2.Id,
+			Product2 = prod2,
+			UnitPrice = 10,
+			Quantity = 1
+		);
+
+		Order order = new Order();
+
+		Exception exceptionThatWasCalled = null;
+
+		// When
+		Test.startTest();
+		
+		try {
+			fflib_ApexMocksUtils.makeRelationship(
+				List<Order>.class,
+				new List<Order>{ order },
+				OrderItem.OrderId,
+				new List<List<OrderItem>>{ new List<OrderItem>{oi1, oi2} }
+			);
+		} catch (JSONException e) {
+			exceptionThatWasCalled = e;
+		}
+
+		Test.stopTest();
+
+		// Then
+		System.debug(exceptionThatWasCalled);
+		Assert.isNull(exceptionThatWasCalled, 'Exception should not have been called');
 	}
 
 	@isTest
