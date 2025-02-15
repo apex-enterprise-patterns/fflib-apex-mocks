@@ -229,23 +229,23 @@ public class fflib_ApexMocksUtilsTest
 			StockKeepingUnit = 'P2'
 		);
 
-		OrderItem oi1 = new OrderItem(
-			Id = fflib_IDGenerator.generate(OrderItem.SObjectType),
+		OpportunityLineItem oli1 = new OpportunityLineItem(
+			Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType),
 			Product2Id = prod1.Id,
 			Product2 = prod1,
 			UnitPrice = 10,
 			Quantity = 1
 		);
 
-		OrderItem oi2 = new OrderItem(
-			Id = fflib_IDGenerator.generate(OrderItem.SObjectType),
+		OpportunityLineItem oli2 = new OpportunityLineItem(
+			Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType),
 			Product2Id = prod2.Id,
 			Product2 = prod2,
 			UnitPrice = 10,
 			Quantity = 1
 		);
 
-		Order order = new Order();
+		Opportunity opportunity = new Opportunity();
 
 		Exception exceptionThatWasCalled = null;
 
@@ -254,10 +254,10 @@ public class fflib_ApexMocksUtilsTest
 		
 		try {
 			fflib_ApexMocksUtils.makeRelationship(
-				List<Order>.class,
-				new List<Order>{ order },
-				OrderItem.OrderId,
-				new List<List<OrderItem>>{ new List<OrderItem>{oi1, oi2} }
+				List<Opportunity>.class,
+				new List<Opportunity>{ opportunity },
+				OpportunityLineItem.OpportunityId,
+				new List<List<OpportunityLineItem>>{ new List<OpportunityLineItem>{oli1, oli2} }
 			);
 		} catch (JSONException e) {
 			exceptionThatWasCalled = e;
