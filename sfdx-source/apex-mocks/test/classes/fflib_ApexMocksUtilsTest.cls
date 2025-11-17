@@ -337,4 +337,47 @@ public class fflib_ApexMocksUtilsTest
 
 		System.Assert.areEqual(acc.Name, t.What.Name);
 	}
+
+	@isTest
+	static void setReadOnlyFields_WithChildren_FieldSetSuccessfully() {
+		// Given
+		Contact cont = new Contact(
+			Id = fflib_IDGenerator.generate(Contact.SObjectType),
+			LastName = 'ContactName'
+		);
+
+		Opportunity opp = new Opportunity(
+			Id = fflib_IDGenerator.generate(Opportunity.SObjectType),
+			Name = 'OpportunityName'
+		);
+
+		Account acc = new Account();
+
+		Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
+
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
+			List<Account>.class,
+			new List<Account>{ acc },
+			Contact.AccountId,
+			new List<List<Contact>>{ new List<Contact>{cont} }
+		))[0];
+
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
+			List<Account>.class,
+			new List<Account>{ acc },
+			Opportunity.AccountId,
+			new List<List<Opportunity>>{ new List<Opportunity>{opp} }
+		))[0];
+
+		// When
+		Test.startTest();
+		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
+				acc,
+				Account.class,
+				new Map<SObjectField, Object>{Account.CreatedById => userId}
+		);
+		Test.stopTest();
+
+		Assert.areEqual(userId, acc.CreatedById);
+	}
 }
