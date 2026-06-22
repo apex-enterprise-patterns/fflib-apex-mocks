@@ -68,6 +68,21 @@ public with sharing class fflib_MethodCountRecorder
 	 */
 	public void recordMethod(fflib_InvocationOnMock invocation)
 	{
+		// Primary, async-safe recording lives on this instance (held by the owning
+		// fflib_ApexMocks), so it survives Platform Event triggered async flows.
+		record(invocation);
+
+		// Also mirror into the static singleton so the deprecated static getters
+		// retain their historical (globally shared) behaviour for callers that
+		// still rely on the published static API.
+		if (this != STATIC_RECORDER)
+		{
+			STATIC_RECORDER.record(invocation);
+		}
+	}
+
+	private void record(fflib_InvocationOnMock invocation)
+	{
 		List<fflib_MethodArgValues> methodArgs =
 			methodArgumentsByTypeName.get(invocation.getMethod());
 

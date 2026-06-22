@@ -13,6 +13,15 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 
 	private final fflib_MethodCountRecorder methodCountRecorder;
 
+	/**
+	 * Retained for backward compatibility with the published API. Verifies against
+	 * the globally shared (static) recorder state.
+	 * @deprecated Use {@link #fflib_AnyOrder(fflib_MethodCountRecorder)} instead.
+	 */
+	public fflib_AnyOrder() {
+		this.methodCountRecorder = null;
+	}
+
 	public fflib_AnyOrder(fflib_MethodCountRecorder methodCountRecorder) {
 		this.methodCountRecorder = methodCountRecorder;
 	}
@@ -29,7 +38,11 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 		fflib_VerificationMode verificationMode)
 	{
 		List<fflib_IMatcher> expectedMatchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(expectedArguments.argValues.size()) : null;
-		List<fflib_MethodArgValues> actualArguments = methodCountRecorder.getInstanceMethodArgumentsByTypeName().get(qm);
+		Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>> argumentsByTypeName =
+			(methodCountRecorder != null)
+				? methodCountRecorder.getInstanceMethodArgumentsByTypeName()
+				: fflib_MethodCountRecorder.getMethodArgumentsByTypeName();
+		List<fflib_MethodArgValues> actualArguments = argumentsByTypeName.get(qm);
 
 		Integer methodCount = getMethodCount(expectedArguments, expectedMatchers, actualArguments);
 
