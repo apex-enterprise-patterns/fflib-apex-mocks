@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Install SF CLI and authorize DevHub
-        uses: apex-enterprise-patterns/setup-sfdx@v2
+        uses: salesforcecli/setup-sfdx@v2
         with:
           sfdx-auth-url: ${{ secrets.DEVHUB_SFDXURL }}
 
