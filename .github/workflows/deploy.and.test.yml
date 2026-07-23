@@ -13,10 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install SF CLI and authorize DevHub
-        uses: sfdx-actions/setup-sfdx@v1
-        with:
-          sfdx-auth-url: ${{ secrets.DEVHUB_SFDXURL }}
+      - name: Install SF CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Authorize DevHub
+        env:
+          DEVHUB_SFDXURL: ${{ secrets.DEVHUB_SFDXURL }}
+        run: echo "$DEVHUB_SFDXURL" | sf org login sfdx-url --sfdx-url-stdin --alias SFDX-ENV --set-default-dev-hub
 
       - name: Setup the config parameters needed
         run: sf config set target-dev-hub SFDX-ENV --global
