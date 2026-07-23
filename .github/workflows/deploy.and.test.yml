@@ -11,6 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Install SF CLI
@@ -19,19 +20,22 @@ jobs:
       - name: Authorize DevHub
         env:
           DEVHUB_SFDXURL: ${{ secrets.DEVHUB_SFDXURL }}
-        run: echo "$DEVHUB_SFDXURL" | sf org login sfdx-url --sfdx-url-stdin --alias SFDX-ENV --set-default-dev-hub
-
-      - name: Setup the config parameters needed
-        run: sf config set target-dev-hub SFDX-ENV --global
+        run: |
+          if [ -z "$DEVHUB_SFDXURL" ]; then
+            echo "::error::DEVHUB_SFDXURL secret is not available in this run context"
+            exit 1
+          fi
+          echo "$DEVHUB_SFDXURL" | sf org login sfdx-url --alias SFDX-ENV --set-default-dev-hub --sfdx-url-stdin
 
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           persist-credentials: false
           fetch-depth: 0
 
       - name: Create the scratch org
+        id: scratch-org
         run: sf org create scratch --definition-file config/project-scratch-def.json --set-default --duration-days 1 --no-track-source
 
       - name: Deploy and compile the codebase
@@ -41,5 +45,5 @@ jobs:
         run: sf apex run test --wait 5
 
       - name: Destroy scratch org
-        if: always()
+        if: always() && steps.scratch-org.outcome == 'success'
         run: sf org delete scratch --no-prompt
