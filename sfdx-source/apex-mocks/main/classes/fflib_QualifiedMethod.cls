@@ -25,10 +25,10 @@ public with sharing class fflib_QualifiedMethod
 	}
 
 	/**
-	* Standard equals override.
-	* @param other The object whose equality we are verifying
-	* @return Boolean True if meaningfully equivalent, false otherwise.
-	*/
+	 * Standard equals override.
+	 * @param other The object whose equality we are verifying
+	 * @return Boolean True if meaningfully equivalent, false otherwise.
+	 */
 	public Boolean equals(Object other)
 	{
 		if (this === other)
@@ -42,9 +42,9 @@ public with sharing class fflib_QualifiedMethod
 	}
 
 	/**
-	* Standard hashCode override.
-	* @return Integer The generated hashCode
-	*/
+	 * Standard hashCode override.
+	 * @return Integer The generated hashCode
+	 */
 	public Integer hashCode()
 	{
 		Integer prime = 31;
@@ -62,18 +62,18 @@ public with sharing class fflib_QualifiedMethod
 	}
 
 	/**
-	* Standard toString override.
-	* @return String The human friendly description of the method.
-	*/
+	 * Standard toString override.
+	 * @return String The human friendly description of the method.
+	 */
 	public override String toString()
 	{
 		return typeName + '.' + methodName + methodArgTypes;
 	}
 
 	/**
-	* Predicate describing whether the qualified method accepts arguments or not.
-	* @return True if the method accepts arguments.
-	*/
+	 * Predicate describing whether the qualified method accepts arguments or not.
+	 * @return True if the method accepts arguments.
+	 */
 	public Boolean hasArguments()
 	{
 		return this.methodArgTypes != null && !this.methodArgTypes.isEmpty();

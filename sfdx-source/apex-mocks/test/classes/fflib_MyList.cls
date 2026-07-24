@@ -3,8 +3,8 @@ Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
 */
 
 /**
-* @nodoc
-*/
+ * @nodoc
+ */
 @IsTest
 public with sharing class fflib_MyList implements IList
 {

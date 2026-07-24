@@ -3,17 +3,17 @@ Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
 */
 
 /**
-* This class implements the actual verification.
-* @group Core
-*/
+ * This class implements the actual verification.
+ * @group Core
+ */
 @NamespaceAccessible
 public abstract class fflib_MethodVerifier
 {
 	/**
-	* Verify a method was called on a mock object.
-	* @param mockInvocation The object holding all the data of the invocation, like the method and arguments and the mock instance.
-	* @param verificationMode The verification mode that holds the setting about how the verification should be performed.
-	*/
+	 * Verify a method was called on a mock object.
+	 * @param mockInvocation The object holding all the data of the invocation, like the method and arguments and the mock instance.
+	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
+	 */
 	public void verifyMethodCall(fflib_InvocationOnMock mockInvocation, fflib_VerificationMode verificationMode)
 	{
 		validateMode(verificationMode);

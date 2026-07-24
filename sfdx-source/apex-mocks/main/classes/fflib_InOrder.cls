@@ -3,8 +3,8 @@ Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
 */
 
 /**
-* @group Core
-*/
+ * @group Core
+ */
 @NamespaceAccessible
 public with sharing class fflib_InOrder extends fflib_MethodVerifier
 {
@@ -16,11 +16,11 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	private final fflib_ApexMocks mocks;
 
 	/**
-	* Construct the InOrder instance.
-	* @param mocks The apex mock object instance.
-	* @param unorderedMockInstances One or more mock implementation classes (listed in any order), whose ordered method calls require verification.
-	* @deprecated Obtain an instance by calling {@link fflib_ApexMocks#inOrder(List&lt;Object&gt;)}
-	*/
+	 * Construct the InOrder instance.
+	 * @param mocks The apex mock object instance.
+	 * @param unorderedMockInstances One or more mock implementation classes (listed in any order), whose ordered method calls require verification.
+	 * @deprecated Obtain an instance by calling {@link fflib_ApexMocks#inOrder(List&lt;Object&gt;)}
+	 */
 	@NamespaceAccessible
 	public fflib_InOrder(fflib_ApexMocks mocks, List<Object> unorderedMockInstances)
 	{
@@ -29,14 +29,14 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	}
 
 	/**
-	* Verify a method was called on a mock object.
-	* It performs a no strict ordered verification.
-	* The verification could be either greedy or not depending of the verificationMode passed.
-	* Check the fflib_VerificationMode methods for details.
-	* @param mockInstance The mock object instance.
-	* @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
-	* @return The mock object instance.
-	*/
+	 * Verify a method was called on a mock object.
+	 * It performs a no strict ordered verification.
+	 * The verification could be either greedy or not depending of the verificationMode passed.
+	 * Check the fflib_VerificationMode methods for details.
+	 * @param mockInstance The mock object instance.
+	 * @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
+	 * @return The mock object instance.
+	 */
 	@NamespaceAccessible
 	public Object verify(Object mockInstance, fflib_VerificationMode verificationMode)
 	{
@@ -45,11 +45,11 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	}
 
 	/**
-	* Verify a method was called on a mock object.
-	* It performs the default times(1) verification for the InOrder.
-	* @param mockInstance The mock object instance.
-	* @return The mock object instance.
-	*/
+	 * Verify a method was called on a mock object.
+	 * It performs the default times(1) verification for the InOrder.
+	 * @param mockInstance The mock object instance.
+	 * @return The mock object instance.
+	 */
 	@NamespaceAccessible
 	public Object verify(Object mockInstance)
 	{
@@ -58,13 +58,13 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	}
 
 	/**
-	* Verify a method was called on a mock object.
-	* Wrapper for the new syntax call to be conformed to the old style notation
-	* It performs the equivalent of times(times) verification for the InOrder.
-	* @param mockInstance The mock object instance.
-	* @param times The number of times you expect the method to have been called.
-	* @return The mock object instance.
-	*/
+	 * Verify a method was called on a mock object.
+	 * Wrapper for the new syntax call to be conformed to the old style notation
+	 * It performs the equivalent of times(times) verification for the InOrder.
+	 * @param mockInstance The mock object instance.
+	 * @param times The number of times you expect the method to have been called.
+	 * @return The mock object instance.
+	 */
 	@NamespaceAccessible
 	public Object verify(Object mockInstance, Integer times)
 	{
@@ -73,9 +73,9 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	}
 
 	/**
-	* Verify that after the last successful verified method no more interactions happened on the inOrderMock instance.
-	* @throws Exception with message to help to identify the last method called.
-	*/
+	 * Verify that after the last successful verified method no more interactions happened on the inOrderMock instance.
+	 * @throws Exception with message to help to identify the last method called.
+	 */
 	@NamespaceAccessible
 	public void verifyNoMoreInteractions()
 	{
@@ -93,9 +93,9 @@ public with sharing class fflib_InOrder extends fflib_MethodVerifier
 	}
 
 	/**
-	* Verify that no interactions at all happened on the inOrderMock instance.
-	* @throws Exception with message.
-	*/
+	 * Verify that no interactions at all happened on the inOrderMock instance.
+	 * @throws Exception with message.
+	 */
 	@NamespaceAccessible
 	public void verifyNoInteractions()
 	{

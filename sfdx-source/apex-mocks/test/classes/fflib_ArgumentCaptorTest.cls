@@ -2,8 +2,8 @@
 * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
 */
 /**
-* @nodoc
-*/
+ * @nodoc
+ */
 @IsTest
 private class fflib_ArgumentCaptorTest
 {

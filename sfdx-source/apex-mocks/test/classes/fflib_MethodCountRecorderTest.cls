@@ -3,15 +3,15 @@ Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
 */
 
 /**
-* @nodoc
-*
-* Regression coverage for the backward-compatible (deprecated) entry points retained
-* when fflib_MethodCountRecorder moved to instance based recording:
-* - the static getOrderedMethodCalls() / getMethodArgumentsByTypeName() getters, and
-* - the no-arg fflib_AnyOrder() constructor that falls back to the static recorder.
-* These paths are not exercised by the rest of the suite (everything internal now uses
-* the instance API), so this class guards against them silently regressing.
-*/
+ * @nodoc
+ *
+ * Regression coverage for the backward-compatible (deprecated) entry points retained
+ * when fflib_MethodCountRecorder moved to instance based recording:
+ * - the static getOrderedMethodCalls() / getMethodArgumentsByTypeName() getters, and
+ * - the no-arg fflib_AnyOrder() constructor that falls back to the static recorder.
+ * These paths are not exercised by the rest of the suite (everything internal now uses
+ * the instance API), so this class guards against them silently regressing.
+ */
 @IsTest
 private class fflib_MethodCountRecorderTest
 {

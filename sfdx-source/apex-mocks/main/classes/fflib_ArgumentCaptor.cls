@@ -25,26 +25,26 @@
 */
 
 /**
-* This class implements the capturing framework for ApexMocks
-* According to Mockito's syntax the type is passed in the capturer construction,
-* however Apex cannot perform the auto casting that Java can.
-* To be consistent with Mockito, the capturer does not perform any checks on the type of the argument.
-* @group Core
-*/
+ * This class implements the capturing framework for ApexMocks
+ * According to Mockito's syntax the type is passed in the capturer construction,
+ * however Apex cannot perform the auto casting that Java can.
+ * To be consistent with Mockito, the capturer does not perform any checks on the type of the argument.
+ * @group Core
+ */
 @NamespaceAccessible
 public with sharing class fflib_ArgumentCaptor
 {
 	protected List<Object> argumentsCaptured = new List<Object>();
 
 	/**
-	* Factory method to create a new fflib_ArgumentCaptor.
-	* Takes the captured argument's Type for consistency with Mockito syntax.
-	* The Type is IGNORED because we can't determine an object instance's Type at runtime unlike in Java.
-	* Rigorous type checking may be introduced in a future release, so you should specify the expected argument type correctly.
-	*
-	* @param 	ignoredCaptureType Type (class) of the captured argument
-	* @return A new fflib_ArgumentCaptor.
-	*/
+	 * Factory method to create a new fflib_ArgumentCaptor.
+	 * Takes the captured argument's Type for consistency with Mockito syntax.
+	 * The Type is IGNORED because we can't determine an object instance's Type at runtime unlike in Java.
+	 * Rigorous type checking may be introduced in a future release, so you should specify the expected argument type correctly.
+	 *
+	 * @param 	ignoredCaptureType Type (class) of the captured argument
+	 * @return A new fflib_ArgumentCaptor.
+	 */
 	@NamespaceAccessible
 	public static fflib_ArgumentCaptor forClass(Type ignoredCaptureType)
 	{
@@ -52,12 +52,12 @@ public with sharing class fflib_ArgumentCaptor
 	}
 
 	/**
-	* Use it to capture the argument. This method must be used inside verification.
-	* Internally, this method registers a special implementation of a Matcher.
-	* This argument matcher stores the argument value so that you can use it later to perform assertions.
-	*
-	* @return a special matcher that matches any argument and remembers the value.
-	*/
+	 * Use it to capture the argument. This method must be used inside verification.
+	 * Internally, this method registers a special implementation of a Matcher.
+	 * This argument matcher stores the argument value so that you can use it later to perform assertions.
+	 *
+	 * @return a special matcher that matches any argument and remembers the value.
+	 */
 	@NamespaceAccessible
 	public Object capture()
 	{
@@ -67,11 +67,11 @@ public with sharing class fflib_ArgumentCaptor
 	}
 
 	/**
-	* Returns the captured value of the argument. When capturing all arguments use getAllValues().
-	* If verified method was called multiple times then this method returns the latest captured value.
-	*
-	* @return	captured argument value.
-	*/
+	 * Returns the captured value of the argument. When capturing all arguments use getAllValues().
+	 * If verified method was called multiple times then this method returns the latest captured value.
+	 *
+	 * @return	captured argument value.
+	 */
 	@NamespaceAccessible
 	public Object getValue()
 	{
@@ -85,11 +85,11 @@ public with sharing class fflib_ArgumentCaptor
 	}
 
 	/**
-	* Returns all captured values. Use it when capturing multiple arguments or when the verified method was called multiple times.
-	* When capturing multiple arguments is called multiple times, this method returns a merged list of all values from all invocations.
-	*
-	* @return	Returns all captured values. Use it when capturing multiple arguments on the same call or when the verified method was called multiple times.
-	*/
+	 * Returns all captured values. Use it when capturing multiple arguments or when the verified method was called multiple times.
+	 * When capturing multiple arguments is called multiple times, this method returns a merged list of all values from all invocations.
+	 *
+	 * @return	Returns all captured values. Use it when capturing multiple arguments on the same call or when the verified method was called multiple times.
+	 */
 	@NamespaceAccessible
 	public List<Object> getAllValues()
 	{

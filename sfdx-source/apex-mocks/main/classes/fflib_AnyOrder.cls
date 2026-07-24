@@ -3,20 +3,20 @@ Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
 */
 
 /**
-* 'Classic' invocation verifier - checks that a method was called with the given arguments the expected number of times.
-* The order of method calls is not important.
-* @group Core
-*/
+ * 'Classic' invocation verifier - checks that a method was called with the given arguments the expected number of times.
+ * The order of method calls is not important.
+ * @group Core
+ */
 @NamespaceAccessible
 public class fflib_AnyOrder extends fflib_MethodVerifier
 {
 	private final fflib_MethodCountRecorder methodCountRecorder;
 
 	/**
-	* Retained for backward compatibility with the published API. Verifies against
-	* the globally shared (static) recorder state.
-	* @deprecated Use {@link #fflib_AnyOrder(fflib_MethodCountRecorder)} instead.
-	*/
+	 * Retained for backward compatibility with the published API. Verifies against
+	 * the globally shared (static) recorder state.
+	 * @deprecated Use {@link #fflib_AnyOrder(fflib_MethodCountRecorder)} instead.
+	 */
 	public fflib_AnyOrder()
 	{
 		this.methodCountRecorder = null;
