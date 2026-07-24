@@ -1,47 +1,42 @@
 /*
- Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- *	'Classic' invocation verifier - checks that a method was called with the given arguments the expected number of times.
- *	The order of method calls is not important.
- *	@group Core
- */
+* 'Classic' invocation verifier - checks that a method was called with the given arguments the expected number of times.
+* The order of method calls is not important.
+* @group Core
+*/
 @NamespaceAccessible
 public class fflib_AnyOrder extends fflib_MethodVerifier
 {
-
 	private final fflib_MethodCountRecorder methodCountRecorder;
 
 	/**
-	 * Retained for backward compatibility with the published API. Verifies against
-	 * the globally shared (static) recorder state.
-	 * @deprecated Use {@link #fflib_AnyOrder(fflib_MethodCountRecorder)} instead.
-	 */
-	public fflib_AnyOrder() {
+	* Retained for backward compatibility with the published API. Verifies against
+	* the globally shared (static) recorder state.
+	* @deprecated Use {@link #fflib_AnyOrder(fflib_MethodCountRecorder)} instead.
+	*/
+	public fflib_AnyOrder()
+	{
 		this.methodCountRecorder = null;
 	}
 
-	public fflib_AnyOrder(fflib_MethodCountRecorder methodCountRecorder) {
+	public fflib_AnyOrder(fflib_MethodCountRecorder methodCountRecorder)
+	{
 		this.methodCountRecorder = methodCountRecorder;
 	}
 
 	/*
-	 * Verifies a method was invoked the expected number of times, with the expected arguments.
-	 * @param qualifiedMethod The method to be verified.
-	 * @param methodArg The arguments of the method that needs to be verified.
-	 * @param verificationMode The verification mode that holds the setting about how the verification should be performed.
-	 */
-	protected override void verify(
-		fflib_QualifiedMethod qm,
-		fflib_MethodArgValues expectedArguments,
-		fflib_VerificationMode verificationMode)
+	* Verifies a method was invoked the expected number of times, with the expected arguments.
+	* @param qualifiedMethod The method to be verified.
+	* @param methodArg The arguments of the method that needs to be verified.
+	* @param verificationMode The verification mode that holds the setting about how the verification should be performed.
+	*/
+	protected override void verify(fflib_QualifiedMethod qm, fflib_MethodArgValues expectedArguments, fflib_VerificationMode verificationMode)
 	{
 		List<fflib_IMatcher> expectedMatchers = fflib_Match.Matching ? fflib_Match.getAndClearMatchers(expectedArguments.argValues.size()) : null;
-		Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>> argumentsByTypeName =
-			(methodCountRecorder != null)
-				? methodCountRecorder.getInstanceMethodArgumentsByTypeName()
-				: fflib_MethodCountRecorder.getMethodArgumentsByTypeName();
+		Map<fflib_QualifiedMethod, List<fflib_MethodArgValues>> argumentsByTypeName = (methodCountRecorder != null) ? methodCountRecorder.getInstanceMethodArgumentsByTypeName() : fflib_MethodCountRecorder.getMethodArgumentsByTypeName();
 		List<fflib_MethodArgValues> actualArguments = argumentsByTypeName.get(qm);
 
 		Integer methodCount = getMethodCount(expectedArguments, expectedMatchers, actualArguments);
@@ -49,7 +44,7 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 		String qualifier = '';
 		Integer expectedCount = null;
 
-		if((verificationMode.VerifyMin == verificationMode.VerifyMax) && methodCount != verificationMode.VerifyMin)
+		if ((verificationMode.VerifyMin == verificationMode.VerifyMax) && methodCount != verificationMode.VerifyMin)
 		{
 			expectedCount = verificationMode.VerifyMin;
 		}
@@ -83,7 +78,7 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 					if (fflib_Match.matchesAllArgs(args, matchers))
 					{
 						capture(matchers);
-						retval ++;
+						retval++;
 					}
 				}
 			}
@@ -100,27 +95,29 @@ public class fflib_AnyOrder extends fflib_MethodVerifier
 	{
 		Integer count = 0;
 
-		for(fflib_MethodArgValues arg: methodArgs)
+		for (fflib_MethodArgValues arg : methodArgs)
 		{
-			if( arg == methodArg) count++;
+			if (arg == methodArg)
+			{
+				count++;
+			}
 		}
 
 		return count;
 	}
 
 	/*
-	 * Method that validate the verification mode used in the verify.
-	 * Not all the methods from the fflib_VerificationMode are implemented for the different classes that extends the fflib_MethodVerifier.
-	 * The error is thrown at run time, so this method is called in the method that actually performs the verify.
-	 * @param verificationMode The verification mode that have to been verified.
-	 * @throws Exception with message for the fflib_VerificationMode not implemented.
-	 */
+	* Method that validate the verification mode used in the verify.
+	* Not all the methods from the fflib_VerificationMode are implemented for the different classes that extends the fflib_MethodVerifier.
+	* The error is thrown at run time, so this method is called in the method that actually performs the verify.
+	* @param verificationMode The verification mode that have to been verified.
+	* @throws Exception with message for the fflib_VerificationMode not implemented.
+	*/
 	protected override void validateMode(fflib_VerificationMode verificationMode)
 	{
-		if(verificationMode.Method == fflib_VerificationMode.ModeName.CALLS)
+		if (verificationMode.Method == fflib_VerificationMode.ModeName.CALLS)
 		{
-			throw new fflib_ApexMocks.ApexMocksException(
-				'The calls() method is available only in the InOrder Verification.');
+			throw new fflib_ApexMocks.ApexMocksException('The calls() method is available only in the InOrder Verification.');
 		}
 	}
 }

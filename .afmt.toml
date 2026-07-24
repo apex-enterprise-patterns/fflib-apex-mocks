@@ -1,0 +1,10 @@
+# fflib ApexMocks house style.
+# Keep the existing long-line convention; afmt's structural formatting is the
+# purpose of this pass, not a source-wide line-wrapping change.
+max_width = 250
+indent_size = 4
+brace_style = "allman"
+wrap_single_statements = true
+indent_style = "tab"
+javadoc_star_column = "flush"
+normalize_annotation_casing = true

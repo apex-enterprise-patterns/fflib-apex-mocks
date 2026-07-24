@@ -1,21 +1,21 @@
 /*
- Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- * @nodoc
- *
- * Regression coverage for the backward-compatible (deprecated) entry points retained
- * when fflib_MethodCountRecorder moved to instance based recording:
- *   - the static getOrderedMethodCalls() / getMethodArgumentsByTypeName() getters, and
- *   - the no-arg fflib_AnyOrder() constructor that falls back to the static recorder.
- * These paths are not exercised by the rest of the suite (everything internal now uses
- * the instance API), so this class guards against them silently regressing.
- */
-@isTest
+* @nodoc
+*
+* Regression coverage for the backward-compatible (deprecated) entry points retained
+* when fflib_MethodCountRecorder moved to instance based recording:
+* - the static getOrderedMethodCalls() / getMethodArgumentsByTypeName() getters, and
+* - the no-arg fflib_AnyOrder() constructor that falls back to the static recorder.
+* These paths are not exercised by the rest of the suite (everything internal now uses
+* the instance API), so this class guards against them silently regressing.
+*/
+@IsTest
 private class fflib_MethodCountRecorderTest
 {
-	@isTest
+	@IsTest
 	private static void recordMethodPopulatesInstanceState()
 	{
 		// Given
@@ -27,22 +27,15 @@ private class fflib_MethodCountRecorderTest
 		recorder.recordMethod(invocation);
 
 		// Then
-		System.Assert.areEqual(
-			1,
-			recorder.getInstanceOrderedMethodCalls().size(),
-			'The invocation should be recorded against the instance ordered calls');
-		System.Assert.isTrue(
-			recorder.getInstanceMethodArgumentsByTypeName().containsKey(qm),
-			'The instance arguments map should contain the recorded method');
+		System.Assert.areEqual(1, recorder.getInstanceOrderedMethodCalls().size(), 'The invocation should be recorded against the instance ordered calls');
+		System.Assert.isTrue(recorder.getInstanceMethodArgumentsByTypeName().containsKey(qm), 'The instance arguments map should contain the recorded method');
 	}
 
-	@isTest
+	@IsTest
 	private static void recordMethodMirrorsIntoDeprecatedStaticGetters()
 	{
 		// Given the static getters start empty for this transaction
-		System.Assert.isTrue(
-			fflib_MethodCountRecorder.getOrderedMethodCalls().isEmpty(),
-			'The static ordered calls should start empty');
+		System.Assert.isTrue(fflib_MethodCountRecorder.getOrderedMethodCalls().isEmpty(), 'The static ordered calls should start empty');
 
 		fflib_QualifiedMethod qm = new fflib_QualifiedMethod('MyType', 'myMethod', new List<Type>{ String.class });
 		fflib_InvocationOnMock invocation = buildInvocation(qm, 'bob');
@@ -51,16 +44,11 @@ private class fflib_MethodCountRecorderTest
 		new fflib_MethodCountRecorder().recordMethod(invocation);
 
 		// Then the deprecated static getters mirror that recording rather than returning empty
-		System.Assert.areEqual(
-			1,
-			fflib_MethodCountRecorder.getOrderedMethodCalls().size(),
-			'The deprecated static ordered calls getter should mirror the recorded invocation');
-		System.Assert.isTrue(
-			fflib_MethodCountRecorder.getMethodArgumentsByTypeName().containsKey(qm),
-			'The deprecated static arguments getter should mirror the recorded method');
+		System.Assert.areEqual(1, fflib_MethodCountRecorder.getOrderedMethodCalls().size(), 'The deprecated static ordered calls getter should mirror the recorded invocation');
+		System.Assert.isTrue(fflib_MethodCountRecorder.getMethodArgumentsByTypeName().containsKey(qm), 'The deprecated static arguments getter should mirror the recorded method');
 	}
 
-	@isTest
+	@IsTest
 	private static void deprecatedAnyOrderConstructorVerifiesViaStaticRecorder()
 	{
 		// Given an invocation mirrored into the static recorder
@@ -74,13 +62,10 @@ private class fflib_MethodCountRecorderTest
 
 		// Then the verification passes (recorded exactly once) - reaching the assert means no exception was thrown
 		verifier.verifyMethodCall(invocation, once);
-		System.Assert.areEqual(
-			1,
-			fflib_MethodCountRecorder.getOrderedMethodCalls().size(),
-			'The static recorder backing the deprecated verifier should hold the single recorded call');
+		System.Assert.areEqual(1, fflib_MethodCountRecorder.getOrderedMethodCalls().size(), 'The static recorder backing the deprecated verifier should hold the single recorded call');
 	}
 
-	@isTest
+	@IsTest
 	private static void deprecatedAnyOrderConstructorReportsUnexpectedCountViaStaticRecorder()
 	{
 		// Given a single recorded invocation
@@ -100,9 +85,7 @@ private class fflib_MethodCountRecorderTest
 		}
 		catch (fflib_ApexMocks.ApexMocksException ex)
 		{
-			System.Assert.isTrue(
-				ex.getMessage().startsWith('EXPECTED COUNT: 2'),
-				'Unexpected verify fail message: ' + ex.getMessage());
+			System.Assert.isTrue(ex.getMessage().startsWith('EXPECTED COUNT: 2'), 'Unexpected verify fail message: ' + ex.getMessage());
 		}
 	}
 

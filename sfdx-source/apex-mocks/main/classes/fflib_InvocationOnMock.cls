@@ -1,12 +1,12 @@
 /*
- Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- *	An invocation on a mock.
- *	A place holder for mock, the method that was called and the arguments that were passed.
- *	@group Core
- */
+* An invocation on a mock.
+* A place holder for mock, the method that was called and the arguments that were passed.
+* @group Core
+*/
 @NamespaceAccessible
 public with sharing class fflib_InvocationOnMock
 {
@@ -15,11 +15,11 @@ public with sharing class fflib_InvocationOnMock
 	private Object mockInstance;
 
 	/**
-	 *	Constructor for the class.
-	 *  @param qm The fflib_QualifiedMethod instance to be stored.
-	 *  @param args The fflib_MethodArgValues instance to be stored.
-	 *  @param mockInstance The mock instance to be stored.
-	 */
+	* Constructor for the class.
+	* @param qm The fflib_QualifiedMethod instance to be stored.
+	* @param args The fflib_MethodArgValues instance to be stored.
+	* @param mockInstance The mock instance to be stored.
+	*/
 	@NamespaceAccessible
 	public fflib_InvocationOnMock(fflib_QualifiedMethod qm, fflib_MethodArgValues args, Object mockInstance)
 	{
@@ -29,22 +29,23 @@ public with sharing class fflib_InvocationOnMock
 	}
 
 	/**
-	 *	Returns the argument at the given index.
-	 *  @param index The index of the wanted argument.
-	 *  @throws ApexMocksException in case the index is out of range.
-	 *  @return The argument at the given index.
-	 */
+	* Returns the argument at the given index.
+	* @param index The index of the wanted argument.
+	* @throws ApexMocksException in case the index is out of range.
+	* @return The argument at the given index.
+	*/
 	@NamespaceAccessible
 	public Object getArgument(Integer index)
 	{
 		validateIndex(index);
-		return methodArg.argValues[index];
+		return methodArg
+		.argValues[index];
 	}
 
 	/**
-	 *	Returns the list of arguments passed to the method.
-	 *  @return The list of arguments.
-	 */
+	* Returns the list of arguments passed to the method.
+	* @return The list of arguments.
+	*/
 	@NamespaceAccessible
 	public List<Object> getArguments()
 	{
@@ -52,9 +53,9 @@ public with sharing class fflib_InvocationOnMock
 	}
 
 	/**
-	 *	Returns fflib_MethodArgValues instance that represents the arguments passed to the method.
-	 *  @return The fflib_MethodArgValues instance that represents the arguments passed to the method.
-	 */
+	* Returns fflib_MethodArgValues instance that represents the arguments passed to the method.
+	* @return The fflib_MethodArgValues instance that represents the arguments passed to the method.
+	*/
 	@NamespaceAccessible
 	public fflib_MethodArgValues getMethodArgValues()
 	{
@@ -62,9 +63,9 @@ public with sharing class fflib_InvocationOnMock
 	}
 
 	/**
-	 *	Returns the fflib_QualifiedMethod instance that represent the fully qualified method called within the invocation.
-	 *	@return The method stored in the invocation.
-	 */
+	* Returns the fflib_QualifiedMethod instance that represent the fully qualified method called within the invocation.
+	* @return The method stored in the invocation.
+	*/
 	@NamespaceAccessible
 	public fflib_QualifiedMethod getMethod()
 	{
@@ -72,9 +73,9 @@ public with sharing class fflib_InvocationOnMock
 	}
 
 	/**
-	 *	Returns the mock object on which the invocation occurs.
-	 *	@return The mock object on which the invocation occurs.
-	 */
+	* Returns the mock object on which the invocation occurs.
+	* @return The mock object on which the invocation occurs.
+	*/
 	@NamespaceAccessible
 	public Object getMock()
 	{
@@ -83,9 +84,9 @@ public with sharing class fflib_InvocationOnMock
 
 	private void validateIndex(Integer index)
 	{
-		if(index < 0 || index >= methodArg.argValues.size())
+		if (index < 0 || index >= methodArg.argValues.size())
 		{
-			throw new fflib_ApexMocks.ApexMocksException('Invalid index, must be greater or equal to zero and less of ' + methodArg.argValues.size()+'.');
+			throw new fflib_ApexMocks.ApexMocksException('Invalid index, must be greater or equal to zero and less of ' + methodArg.argValues.size() + '.');
 		}
 	}
 }

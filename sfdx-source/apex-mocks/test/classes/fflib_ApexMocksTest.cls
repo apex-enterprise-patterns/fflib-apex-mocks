@@ -1,18 +1,18 @@
 /*
- * Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
- */
-@isTest
+* Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
+*/
+@IsTest
 private class fflib_ApexMocksTest
 {
 	private static final fflib_ApexMocks MY_MOCKS = new fflib_ApexMocks();
-	private static final fflib_MyList MY_MOCK_LIST = (fflib_MyList)MY_MOCKS.mock(fflib_MyList.class);
+	private static final fflib_MyList MY_MOCK_LIST = (fflib_MyList) MY_MOCKS.mock(fflib_MyList.class);
 
-	@isTest
+	@IsTest
 	static void whenStubMultipleCallsWithMatchersShouldReturnExpectedValues()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(fflib_Match.anyInteger(), fflib_Match.anyString())).thenReturn('any');
@@ -26,12 +26,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('hello', actualValue);
 	}
 
-	@isTest
+	@IsTest
 	static void whenVerifyMultipleCallsWithMatchersShouldReturnCorrectMethodCallCounts()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -43,15 +43,15 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.stringContains('fred'));
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubExceptionWithMatchersShouldThrowException()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
-		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('Matcher Exception'),  mockList)).add(fflib_Match.stringContains('Hello'));
+		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('Matcher Exception'), mockList)).add(fflib_Match.stringContains('Hello'));
 		mocks.stopStubbing();
 
 		// When
@@ -69,60 +69,43 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenVerifyWithCombinedMatchersShouldReturnCorrectMethodCallCounts()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
 		mockList.add('fred');
 
 		// Then
-		((fflib_MyList.IList) mocks.verify(mockList, 0)).add(
-			(String)fflib_Match.allOf(fflib_Match.eq('bob'), fflib_Match.stringContains('re'))
-		);
+		((fflib_MyList.IList) mocks.verify(mockList, 0)).add((String) fflib_Match.allOf(fflib_Match.eq('bob'), fflib_Match.stringContains('re')));
 
-		((fflib_MyList.IList) mocks.verify(mockList)).add(
-			(String)fflib_Match.allOf(fflib_Match.eq('fred'), fflib_Match.stringContains('re'))
-		);
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String) fflib_Match.allOf(fflib_Match.eq('fred'), fflib_Match.stringContains('re')));
 
-		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
-			(String)fflib_Match.anyOf(fflib_Match.eq('bob'), fflib_Match.eq('fred'))
-		);
+		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) fflib_Match.anyOf(fflib_Match.eq('bob'), fflib_Match.eq('fred')));
 
-		((fflib_MyList.IList) mocks.verify(mockList, 1)).add(
-			(String)fflib_Match.anyOf(fflib_Match.eq('bob'), fflib_Match.eq('jack'))
-		);
+		((fflib_MyList.IList) mocks.verify(mockList, 1)).add((String) fflib_Match.anyOf(fflib_Match.eq('bob'), fflib_Match.eq('jack')));
 
-		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
-			(String)fflib_Match.noneOf(fflib_Match.eq('jack'), fflib_Match.eq('tim'))
-		);
+		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) fflib_Match.noneOf(fflib_Match.eq('jack'), fflib_Match.eq('tim')));
 
-		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
-			(String)fflib_Match.noneOf(
-				fflib_Match.anyOf(fflib_Match.eq('jack'), fflib_Match.eq('jill')),
-				fflib_Match.allOf(fflib_Match.eq('tim'), fflib_Match.stringContains('i'))
-			)
-		);
+		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) fflib_Match.noneOf(fflib_Match.anyOf(fflib_Match.eq('jack'), fflib_Match.eq('jill')), fflib_Match.allOf(fflib_Match.eq('tim'), fflib_Match.stringContains('i'))));
 
-		((fflib_MyList.IList) mocks.verify(mockList, 2)).add(
-			(String)fflib_Match.isNot(fflib_Match.eq('jack'))
-		);
+		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) fflib_Match.isNot(fflib_Match.eq('jack')));
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubCustomMatchersCanBeUsed()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
-		mocks.when(mockList.get((Integer)fflib_Match.matches(new isOdd()))).thenReturn('Odd');
-		mocks.when(mockList.get((Integer)fflib_Match.matches(new isEven()))).thenReturn('Even');
+		mocks.when(mockList.get((Integer) fflib_Match.matches(new isOdd()))).thenReturn('Odd');
+		mocks.when(mockList.get((Integer) fflib_Match.matches(new isEven()))).thenReturn('Even');
 		mocks.stopStubbing();
 
 		// When
@@ -140,12 +123,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('Odd', s5);
 	}
 
-	@isTest
+	@IsTest
 	static void whenVerifyCustomMatchersCanBeUsed()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.get(1);
@@ -155,21 +138,22 @@ private class fflib_ApexMocksTest
 		mockList.get(5);
 
 		// Then
-		((fflib_MyList.IList) mocks.verify(mockList, 3)).get((Integer)fflib_Match.matches(new isOdd()));
-		((fflib_MyList.IList) mocks.verify(mockList, 2)).get((Integer)fflib_Match.matches(new isEven()));
+		((fflib_MyList.IList) mocks.verify(mockList, 3)).get((Integer) fflib_Match.matches(new isOdd()));
+		((fflib_MyList.IList) mocks.verify(mockList, 2)).get((Integer) fflib_Match.matches(new isEven()));
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubWithMatcherAndNonMatcherArgumentsShouldThrowException()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
-		String expectedError = 'The number of matchers defined (1).'
-				+ ' does not match the number expected (2)\n'
-				+ 'If you are using matchers all arguments must be passed in as matchers.\n'
-				+ 'For example myList.add(fflib_Match.anyInteger(), \'String\') should be defined as myList.add(fflib_Match.anyInteger(), fflib_Match.eq(\'String\')).';
+		String expectedError =
+			'The number of matchers defined (1).'
+			+ ' does not match the number expected (2)\n'
+			+ 'If you are using matchers all arguments must be passed in as matchers.\n'
+			+ 'For example myList.add(fflib_Match.anyInteger(), \'String\') should be defined as myList.add(fflib_Match.anyInteger(), fflib_Match.eq(\'String\')).';
 
 		// Then
 		try
@@ -184,17 +168,18 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenVerifyWithMatcherAndNonMatcherArgumentsShouldThrowException()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
-		String expectedError = 'The number of matchers defined (1).'
-				+ ' does not match the number expected (2)\n'
-				+ 'If you are using matchers all arguments must be passed in as matchers.\n'
-				+ 'For example myList.add(fflib_Match.anyInteger(), \'String\') should be defined as myList.add(fflib_Match.anyInteger(), fflib_Match.eq(\'String\')).';
+		String expectedError =
+			'The number of matchers defined (1).'
+			+ ' does not match the number expected (2)\n'
+			+ 'If you are using matchers all arguments must be passed in as matchers.\n'
+			+ 'For example myList.add(fflib_Match.anyInteger(), \'String\') should be defined as myList.add(fflib_Match.anyInteger(), fflib_Match.eq(\'String\')).';
 
 		mockList.get2(1, 'String literal');
 
@@ -210,12 +195,12 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubSameMethodWithMatchersAndNonMatchersShouldStubInOrder()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 
@@ -232,20 +217,20 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('Good', mockList.get2(1, 'Matcher first'));
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubExceptionSameMethodWithMatchersAndNonMatchersShouldStubInOrder()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 
-		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Bad'), mockList)).add('Non-matcher first'); //Set the exception value using the non-matcher arguments
-		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Good'), mockList)).add(fflib_Match.stringContains('Non-matcher first')); //Override the exception value using matcher arguments
+		((fflib_MyList.IList) mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Bad'), mockList)).add('Non-matcher first'); //Set the exception value using the non-matcher arguments
+		((fflib_MyList.IList) mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Good'), mockList)).add(fflib_Match.stringContains('Non-matcher first')); //Override the exception value using matcher arguments
 
-		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Bad'), mockList)).add(fflib_Match.stringContains('Matcher first')); //Set the exception value using the matcher arguments
-		((fflib_MyList.IList)mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Good'), mockList)).add('Matcher first'); //Override the exception value using non-matcher arguments
+		((fflib_MyList.IList) mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Bad'), mockList)).add(fflib_Match.stringContains('Matcher first')); //Set the exception value using the matcher arguments
+		((fflib_MyList.IList) mocks.doThrowWhen(new fflib_ApexMocks.ApexMocksException('Good'), mockList)).add('Matcher first'); //Override the exception value using non-matcher arguments
 
 		mocks.stopStubbing();
 
@@ -271,12 +256,12 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubSingleCallWithSingleArgumentShouldReturnStubbedValue()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob');
@@ -289,12 +274,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('bob', actualValue);
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubSingleCallWithNullReturnValueItShouldReturnNull()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn(null);
@@ -307,12 +292,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(null, actualValue);
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubMultipleCallsWithSingleArgumentShouldReturnStubbedValues()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob');
@@ -330,12 +315,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(null, actualValueArg2);
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubSameCallWithDifferentArgumentValueShouldReturnLastStubbedValue()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenReturn('bob1');
@@ -349,12 +334,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('bob2', actualValue);
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubCallWithNoArgumentsShouldReturnStubbedValue()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.isEmpty()).thenReturn(false);
@@ -367,12 +352,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(false, actualValue);
 	}
 
-	@isTest
+	@IsTest
 	static void verifySingleMethodCallWithNoArguments()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.isEmpty();
@@ -381,12 +366,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).isEmpty();
 	}
 
-	@isTest
+	@IsTest
 	static void verifySingleMethodCallWithSingleArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -395,12 +380,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
 	}
 
-	@isTest
+	@IsTest
 	static void verifyMultipleMethodCallsWithSameSingleArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -410,12 +395,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add('bob');
 	}
 
-	@isTest
+	@IsTest
 	static void verifyMultipleMethodCallsWithDifferentSingleArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -426,32 +411,32 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add('fred');
 	}
 
-	@isTest
+	@IsTest
 	static void verifyMethodCallsWithSameNameButDifferentArgumentTypes()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
-		mockList.add(new String[] {'bob'});
-		mockList.add((String)null);
-		mockList.add((String[])null);
+		mockList.add(new String[]{ 'bob' });
+		mockList.add((String) null);
+		mockList.add((String[]) null);
 
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
-		((fflib_MyList.IList) mocks.verify(mockList)).add(new String[] {'bob'});
-		((fflib_MyList.IList) mocks.verify(mockList)).add((String)null);
-		((fflib_MyList.IList) mocks.verify(mockList)).add((String[])null);
+		((fflib_MyList.IList) mocks.verify(mockList)).add(new String[]{ 'bob' });
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String) null);
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String[]) null);
 	}
 
-	@isTest
+	@IsTest
 	static void verifyMethodNotCalled()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.get(0);
@@ -461,12 +446,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).get(0);
 	}
 
-	@isTest
+	@IsTest
 	static void stubAndVerifyMethodCallsWithNoArguments()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.isEmpty()).thenReturn(false);
@@ -482,12 +467,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).clear();
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubExceptionTheExceptionShouldBeThrown()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(0)).thenThrow(new MyException('Stubbed exception.'));
@@ -499,7 +484,7 @@ private class fflib_ApexMocksTest
 			mockList.get(0);
 			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			// Then
 			System.Assert.isInstanceOfType(e, MyException.class);
@@ -507,12 +492,12 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubVoidMethodWithExceptionThenExceptionShouldBeThrown()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('Stubbed exception.'), mockList)).clear();
@@ -524,7 +509,7 @@ private class fflib_ApexMocksTest
 			mockList.clear();
 			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			// Then
 			System.Assert.isInstanceOfType(e, MyException.class);
@@ -532,12 +517,12 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubMultipleVoidMethodsWithExceptionsThenExceptionsShouldBeThrown()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('clear stubbed exception.'), mockList)).clear();
@@ -550,7 +535,7 @@ private class fflib_ApexMocksTest
 			mockList.clear();
 			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			// Then
 			System.Assert.isInstanceOfType(e, MyException.class);
@@ -563,7 +548,7 @@ private class fflib_ApexMocksTest
 			mockList.add('bob');
 			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			// Then
 			System.Assert.isInstanceOfType(e, MyException.class);
@@ -571,12 +556,12 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubVoidMethodWithExceptionAndCallMethodTwiceThenExceptionShouldBeThrownTwice()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList.IList) mocks.doThrowWhen(new MyException('clear stubbed exception.'), mockList)).clear();
@@ -588,7 +573,7 @@ private class fflib_ApexMocksTest
 			mockList.clear();
 			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			// Then
 			System.Assert.isInstanceOfType(e, MyException.class);
@@ -601,7 +586,7 @@ private class fflib_ApexMocksTest
 			mockList.clear();
 			System.Assert.fail('Stubbed exception should have been thrown.');
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			// Then
 			System.Assert.isInstanceOfType(e, MyException.class);
@@ -609,23 +594,23 @@ private class fflib_ApexMocksTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void verifyMethodCallWhenNoCallsBeenMadeForType()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).add('bob');
 	}
 
-	@isTest
+	@IsTest
 	static void verifySingleMethodCallWithMultipleArguments()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.set(0, 'bob');
@@ -635,12 +620,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).set(0, 'fred');
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubMultipleCallsWithMultipleArgumentShouldReturnStubbedValues()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'zero')).thenReturn('bob');
@@ -664,12 +649,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(null, actualValueArg4);
 	}
 
-	@isTest
+	@IsTest
 	static void whenStubNullConcreteArgValueCorrectValueIsReturned()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		String expected = 'hello';
 
@@ -684,14 +669,14 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(expected, actual);
 	}
 
-	@isTest
+	@IsTest
 	static void whenSetDoThrowWhenExceptionsValuesAreSet()
 	{
 		//Given
 		MyException e = new MyException('Test');
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
 
-		List<Exception> expsList = new List<Exception>{e};
+		List<Exception> expsList = new List<Exception>{ e };
 
 		//When
 		mocks.DoThrowWhenExceptions = expsList;
@@ -700,12 +685,12 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(expsList, mocks.DoThrowWhenExceptions);
 	}
 
-	@isTest
+	@IsTest
 	static void whenVerifyMethodNeverCalledMatchersAreReset()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -715,12 +700,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.anyString());
 	}
 
-	@isTest
+	@IsTest
 	static void whenMockIsGeneratedCanVerify()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('bob');
@@ -730,12 +715,12 @@ private class fflib_ApexMocksTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add('bob');
 	}
 
-	@isTest
+	@IsTest
 	static void whenMockIsGeneratedCanStubVerify()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mocks.startStubbing();
@@ -750,35 +735,30 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual('>Two', mockList.get(3));
 	}
 
-	@isTest
+	@IsTest
 	static void whenMockVoidMethodRecordsCallCanVerify()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
-		mocks.mockVoidMethod(
-			mockList,
-			'clear',
-			new List<Type>(),
-			new List<Object>()
-		);
+		mocks.mockVoidMethod(mockList, 'clear', new List<Type>(), new List<Object>());
 
 		// Then
 		((fflib_MyList.IList) mocks.verify(mockList, 1)).clear();
 	}
 
-	@isTest
+	@IsTest
 	static void thatMultipleInstancesCanBeMockedIndependently()
 	{
 		fflib_ApexMocksConfig.HasIndependentMocks = true;
 
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList first = (fflib_MyList)mocks.mock(fflib_MyList.class);
-		fflib_MyList second = (fflib_MyList)mocks.mock(fflib_MyList.class);
-		
+		fflib_MyList first = (fflib_MyList) mocks.mock(fflib_MyList.class);
+		fflib_MyList second = (fflib_MyList) mocks.mock(fflib_MyList.class);
+
 		mocks.startStubbing();
 		mocks.when(first.get(0)).thenReturn('First');
 		mocks.when(second.get(0)).thenReturn('Second');
@@ -789,20 +769,20 @@ private class fflib_ApexMocksTest
 
 		// Then
 		System.Assert.areEqual('First', actual, 'Should have returned stubbed value');
-		((fflib_MyList)mocks.verify(first)).get(0);
-		((fflib_MyList)mocks.verify(second, mocks.never())).get(0);
+		((fflib_MyList) mocks.verify(first)).get(0);
+		((fflib_MyList) mocks.verify(second, mocks.never())).get(0);
 	}
 
-	@isTest
+	@IsTest
 	static void thatMultipleInstancesCanBeMockedDependently()
 	{
 		fflib_ApexMocksConfig.HasIndependentMocks = false;
 
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList first = (fflib_MyList)mocks.mock(fflib_MyList.class);
-		fflib_MyList second = (fflib_MyList)mocks.mock(fflib_MyList.class);
-		
+		fflib_MyList first = (fflib_MyList) mocks.mock(fflib_MyList.class);
+		fflib_MyList second = (fflib_MyList) mocks.mock(fflib_MyList.class);
+
 		mocks.startStubbing();
 		mocks.when(first.get(0)).thenReturn('First');
 		mocks.when(second.get(0)).thenReturn('Second');
@@ -813,8 +793,8 @@ private class fflib_ApexMocksTest
 
 		// Then
 		System.Assert.areEqual('Second', actual, 'Should have returned stubbed value');
-		((fflib_MyList)mocks.verify(first)).get(0);
-		((fflib_MyList)mocks.verify(second)).get(0);
+		((fflib_MyList) mocks.verify(first)).get(0);
+		((fflib_MyList) mocks.verify(second)).get(0);
 	}
 
 	static void thatStubbingCanBeChainedFirstExceptionThenValue()
@@ -830,7 +810,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('One');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingCanBeChainedFirstValueThenException()
 	{
 		// Given
@@ -844,7 +824,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('Stubbed exception.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleMethodsCanBeChainedFirstExceptionThenValue()
 	{
 		// Given
@@ -861,7 +841,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValueForGet2('One2');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleMethodsCanBeChainedFirstValueThenException()
 	{
 		// Given
@@ -878,13 +858,13 @@ private class fflib_ApexMocksTest
 		assertExceptionMessageForGet2('Stubbed exception2.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingReturnsDifferentValuesForDifferentCalls()
 	{
 		// Given
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -893,13 +873,13 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Three');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingReturnsDifferentValuesForDifferentCallsAndRepeatLastValuesForFurtherCalls()
 	{
 		// Given
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -911,7 +891,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Three');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingThrowsDifferentExceptionsForDifferentCalls()
 	{
 		// Given
@@ -921,7 +901,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -930,7 +910,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingThrowsDifferentExceptionsForDifferentCallsAndRepeatLastExceptionForFurtherCalls()
 	{
 		// Given
@@ -940,7 +920,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -952,7 +932,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingThrowsAndReturnsDifferentExceptionsAndValuesForDifferentCalls()
 	{
 		// Given
@@ -962,9 +942,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).
-			thenThrowMulti(new List<Exception>{first, second, third}).
-			thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third }).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -980,7 +958,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Three');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingReturnsAndThrowsDifferentValuesAndExceptionsForDifferentCalls()
 	{
 		// Given
@@ -990,9 +968,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).
-			thenReturnMulti(new List<String>{'One', 'Two', 'Three'}).
-			thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' }).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1008,7 +984,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnWithSingleValue()
 	{
 		// Given
@@ -1023,13 +999,13 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Two');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnMultiWithSingleValue()
 	{
 		// Given
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturn('Two');
 		MY_MOCKS.stopStubbing();
 
@@ -1038,14 +1014,14 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Two');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnMultiWithMultiValue()
 	{
 		// Given
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'Four', 'Five', 'Six'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'Four', 'Five', 'Six' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1057,14 +1033,14 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Six');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnWithMultiValues()
 	{
 		// Given
 		// When
 		MY_MOCKS.startStubbing();
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturn('Two');
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1076,7 +1052,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Three');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnMultiWithSingleException()
 	{
 		// Given
@@ -1084,7 +1060,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrow(first);
 		MY_MOCKS.stopStubbing();
 
@@ -1093,7 +1069,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('first.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnMultiWithMultiExceptions()
 	{
 		// Given
@@ -1103,8 +1079,8 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1116,7 +1092,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnWithMultiExceptions()
 	{
 		// Given
@@ -1127,7 +1103,7 @@ private class fflib_ApexMocksTest
 		// When
 		MY_MOCKS.startStubbing();
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturn('Two');
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1139,7 +1115,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenReturnWithSingleException()
 	{
 		// Given
@@ -1156,7 +1132,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('first.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowWithSingleValue()
 	{
 		// Given
@@ -1173,7 +1149,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Two');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowMultiWithSingleValue()
 	{
 		// Given
@@ -1183,7 +1159,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturn('Two');
 		MY_MOCKS.stopStubbing();
 
@@ -1192,7 +1168,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Two');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowMultiWithMultiValue()
 	{
 		// Given
@@ -1202,8 +1178,8 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'Four', 'Five', 'Six'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'Four', 'Five', 'Six' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1215,7 +1191,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Six');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowWithMultiValues()
 	{
 		// Given
@@ -1224,7 +1200,7 @@ private class fflib_ApexMocksTest
 		// When
 		MY_MOCKS.startStubbing();
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrow(first);
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{'One', 'Two', 'Three'});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturnMulti(new List<String>{ 'One', 'Two', 'Three' });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1236,7 +1212,7 @@ private class fflib_ApexMocksTest
 		assertReturnedValue('Three');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowMultiWithSingleException()
 	{
 		// Given
@@ -1247,7 +1223,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrow(fourth);
 		MY_MOCKS.stopStubbing();
 
@@ -1256,7 +1232,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('fourth.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowMultiWithMultiExceptions()
 	{
 		// Given
@@ -1270,8 +1246,8 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{fourth, fifth, sixth});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ fourth, fifth, sixth });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1283,7 +1259,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('sixth.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowWithMultiExceptions()
 	{
 		// Given
@@ -1296,7 +1272,7 @@ private class fflib_ApexMocksTest
 		// When
 		MY_MOCKS.startStubbing();
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrow(beforeFirst);
-		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{first, second, third});
+		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenThrowMulti(new List<Exception>{ first, second, third });
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1308,7 +1284,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMultipleTimesOverridePreviousThenThrowWithSingleException()
 	{
 		// Given
@@ -1326,7 +1302,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessage('first.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatVoidMethodThrowsMultipleExceptions()
 	{
 		// Given
@@ -1338,7 +1314,7 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{first, second, third},  MY_MOCK_LIST)).add('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{ first, second, third }, MY_MOCK_LIST)).add('Hello');
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1350,7 +1326,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessageOnVoidMethod('third.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatMultipleVoidMethodsThrowsMultipleExceptions()
 	{
 		// Given
@@ -1364,8 +1340,8 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{first2, second2, third2},  MY_MOCK_LIST)).addMore('Hello');
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{first, second, third},  MY_MOCK_LIST)).add('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{ first2, second2, third2 }, MY_MOCK_LIST)).addMore('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{ first, second, third }, MY_MOCK_LIST)).add('Hello');
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1376,7 +1352,6 @@ private class fflib_ApexMocksTest
 		assertExceptionMessageOnVoidMethod('third.');
 		assertExceptionMessageOnVoidMethod('third.');
 
-
 		assertExceptionMessageOnAddMoreVoidMethod('first2.');
 		assertExceptionMessageOnAddMoreVoidMethod('second2.');
 		assertExceptionMessageOnAddMoreVoidMethod('third2.');
@@ -1385,7 +1360,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessageOnAddMoreVoidMethod('third2.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMutipleTimesVoidMethodThrowsMultipleExceptionsOverride()
 	{
 		// Given
@@ -1401,8 +1376,8 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{first, second, third},  MY_MOCK_LIST)).add('Hello');
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{fourth, fifth, sixth},  MY_MOCK_LIST)).add('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{ first, second, third }, MY_MOCK_LIST)).add('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{ fourth, fifth, sixth }, MY_MOCK_LIST)).add('Hello');
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1414,7 +1389,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessageOnVoidMethod('sixth.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStubbingMutipleTimesVoidMethodThrowsMultipleExceptionsOverrideWithSingleException()
 	{
 		// Given
@@ -1430,8 +1405,8 @@ private class fflib_ApexMocksTest
 
 		// When
 		MY_MOCKS.startStubbing();
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{first, second, third},  MY_MOCK_LIST)).add('Hello');
-		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(fourth,  MY_MOCK_LIST)).add('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(new List<Exception>{ first, second, third }, MY_MOCK_LIST)).add('Hello');
+		((fflib_MyList.IList) MY_MOCKS.doThrowWhen(fourth, MY_MOCK_LIST)).add('Hello');
 		MY_MOCKS.stopStubbing();
 
 		// Then
@@ -1439,7 +1414,7 @@ private class fflib_ApexMocksTest
 		assertExceptionMessageOnVoidMethod('fourth.');
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsthrownWhenStubbingIsNotDone()
 	{
 		MY_MOCKS.startStubbing();
@@ -1452,15 +1427,13 @@ private class fflib_ApexMocksTest
 
 			System.Assert.fail('an exception was expected');
 		}
-		catch(fflib_ApexMocks.ApexMocksException myex)
+		catch (fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.Assert.areEqual(
-				'The stubbing is not correct, no return values have been set.',
-				myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual('The stubbing is not correct, no return values have been set.', myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsthrownWhenReturnMultiPassEmptyList()
 	{
 		try
@@ -1470,15 +1443,13 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.stopStubbing();
 			System.Assert.fail('an exception was expected');
 		}
-		catch(fflib_ApexMocks.ApexMocksException myex)
+		catch (fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.Assert.areEqual(
-				'The stubbing is not correct, no return values have been set.',
-				myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual('The stubbing is not correct, no return values have been set.', myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsthrownWhenReturnMultiPassNullList()
 	{
 		try
@@ -1488,15 +1459,13 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.stopStubbing();
 			System.Assert.fail('an exception was expected');
 		}
-		catch(fflib_ApexMocks.ApexMocksException myex)
+		catch (fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.Assert.areEqual(
-				'The stubbing is not correct, no return values have been set.',
-				myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual('The stubbing is not correct, no return values have been set.', myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsthrownWhenThrowMultiPassEmptyList()
 	{
 		try
@@ -1506,15 +1475,13 @@ private class fflib_ApexMocksTest
 			MY_MOCKS.stopStubbing();
 			System.Assert.fail('an exception was expected');
 		}
-		catch(fflib_ApexMocks.ApexMocksException myex)
+		catch (fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.Assert.areEqual(
-				'The stubbing is not correct, no return values have been set.',
-				myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual('The stubbing is not correct, no return values have been set.', myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsthrownWhenThrowMultiPassNullList()
 	{
 		try
@@ -1525,26 +1492,23 @@ private class fflib_ApexMocksTest
 
 			System.Assert.fail('an exception was expected');
 		}
-		catch(fflib_ApexMocks.ApexMocksException myex)
+		catch (fflib_ApexMocks.ApexMocksException myex)
 		{
-			System.Assert.areEqual(
-				'The stubbing is not correct, no return values have been set.',
-				myex.getMessage(), 'the message reported by the exception is not correct');
+			System.Assert.areEqual('The stubbing is not correct, no return values have been set.', myex.getMessage(), 'the message reported by the exception is not correct');
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void thatNullCanBeUsedAsReturnValue()
 	{
 		MY_MOCKS.startStubbing();
 		MY_MOCKS.when(MY_MOCK_LIST.get(1)).thenReturn(null);
 		MY_MOCKS.stopStubbing();
 
-
 		System.Assert.areEqual(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
 	}
 
-	@isTest
+	@IsTest
 	static void thatNullCanBeUsedAsExceptionvalue()
 	{
 		MY_MOCKS.startStubbing();
@@ -1554,8 +1518,6 @@ private class fflib_ApexMocksTest
 		System.Assert.areEqual(null, MY_MOCK_LIST.get(1), 'it should be possible stub using the null value');
 	}
 
-
-
 	private static void assertExceptionMessage(String expectedMessage)
 	{
 		try
@@ -1563,7 +1525,7 @@ private class fflib_ApexMocksTest
 			MY_MOCK_LIST.get(1);
 			System.Assert.fail('an exception was expected');
 		}
-		catch(MyException myex)
+		catch (MyException myex)
 		{
 			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1576,7 +1538,7 @@ private class fflib_ApexMocksTest
 			MY_MOCK_LIST.get2(2, 'Hello.');
 			System.Assert.fail('an exception was expected');
 		}
-		catch(MyException myex)
+		catch (MyException myex)
 		{
 			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1589,7 +1551,7 @@ private class fflib_ApexMocksTest
 			MY_MOCK_LIST.add('Hello');
 			System.Assert.fail('an exception was expected');
 		}
-		catch(MyException myex)
+		catch (MyException myex)
 		{
 			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1602,7 +1564,7 @@ private class fflib_ApexMocksTest
 			MY_MOCK_LIST.addMore('Hello');
 			System.Assert.fail('an exception was expected');
 		}
-		catch(MyException myex)
+		catch (MyException myex)
 		{
 			System.Assert.areEqual(expectedMessage, myex.getMessage(), 'the message reported by the exception is not correct');
 		}
@@ -1617,8 +1579,8 @@ private class fflib_ApexMocksTest
 	{
 		System.Assert.areEqual(expectedValue, MY_MOCK_LIST.get2(2, 'Hello.'), 'the method did not returned the expected value');
 	}
-	
-	@isTest
+
+	@IsTest
 	static void thatToStringReturnsSimpleStringValue()
 	{
 		System.Assert.areEqual('fflib_ApexMocks', '' + new fflib_ApexMocks());
@@ -1632,7 +1594,7 @@ private class fflib_ApexMocksTest
 	{
 		public Boolean matches(Object arg)
 		{
-			return arg instanceof Integer ? Math.mod((Integer)arg, 2) == 1: false;
+			return arg instanceof Integer ? Math.mod((Integer) arg, 2) == 1 : false;
 		}
 	}
 
@@ -1640,7 +1602,7 @@ private class fflib_ApexMocksTest
 	{
 		public Boolean matches(Object arg)
 		{
-			return arg instanceof Integer ? Math.mod((Integer)arg, 2) == 0: false;
+			return arg instanceof Integer ? Math.mod((Integer) arg, 2) == 0 : false;
 		}
 	}
 }

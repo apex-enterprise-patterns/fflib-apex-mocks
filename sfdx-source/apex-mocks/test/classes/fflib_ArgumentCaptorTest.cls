@@ -1,18 +1,18 @@
 /*
- * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
- */
+* Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
+*/
 /**
- * @nodoc
- */
-@isTest
+* @nodoc
+*/
+@IsTest
 private class fflib_ArgumentCaptorTest
 {
-	@isTest
+	@IsTest
 	static void thatArgumentValueIsCaptured()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -21,15 +21,15 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 		((fflib_MyList.IList) mocks.verify(mockList)).add((String) argument.capture());
 
-		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String) argument.getValue(), 'the argument captured is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCanPerformFurtherAssertionsOnCapturedArgumentValue()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		//When
 		TestInnerClass testValue = new TestInnerClass();
@@ -41,25 +41,25 @@ private class fflib_ArgumentCaptorTest
 		//Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(TestInnerClass.class);
 
-		((fflib_MyList.IList) mocks.verify(mockList)).set(fflib_Match.anyInteger(),  argument.capture());
+		((fflib_MyList.IList) mocks.verify(mockList)).set(fflib_Match.anyInteger(), argument.capture());
 
 		Object capturedArg = argument.getValue();
 		System.Assert.areNotEqual(null, capturedArg, 'CapturedArg should not be null');
 
 		System.Assert.isInstanceOfType(capturedArg, TestInnerClass.class, 'CapturedArg should be SObject, instead was ' + capturedArg);
 
-		TestInnerClass testValueCaptured = (TestInnerClass)capturedArg;
+		TestInnerClass testValueCaptured = (TestInnerClass) capturedArg;
 
 		System.Assert.areEqual(4, testValueCaptured.i, 'the values inside the argument captured should be the same of the original one');
 		System.Assert.areEqual('5', testValueCaptured.s, 'the values inside the argument captured should be the same of the original one');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureArgumentOnlyFromVerifiedMethod()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -72,18 +72,18 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 		((fflib_MyList.IList) mocks.verify(mockList)).add((String) argument.capture());
 
-		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String) argument.getValue(), 'the argument captured is not as expected');
 		System.Assert.areEqual(1, argument.getAllValues().size(), 'the argument captured should be only one');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArgumentsForTheVerifiedMethods()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
-		List<String> stringList = new List<String> {'3'};
+		List<String> stringList = new List<String>{ '3' };
 		// When
 		mockList.add('Fred');
 		mockList.add(stringList);
@@ -96,7 +96,7 @@ private class fflib_ArgumentCaptorTest
 		((fflib_MyList.IList) mocks.verify(mockList)).add((String) argument.capture());
 		((fflib_MyList.IList) mocks.verify(mockList)).add((List<String>) argument.capture());
 
-		System.Assert.areEqual(stringList, (List<String>)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual(stringList, (List<String>) argument.getValue(), 'the argument captured is not as expected');
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -105,12 +105,12 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureArgumentFromRequestedParameter()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred', 'Barney', 'Wilma', 'Betty');
@@ -118,23 +118,17 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList) mocks.verify(mockList))
-			.add(
-				(String) fflib_Match.eq('Fred'),
-				(String) fflib_Match.eq('Barney'),
-				(String)  argument.capture(),
-				(String) fflib_Match.eq('Betty'));
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String) fflib_Match.eq('Fred'), (String) fflib_Match.eq('Barney'), (String) argument.capture(), (String) fflib_Match.eq('Betty'));
 
-		System.Assert.areEqual('Wilma', (String)argument.getValue(),
-			'the argument captured is not as expected, should be Wilma because is the 3rd parameter in the call');
+		System.Assert.areEqual('Wilma', (String) argument.getValue(), 'the argument captured is not as expected, should be Wilma because is the 3rd parameter in the call');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureLastArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Barney');
@@ -145,15 +139,15 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) argument.capture());
 
-		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String) argument.getValue(), 'the argument captured is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArguments()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -176,12 +170,12 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Betty', (String) argsCaptured[3], 'the forth value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArgumentsFromMultipleMethods()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -193,10 +187,7 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList) mocks.verify(mockList, 2)).add((String) argument.capture());
 
-		((fflib_MyList.IList) mocks.verify(mockList))
-			.get2(
-				(Integer) fflib_Match.eq(3),
-				(String) argument.capture());
+		((fflib_MyList.IList) mocks.verify(mockList)).get2((Integer) fflib_Match.eq(3), (String) argument.capture());
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -208,12 +199,12 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('pebble', (String) argsCaptured[2], 'the third value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCanHandleMultipleCapturesInOneMethodCall()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred', 'Barney', 'Wilma', 'Betty');
@@ -221,12 +212,7 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList) mocks.verify(mockList))
-			.add(
-				(String) fflib_Match.eq('Fred'),
-				(String)  argument.capture(),
-				(String)  argument.capture(),
-				(String) fflib_Match.eq('Betty'));
+		((fflib_MyList.IList) mocks.verify(mockList)).add((String) fflib_Match.eq('Fred'), (String) argument.capture(), (String) argument.capture(), (String) fflib_Match.eq('Betty'));
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -237,12 +223,12 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Wilma', (String) argsCaptured[1], 'the second value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatDoesNotCaptureIfNotVerified()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('3');
@@ -250,8 +236,7 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(List<String>.class);
 
-		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER))
-			.add((List<String>) argument.capture());
+		((fflib_MyList.IList) mocks.verify(mockList, fflib_ApexMocks.NEVER)).add((List<String>) argument.capture());
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -260,12 +245,12 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureOnlyMethodsThatMatchesWithOtherMatcherAsWell()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Same', 'Same', 'First call', 'First call');
@@ -274,21 +259,17 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList) mocks.verify(mockList)).add(
-			fflib_Match.eqString('Same'),
-			fflib_Match.eqString('Same'),
-			(String)argument.capture(),
-			fflib_Match.eqString('First call'));
+		((fflib_MyList.IList) mocks.verify(mockList)).add(fflib_Match.eqString('Same'), fflib_Match.eqString('Same'), (String) argument.capture(), fflib_Match.eqString('First call'));
 
-		System.Assert.areEqual('First call', (String)argument.getValue());
+		System.Assert.areEqual('First call', (String) argument.getValue());
 	}
 
-	@isTest
+	@IsTest
 	static void thatDoesNotCaptureAnythingWhenCaptorIsWrappedInAMatcher()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Same', 'Same', 'First call', 'First call');
@@ -298,36 +279,24 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
 		((fflib_MyList.IList) mocks.verify(mockList)).add(
-			(String) fflib_Match.allOf(
-				fflib_Match.eqString('Same'),
-				fflib_Match.eqString('Same'),
-				argument.capture()),
-			(String) fflib_Match.allOf(
-				fflib_Match.eqString('Same'),
-				fflib_Match.eqString('Same'),
-				argument.capture()),
-			(String) fflib_Match.allOf(
-				argument.capture(),
-				fflib_Match.eqString('First call')),
-			(String) fflib_Match.allOf(
-				argument.capture(),
-				fflib_Match.eqString('First call'))
-			);
+			(String) fflib_Match.allOf(fflib_Match.eqString('Same'), fflib_Match.eqString('Same'), argument.capture()),
+			(String) fflib_Match.allOf(fflib_Match.eqString('Same'), fflib_Match.eqString('Same'), argument.capture()),
+			(String) fflib_Match.allOf(argument.capture(), fflib_Match.eqString('First call')),
+			(String) fflib_Match.allOf(argument.capture(), fflib_Match.eqString('First call'))
+		);
 
 		List<Object> capturedValues = argument.getAllValues();
 
-		System.Assert.areEqual(0, capturedValues.size(),
-			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
-		System.Assert.isNull((String)argument.getValue(),
-			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
+		System.Assert.areEqual(0, capturedValues.size(), 'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
+		System.Assert.isNull((String) argument.getValue(), 'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 
-	@isTest
+	@IsTest
 	static void thatArgumentValueIsCapturedWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
 		// When
@@ -336,19 +305,18 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList)inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
 
-		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String) argument.getValue(), 'the argument captured is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCanPerformFurtherAssertionsOnCapturedArgumentValueWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		//When
 		TestInnerClass testValue = new TestInnerClass();
@@ -360,27 +328,26 @@ private class fflib_ArgumentCaptorTest
 		//Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(TestInnerClass.class);
 
-		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).set(fflib_Match.anyInteger(),  argument.capture());
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).set(fflib_Match.anyInteger(), argument.capture());
 
 		Object capturedArg = argument.getValue();
 		System.Assert.areNotEqual(null, capturedArg, 'CapturedArg should not be null');
 
 		System.Assert.isInstanceOfType(capturedArg, TestInnerClass.class, 'CapturedArg should be SObject, instead was ' + capturedArg);
 
-		TestInnerClass testValueCaptured = (TestInnerClass)capturedArg;
+		TestInnerClass testValueCaptured = (TestInnerClass) capturedArg;
 
 		System.Assert.areEqual(4, testValueCaptured.i, 'the values inside the argument captured should be the same of the original one');
 		System.Assert.areEqual('5', testValueCaptured.s, 'the values inside the argument captured should be the same of the original one');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureArgumentOnlyFromVerifiedMethodWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Fred');
@@ -393,20 +360,19 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
 
-		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String) argument.getValue(), 'the argument captured is not as expected');
 		System.Assert.areEqual(1, argument.getAllValues().size(), 'the argument captured should be only one');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArgumentsForTheVerifiedMethodsWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
 
-
-		List<String> stringList = new List<String> {'3'};
+		List<String> stringList = new List<String>{ '3' };
 		// When
 		mockList.add('Fred');
 		mockList.add(stringList);
@@ -419,7 +385,7 @@ private class fflib_ArgumentCaptorTest
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) argument.capture());
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((List<String>) argument.capture());
 
-		System.Assert.areEqual(stringList, (List<String>)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual(stringList, (List<String>) argument.getValue(), 'the argument captured is not as expected');
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -428,14 +394,13 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Fred', (String) argsCaptured[0], 'the first value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureArgumentFromRequestedParameterWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Fred', 'Barney', 'Wilma', 'Betty');
@@ -443,25 +408,18 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1)))
-			.add(
-				(String) fflib_Match.eq('Fred'),
-				(String) fflib_Match.eq('Barney'),
-				(String)  argument.capture(),
-				(String) fflib_Match.eq('Betty'));
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) fflib_Match.eq('Fred'), (String) fflib_Match.eq('Barney'), (String) argument.capture(), (String) fflib_Match.eq('Betty'));
 
-		System.Assert.areEqual('Wilma', (String)argument.getValue(),
-			'the argument captured is not as expected, should be Wilma because is the 3rd parameter in the call');
+		System.Assert.areEqual('Wilma', (String) argument.getValue(), 'the argument captured is not as expected, should be Wilma because is the 3rd parameter in the call');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureLastArgumentWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Barney');
@@ -472,17 +430,16 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(2))).add((String) argument.capture());
 
-		System.Assert.areEqual('Fred', (String)argument.getValue(), 'the argument captured is not as expected');
+		System.Assert.areEqual('Fred', (String) argument.getValue(), 'the argument captured is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArgumentsWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Fred');
@@ -505,14 +462,13 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Betty', (String) argsCaptured[3], 'the forth value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArgumentsFromMultipleMethodsWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Fred');
@@ -524,10 +480,7 @@ private class fflib_ArgumentCaptorTest
 
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(2))).add((String) argument.capture());
 
-		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1)))
-			.get2(
-				(Integer) fflib_Match.eq(3),
-				(String) argument.capture());
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).get2((Integer) fflib_Match.eq(3), (String) argument.capture());
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -539,14 +492,13 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('pebble', (String) argsCaptured[2], 'the third value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCanHandleMultipleCapturesInOneMethodCallWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Fred', 'Barney', 'Wilma', 'Betty');
@@ -554,12 +506,7 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1)))
-			.add(
-				(String) fflib_Match.eq('Fred'),
-				(String)  argument.capture(),
-				(String)  argument.capture(),
-				(String) fflib_Match.eq('Betty'));
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add((String) fflib_Match.eq('Fred'), (String) argument.capture(), (String) argument.capture(), (String) fflib_Match.eq('Betty'));
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -570,14 +517,13 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Wilma', (String) argsCaptured[1], 'the second value is not as expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatDoesNotCaptureIfNotVerifiedWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('3');
@@ -585,8 +531,7 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(List<String>.class);
 
-		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.never()))
-			.add((List<String>) argument.capture());
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.never())).add((List<String>) argument.capture());
 
 		List<Object> argsCaptured = argument.getAllValues();
 
@@ -595,14 +540,13 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual(null, argument.getValue(), 'no value should be captured, so must return null');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureOnlyMethodsThatMatchesWithOtherMatcherAsWellWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Same', 'Same', 'First call', 'First call');
@@ -611,23 +555,18 @@ private class fflib_ArgumentCaptorTest
 		// Then
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
-		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add(
-			fflib_Match.eqString('Same'),
-			fflib_Match.eqString('Same'),
-			(String)argument.capture(),
-			fflib_Match.eqString('First call'));
+		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add(fflib_Match.eqString('Same'), fflib_Match.eqString('Same'), (String) argument.capture(), fflib_Match.eqString('First call'));
 
-		System.Assert.areEqual('First call', (String)argument.getValue());
+		System.Assert.areEqual('First call', (String) argument.getValue());
 	}
 
-	@isTest
+	@IsTest
 	static void thatDoesNotCaptureAnythingWhenCaptorIsWrappedInAMatcherWithInOrderVerification()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 		fflib_InOrder inOrder1 = new fflib_InOrder(mocks, new List<Object>{ mockList });
-
 
 		// When
 		mockList.add('Same', 'Same', 'First call', 'First call');
@@ -637,36 +576,24 @@ private class fflib_ArgumentCaptorTest
 		fflib_ArgumentCaptor argument = fflib_ArgumentCaptor.forClass(String.class);
 
 		((fflib_MyList.IList) inOrder1.verify(mockList, mocks.calls(1))).add(
-			(String) fflib_Match.allOf(
-				fflib_Match.eqString('Same'),
-				fflib_Match.eqString('Same'),
-				argument.capture()),
-			(String) fflib_Match.allOf(
-				fflib_Match.eqString('Same'),
-				fflib_Match.eqString('Same'),
-				argument.capture()),
-			(String) fflib_Match.allOf(
-				argument.capture(),
-				fflib_Match.eqString('First call')),
-			(String) fflib_Match.allOf(
-				argument.capture(),
-				fflib_Match.eqString('First call'))
-			);
+			(String) fflib_Match.allOf(fflib_Match.eqString('Same'), fflib_Match.eqString('Same'), argument.capture()),
+			(String) fflib_Match.allOf(fflib_Match.eqString('Same'), fflib_Match.eqString('Same'), argument.capture()),
+			(String) fflib_Match.allOf(argument.capture(), fflib_Match.eqString('First call')),
+			(String) fflib_Match.allOf(argument.capture(), fflib_Match.eqString('First call'))
+		);
 
 		List<Object> capturedValues = argument.getAllValues();
 
-		System.Assert.areEqual(0, capturedValues.size(),
-			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
-		System.Assert.isNull((String)argument.getValue(),
-			'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
+		System.Assert.areEqual(0, capturedValues.size(), 'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
+		System.Assert.isNull((String) argument.getValue(), 'nothing should have been capture because the matcher it not really a capture type, but a allOf()');
 	}
 
-	@isTest
+	@IsTest
 	static void thatCaptureAllArgumentswhenMethodIsCalledWithTheSameArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		// When
 		mockList.add('Fred');
@@ -692,7 +619,6 @@ private class fflib_ArgumentCaptorTest
 		System.Assert.areEqual('Barney', (String) argsCaptured[4], 'the fifth value is not as expected');
 		System.Assert.areEqual('Betty', (String) argsCaptured[5], 'the sixth value is not as expected');
 	}
-
 
 	private class TestInnerClass
 	{

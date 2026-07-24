@@ -1,22 +1,21 @@
 /*
- Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- * @nodoc
- */
-@isTest
+* @nodoc
+*/
+@IsTest
 private class fflib_AnswerTest
 {
-
 	private static fflib_InvocationOnMock actualInvocation = null;
 
-	@isTest
+	@IsTest
 	static void thatAnswersWithException()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.ExceptionForAnswer());
@@ -28,7 +27,7 @@ private class fflib_AnswerTest
 			mockList.get2(0, 'Hi hi Hello Hi hi');
 			System.Assert.fail('an exception is expected to be thrown on the answer execution');
 		}
-		catch(fflib_ApexMocks.ApexMocksException ansExpt)
+		catch (fflib_ApexMocks.ApexMocksException ansExpt)
 		{
 			String expectedMessage = 'an error occurs on the execution of the answer';
 			// Then
@@ -36,12 +35,12 @@ private class fflib_AnswerTest
 		}
 	}
 
-	@isTest
+	@IsTest
 	static void thatStoresMethodIntoInvocationOnMock()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.BasicAnswer());
@@ -56,15 +55,15 @@ private class fflib_AnswerTest
 		System.Assert.isInstanceOfType(methodCalled, fflib_QualifiedMethod.class, 'the object returned is not a method as expected');
 
 		String expectedMethodSignature = fflib_MyList.getStubClassName() + '.get2(Integer, String)';
-		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod)methodCalled).toString(), ' the method is no the one expected');
+		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod) methodCalled).toString(), ' the method is no the one expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatAnswerOnlyForTheMethodStubbedWithAnswer()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(3)).thenReturn('ted');
@@ -81,17 +80,17 @@ private class fflib_AnswerTest
 		System.Assert.isInstanceOfType(methodCalled, fflib_QualifiedMethod.class, 'the object returned is not a method as expected');
 
 		String expectedMethodSignature = fflib_MyList.getStubClassName() + '.get2(Integer, String)';
-		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod)methodCalled).toString(), ' the method is no the one expected');
+		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod) methodCalled).toString(), ' the method is no the one expected');
 
 		System.Assert.areEqual('ted', noAnswered, 'the get method should have returned the stubbed string');
 	}
 
-	@isTest
+	@IsTest
 	static void thatMultipleAnswersAreHandled()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get(3)).thenAnswer(new fflib_AnswerTest.FirstAnswer());
@@ -107,12 +106,12 @@ private class fflib_AnswerTest
 		System.Assert.areEqual('and this is the second one', answer2, 'the answer wasnt the one expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatStoresMockInstanceIntoInvocationOnMock()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.BasicAnswer());
@@ -126,12 +125,12 @@ private class fflib_AnswerTest
 		System.Assert.areEqual(mockList, actualInvocation.getMock(), 'the mock returned should be the mockList used in the stubbing');
 	}
 
-	@isTest
+	@IsTest
 	static void thatMethodsParametersAreAccessible()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.ProcessArgumentAnswer());
@@ -144,12 +143,12 @@ private class fflib_AnswerTest
 		System.Assert.areEqual('Bye hi Hello Bye hi', actualValue, 'the answer is not correct');
 	}
 
-	@isTest
+	@IsTest
 	static void thatAnswerOnlyForTheStubbedParameter()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.ProcessArgumentAnswer());
@@ -166,12 +165,12 @@ private class fflib_AnswerTest
 		System.Assert.areEqual(null, actualValue3, 'the answer is not correct');
 	}
 
-	@isTest
+	@IsTest
 	static void thatMethodsParametersAreAccessibleWhenCalledWithMatchers()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(fflib_Match.anyInteger(), fflib_Match.anyString())).thenAnswer(new fflib_AnswerTest.ProcessArgumentAnswer());
@@ -184,12 +183,12 @@ private class fflib_AnswerTest
 		System.Assert.areEqual('Bye hi Hello Bye hi', actualValue, 'the answer is not correct');
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsThrownWhenAccessOutOfIndexArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.ExceptionForArgumentsOutOfBound());
@@ -199,12 +198,12 @@ private class fflib_AnswerTest
 		String actualValue = mockList.get2(0, 'Hi hi Hello Hi hi');
 	}
 
-	@isTest
+	@IsTest
 	static void thatExceptionIsThrownWhenAccessNegativeIndexArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.get2(0, 'Hi hi Hello Hi hi')).thenAnswer(new fflib_AnswerTest.ExceptionForNegativeArgumentIndex());
@@ -214,12 +213,12 @@ private class fflib_AnswerTest
 		String actualValue = mockList.get2(0, 'Hi hi Hello Hi hi');
 	}
 
-	@isTest
+	@IsTest
 	static void thatArgumentListEmptyForMethodWithNoArgument()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		mocks.when(mockList.isEmpty()).thenAnswer(new fflib_AnswerTest.ArgumentListEmptyForMethodWithNoArgument());
@@ -229,12 +228,12 @@ private class fflib_AnswerTest
 		Boolean actualValue = mockList.isEmpty();
 	}
 
-	@isTest
+	@IsTest
 	static void thatAnswerToVoidMethod()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList) mocks.doAnswer(new fflib_AnswerTest.BasicAnswer(), mockList)).addMore('Hi hi Hello Hi hi');
@@ -248,15 +247,15 @@ private class fflib_AnswerTest
 		System.Assert.isInstanceOfType(methodCalled, fflib_QualifiedMethod.class, 'the object returned is not a method as expected');
 
 		String expectedMethodSignature = fflib_MyList.getStubClassName() + '.addMore(String)';
-		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod)methodCalled).toString(), 'Unexpected method name: ' + methodCalled);
+		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod) methodCalled).toString(), 'Unexpected method name: ' + methodCalled);
 	}
 
-	@isTest
+	@IsTest
 	static void thatAnswerToVoidAndNotVoidMethods()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		mocks.startStubbing();
 		((fflib_MyList) mocks.doAnswer(new fflib_AnswerTest.FirstAnswer(), mockList)).get(3);
@@ -274,19 +273,18 @@ private class fflib_AnswerTest
 		System.Assert.isInstanceOfType(methodCalled, fflib_QualifiedMethod.class, 'the object returned is not a method as expected');
 
 		String expectedMethodSignature = fflib_MyList.getStubClassName() + '.addMore(String)';
-		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod)methodCalled).toString(),
-			'the last method called should be the addMore, so should be the last to set the actualInvocation variable.');
+		System.Assert.areEqual(expectedMethodSignature, ((fflib_QualifiedMethod) methodCalled).toString(), 'the last method called should be the addMore, so should be the last to set the actualInvocation variable.');
 
 		System.Assert.areEqual('this is the first answer', answer1, 'the answer was not the one expected');
 		System.Assert.areEqual('and this is the second one', answer2, 'the answer was not the one expected');
 	}
 
-	@isTest
+	@IsTest
 	static void thatAnswerToDifferentVoidMethods()
 	{
 		// Given
 		fflib_ApexMocks mocks = new fflib_ApexMocks();
-		fflib_MyList mockList = (fflib_MyList)mocks.mock(fflib_MyList.class);
+		fflib_MyList mockList = (fflib_MyList) mocks.mock(fflib_MyList.class);
 
 		fflib_AnswerTest.FirstAnswer answer1 = new fflib_AnswerTest.FirstAnswer();
 		fflib_AnswerTest.SecondAnswer answer2 = new fflib_AnswerTest.SecondAnswer();
@@ -340,7 +338,7 @@ private class fflib_AnswerTest
 				Object noExistingObj = invocation.getArgument(2);
 				System.Assert.fail('an exception was expected because the argument in the method are only 2');
 			}
-			catch(fflib_ApexMocks.ApexMocksException exp)
+			catch (fflib_ApexMocks.ApexMocksException exp)
 			{
 				String expectedMessage = 'Invalid index, must be greater or equal to zero and less of 2.';
 				String actualMessage = exp.getMessage();
@@ -361,7 +359,7 @@ private class fflib_AnswerTest
 				Object noExistingObj = invocation.getArgument(-1);
 				System.Assert.fail('an exception was expected because the argument index cannot be negative');
 			}
-			catch(fflib_ApexMocks.ApexMocksException exp)
+			catch (fflib_ApexMocks.ApexMocksException exp)
 			{
 				String expectedMessage = 'Invalid index, must be greater or equal to zero and less of 2.';
 				String actualMessage = exp.getMessage();

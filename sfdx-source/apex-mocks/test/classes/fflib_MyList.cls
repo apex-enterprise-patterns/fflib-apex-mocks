@@ -1,11 +1,11 @@
 /*
- Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- * @nodoc
- */
-@isTest
+* @nodoc
+*/
+@IsTest
 public with sharing class fflib_MyList implements IList
 {
 	public interface IList

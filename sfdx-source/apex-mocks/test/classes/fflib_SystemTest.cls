@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
- */
+* Copyright (c) 2017 FinancialForce.com, inc.  All rights reserved.
+*/
 @IsTest
 private class fflib_SystemTest
 {
@@ -62,11 +62,7 @@ private class fflib_SystemTest
 	@IsTest
 	private static void assertEquals_WithCombinedMatcher_ShouldPass()
 	{
-		fflib_System.assertEquals(fflib_Match.allOf(
-				fflib_Match.stringStartsWith('Test S'),
-				fflib_Match.stringEndsWith('t String'),
-				fflib_Match.stringIsNotBlank())
-			, 'Test String');
+		fflib_System.assertEquals(fflib_Match.allOf(fflib_Match.stringStartsWith('Test S'), fflib_Match.stringEndsWith('t String'), fflib_Match.stringIsNotBlank()), 'Test String');
 	}
 
 	@IsTest
@@ -127,10 +123,6 @@ private class fflib_SystemTest
 	@IsTest
 	private static void assertEquals_WithCustomMessage_WithCombinedMatcher_ShouldPass()
 	{
-		fflib_System.assertEquals(fflib_Match.allOf(
-				fflib_Match.stringStartsWith('Test S'),
-				fflib_Match.stringEndsWith('t String'),
-				fflib_Match.stringIsNotBlank())
-			, 'Test String', 'My Custom Message');
+		fflib_System.assertEquals(fflib_Match.allOf(fflib_Match.stringStartsWith('Test S'), fflib_Match.stringEndsWith('t String'), fflib_Match.stringIsNotBlank()), 'Test String', 'My Custom Message');
 	}
 }

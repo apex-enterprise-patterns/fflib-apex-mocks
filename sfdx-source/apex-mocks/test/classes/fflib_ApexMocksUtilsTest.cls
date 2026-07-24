@@ -1,29 +1,29 @@
 /**
- * Copyright (c) 2014-2016, FinancialForce.com, inc
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- * - Neither the name of the FinancialForce.com, inc nor the names of its contributors
- *      may be used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- * THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-@isTest
+* Copyright (c) 2014-2016, FinancialForce.com, inc
+* All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without modification,
+* are permitted provided that the following conditions are met:
+*
+* - Redistributions of source code must retain the above copyright notice,
+* this list of conditions and the following disclaimer.
+* - Redistributions in binary form must reproduce the above copyright notice,
+* this list of conditions and the following disclaimer in the documentation
+* and/or other materials provided with the distribution.
+* - Neither the name of the FinancialForce.com, inc nor the names of its contributors
+* may be used to endorse or promote products derived from this software without
+* specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+* THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+* EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+* OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+* OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+@IsTest
 public class fflib_ApexMocksUtilsTest
 {
 	public static Schema.FieldSet findAnyFieldSet()
@@ -39,39 +39,24 @@ public class fflib_ApexMocksUtilsTest
 		return null;
 	}
 
-	@isTest
+	@IsTest
 	private static void makeRelationship_returnsObjectsWithRelationFieldSet()
 	{
 		//Given
-		Account acc = new Account(
-			Id = fflib_IDGenerator.generate(Account.SObjectType),
-			Name = 'AccName',
-			NumberOfEmployees = 7
-		);
+		Account acc = new Account(Id = fflib_IDGenerator.generate(Account.SObjectType), Name = 'AccName', NumberOfEmployees = 7);
 
-		Contact contact1 = new Contact(
-			Id = fflib_IDGenerator.generate(Contact.SObjectType),
-			DoNotCall = true
-		);
+		Contact contact1 = new Contact(Id = fflib_IDGenerator.generate(Contact.SObjectType), DoNotCall = true);
 
-		Contact contact2 = new Contact(
-			Id = fflib_IDGenerator.generate(Contact.SObjectType),
-			DoNotCall = false
-		);
+		Contact contact2 = new Contact(Id = fflib_IDGenerator.generate(Contact.SObjectType), DoNotCall = false);
 
 		//When
-		Account accWithRelationships = ((List<Account>)fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account> { acc },
-			Contact.AccountId,
-			new List<List<Contact>> { new List<Contact> { contact1, contact2 }}
-		))[0];
+		Account accWithRelationships = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Contact.AccountId, new List<List<Contact>>{ new List<Contact>{ contact1, contact2 } }))[0];
 
 		//Then
 		System.Assert.areEqual(acc.Id, accWithRelationships.Id);
 		System.Assert.areEqual(acc.Name, accWithRelationships.Name);
 		System.Assert.areEqual(acc.NumberOfEmployees, accWithRelationships.NumberOfEmployees);
-		
+
 		//Assert relationship fields
 		List<Contact> contacts = accWithRelationships.Contacts;
 		System.Assert.areNotEqual(null, contacts);
@@ -84,8 +69,8 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(contact2.DoNotCall, contacts[1].DoNotCall);
 	}
 
-	@isTest
-	private static void makeRelationship_GenericOverload_ReturnsObjectsWithRelationFieldSet() 
+	@IsTest
+	private static void makeRelationship_GenericOverload_ReturnsObjectsWithRelationFieldSet()
 	{
 		//Given
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
@@ -102,14 +87,7 @@ public class fflib_ApexMocksUtilsTest
 		contact2.put('DoNotCall', false);
 
 		//When
-		SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
-				'Account',
-				'Contact',
-				new List<SObject> { acc },
-				'AccountId',
-				new List<List<SObject>> { new List<SObject> { contact1, contact2 }}
-
-		))[0];
+		SObject accWithRelationships = ((List<SObject>) fflib_ApexMocksUtils.makeRelationship('Account', 'Contact', new List<SObject>{ acc }, 'AccountId', new List<List<SObject>>{ new List<SObject>{ contact1, contact2 } }))[0];
 
 		//Then
 		System.Assert.areEqual(acc.Id, accWithRelationships.Id);
@@ -122,14 +100,14 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(2, contacts.size());
 
 		System.Assert.areEqual(contact1.Id, contacts[0].Id);
-		System.Assert.areEqual((Boolean)contact1.get('DoNotCall'), (Boolean)contacts[0].get('DoNotCall'));
+		System.Assert.areEqual((Boolean) contact1.get('DoNotCall'), (Boolean) contacts[0].get('DoNotCall'));
 
 		System.Assert.areEqual(contact2.Id, contacts[1].Id);
-		System.Assert.areEqual((Boolean)contact2.get('DoNotCall'), (Boolean)contacts[1].get('DoNotCall'));
+		System.Assert.areEqual((Boolean) contact2.get('DoNotCall'), (Boolean) contacts[1].get('DoNotCall'));
 	}
 
-	@isTest
-	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidParentType() 
+	@IsTest
+	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidParentType()
 	{
 		// Setup parent object
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
@@ -140,23 +118,20 @@ public class fflib_ApexMocksUtilsTest
 		cont.put('Id', fflib_IDGenerator.generate(cont.getSObjectType()));
 
 		String errorMessage = '';
-		try {
+		try
+		{
 			// Call method under test
-			SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
-					'MyInvalidParentType',
-					'Contact',
-					new List<SObject> { acc },
-					'AccountId',
-					new List<List<SObject>> { new List<SObject> { cont }}
-			))[0];
-		} catch (Exception exc) {
+			SObject accWithRelationships = ((List<SObject>) fflib_ApexMocksUtils.makeRelationship('MyInvalidParentType', 'Contact', new List<SObject>{ acc }, 'AccountId', new List<List<SObject>>{ new List<SObject>{ cont } }))[0];
+		}
+		catch (Exception exc)
+		{
 			errorMessage = exc.getMessage();
 		}
 		System.Assert.areEqual('SObject type not found: MyInvalidParentType', errorMessage);
 	}
 
-	@isTest
-	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidChildType() 
+	@IsTest
+	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidChildType()
 	{
 		// Setup parent object
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
@@ -167,23 +142,20 @@ public class fflib_ApexMocksUtilsTest
 		cont.put('Id', fflib_IDGenerator.generate(cont.getSObjectType()));
 
 		String errorMessage = '';
-		try {
+		try
+		{
 			// Call method under test
-			SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
-					'Account',
-					'MyInvalidChildType',
-					new List<SObject> { acc },
-					'AccountId',
-					new List<List<SObject>> { new List<SObject> { cont }}
-			))[0];
-		} catch (Exception exc) {
+			SObject accWithRelationships = ((List<SObject>) fflib_ApexMocksUtils.makeRelationship('Account', 'MyInvalidChildType', new List<SObject>{ acc }, 'AccountId', new List<List<SObject>>{ new List<SObject>{ cont } }))[0];
+		}
+		catch (Exception exc)
+		{
 			errorMessage = exc.getMessage();
 		}
 		System.Assert.areEqual('SObject type not found: MyInvalidChildType', errorMessage);
 	}
 
-	@isTest
-	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidFieldName() 
+	@IsTest
+	private static void makeRelationship_GenericOverload_ThrowsErrorOnInvalidFieldName()
 	{
 		// Setup parent object
 		SObject acc = Schema.getGlobalDescribe().get('Account').newSObject();
@@ -194,56 +166,29 @@ public class fflib_ApexMocksUtilsTest
 		cont.put('Id', fflib_IDGenerator.generate(cont.getSObjectType()));
 
 		String errorMessage = '';
-		try {
+		try
+		{
 			// Call method under test
-			SObject accWithRelationships = ((List<SObject>)fflib_ApexMocksUtils.makeRelationship(
-					'Account',
-					'Contact',
-					new List<SObject> { acc },
-					'MyInvalidField',
-					new List<List<SObject>> { new List<SObject> { cont }}
-			))[0];
-		} catch (Exception exc) {
+			SObject accWithRelationships = ((List<SObject>) fflib_ApexMocksUtils.makeRelationship('Account', 'Contact', new List<SObject>{ acc }, 'MyInvalidField', new List<List<SObject>>{ new List<SObject>{ cont } }))[0];
+		}
+		catch (Exception exc)
+		{
 			errorMessage = exc.getMessage();
 		}
 		System.Assert.areEqual('SObject field not found: MyInvalidField', errorMessage);
 	}
 
-	@IsTest 
-	private static void makeRelationship_ObjectWithNull_DoesNotThrowErrorOnJSONExceptionCanNotWriteAFieldNameExpectingAValue() 
-	{	
+	@IsTest
+	private static void makeRelationship_ObjectWithNull_DoesNotThrowErrorOnJSONExceptionCanNotWriteAFieldNameExpectingAValue()
+	{
 		// Given
-		Product2 prod1 = new Product2(
-			Id = fflib_IDGenerator.generate(Product2.SObjectType),
-			Name = 'Product1',
-			ProductCode = 'P1',
-			Description = null,
-			StockKeepingUnit = 'P1'
-		);
+		Product2 prod1 = new Product2(Id = fflib_IDGenerator.generate(Product2.SObjectType), Name = 'Product1', ProductCode = 'P1', Description = null, StockKeepingUnit = 'P1');
 
-		Product2 prod2 = new Product2(
-			Id = fflib_IDGenerator.generate(Product2.SObjectType),
-			Name = 'Product2',
-			ProductCode = 'P2',
-			Description = 'this is another product',
-			StockKeepingUnit = 'P2'
-		);
+		Product2 prod2 = new Product2(Id = fflib_IDGenerator.generate(Product2.SObjectType), Name = 'Product2', ProductCode = 'P2', Description = 'this is another product', StockKeepingUnit = 'P2');
 
-		OpportunityLineItem oli1 = new OpportunityLineItem(
-			Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType),
-			Product2Id = prod1.Id,
-			Product2 = prod1,
-			UnitPrice = 10,
-			Quantity = 1
-		);
+		OpportunityLineItem oli1 = new OpportunityLineItem(Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType), Product2Id = prod1.Id, Product2 = prod1, UnitPrice = 10, Quantity = 1);
 
-		OpportunityLineItem oli2 = new OpportunityLineItem(
-			Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType),
-			Product2Id = prod2.Id,
-			Product2 = prod2,
-			UnitPrice = 10,
-			Quantity = 1
-		);
+		OpportunityLineItem oli2 = new OpportunityLineItem(Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType), Product2Id = prod2.Id, Product2 = prod2, UnitPrice = 10, Quantity = 1);
 
 		Opportunity opportunity = new Opportunity();
 
@@ -251,15 +196,13 @@ public class fflib_ApexMocksUtilsTest
 
 		// When
 		Test.startTest();
-		
-		try {
-			fflib_ApexMocksUtils.makeRelationship(
-				List<Opportunity>.class,
-				new List<Opportunity>{ opportunity },
-				OpportunityLineItem.OpportunityId,
-				new List<List<OpportunityLineItem>>{ new List<OpportunityLineItem>{oli1, oli2} }
-			);
-		} catch (JSONException e) {
+
+		try
+		{
+			fflib_ApexMocksUtils.makeRelationship(List<Opportunity>.class, new List<Opportunity>{ opportunity }, OpportunityLineItem.OpportunityId, new List<List<OpportunityLineItem>>{ new List<OpportunityLineItem>{ oli1, oli2 } });
+		}
+		catch (JSONException e)
+		{
 			exceptionThatWasCalled = e;
 		}
 
@@ -270,156 +213,101 @@ public class fflib_ApexMocksUtilsTest
 		Assert.isNull(exceptionThatWasCalled, 'Exception should not have been called');
 	}
 
-	@isTest
-	static void setReadOnlyFields_CreatedByIdSetToCurrentUserId_IdFieldSetSuccessfully() {
-		
+	@IsTest
+	static void setReadOnlyFields_CreatedByIdSetToCurrentUserId_IdFieldSetSuccessfully()
+	{
 		Account acc = new Account();
 		Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
 
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
-				acc,
-				Account.class,
-				new Map<SObjectField, Object>{Account.CreatedById => userId}
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => userId });
 		Test.stopTest();
 
 		System.Assert.areEqual(userId, acc.CreatedById);
 	}
 
-	@isTest
-	static void setReadOnlyFields_LastReferencedDateSetOnAccount_DateTimeFieldSetSuccessfully() {
-		
+	@IsTest
+	static void setReadOnlyFields_LastReferencedDateSetOnAccount_DateTimeFieldSetSuccessfully()
+	{
 		Account acc = new Account();
 		DateTime lastRefDate = DateTime.newInstanceGmt(2020, 1, 7, 23, 30, 0);
 
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
-				acc,
-				Account.class,
-				new Map<SObjectField, Object> {Account.LastReferencedDate => lastRefDate}
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.LastReferencedDate => lastRefDate });
 		Test.stopTest();
 
 		System.Assert.areEqual(lastRefDate, acc.LastReferencedDate);
 	}
 
-	@isTest
-	static void setReadOnlyFields_IsDeletedSetOnAccount_BooleanFieldSetSuccessfully() {
-
+	@IsTest
+	static void setReadOnlyFields_IsDeletedSetOnAccount_BooleanFieldSetSuccessfully()
+	{
 		Account acc = new Account();
 		Boolean isDeleted = true;
 
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
-				acc,
-				Account.class,
-				new Map<SObjectField, Object> {Account.IsDeleted => isDeleted}
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.IsDeleted => isDeleted });
 		Test.stopTest();
 
 		System.Assert.areEqual(isDeleted, acc.IsDeleted);
 	}
 
-	@isTest
-	static void setReadOnlyFields_PolymorphicRelationJoin_FieldSetSuccessfully() {
-
-		Account acc = new Account(Name='TestAccount');
+	@IsTest
+	static void setReadOnlyFields_PolymorphicRelationJoin_FieldSetSuccessfully()
+	{
+		Account acc = new Account(Name = 'TestAccount');
 		Task t = new Task();
 
 		Test.startTest();
-		t = (Task)fflib_ApexMocksUtils.setReadOnlyFields(
-			t,
-			Task.class,
-			new Map<String, Object> {'What' => acc}
-		);
+		t = (Task) fflib_ApexMocksUtils.setReadOnlyFields(t, Task.class, new Map<String, Object>{ 'What' => acc });
 		Test.stopTest();
 
 		System.Assert.areEqual(acc.Name, t.What.Name);
 	}
 
-	@isTest
-	static void setReadOnlyFields_WithChildren_FieldSetSuccessfully() {
+	@IsTest
+	static void setReadOnlyFields_WithChildren_FieldSetSuccessfully()
+	{
 		// Given
-		Contact cont = new Contact(
-			Id = fflib_IDGenerator.generate(Contact.SObjectType),
-			LastName = 'ContactName'
-		);
+		Contact cont = new Contact(Id = fflib_IDGenerator.generate(Contact.SObjectType), LastName = 'ContactName');
 
-		Opportunity opp = new Opportunity(
-			Id = fflib_IDGenerator.generate(Opportunity.SObjectType),
-			Name = 'OpportunityName'
-		);
+		Opportunity opp = new Opportunity(Id = fflib_IDGenerator.generate(Opportunity.SObjectType), Name = 'OpportunityName');
 
 		Account acc = new Account();
 
 		Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
 
-		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account>{ acc },
-			Contact.AccountId,
-			new List<List<Contact>>{ new List<Contact>{cont} }
-		))[0];
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Contact.AccountId, new List<List<Contact>>{ new List<Contact>{ cont } }))[0];
 
-		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account>{ acc },
-			Opportunity.AccountId,
-			new List<List<Opportunity>>{ new List<Opportunity>{opp} }
-		))[0];
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Opportunity.AccountId, new List<List<Opportunity>>{ new List<Opportunity>{ opp } }))[0];
 
 		// When
 		Test.startTest();
-		acc = (Account)fflib_ApexMocksUtils.setReadOnlyFields(
-				acc,
-				Account.class,
-				new Map<SObjectField, Object>{Account.CreatedById => userId}
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => userId });
 		Test.stopTest();
 
 		Assert.areEqual(userId, acc.CreatedById);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_WithChildren_PreservesChildRelationships()
 	{
 		// Given
-		Contact cont = new Contact(
-			Id = fflib_IDGenerator.generate(Contact.SObjectType),
-			LastName = 'ContactName'
-		);
+		Contact cont = new Contact(Id = fflib_IDGenerator.generate(Contact.SObjectType), LastName = 'ContactName');
 
-		Opportunity opp = new Opportunity(
-			Id = fflib_IDGenerator.generate(Opportunity.SObjectType),
-			Name = 'OpportunityName'
-		);
+		Opportunity opp = new Opportunity(Id = fflib_IDGenerator.generate(Opportunity.SObjectType), Name = 'OpportunityName');
 
 		Account acc = new Account();
 
 		Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
 
-		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account>{ acc },
-			Contact.AccountId,
-			new List<List<Contact>>{ new List<Contact>{ cont } }
-		))[0];
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Contact.AccountId, new List<List<Contact>>{ new List<Contact>{ cont } }))[0];
 
-		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account>{ acc },
-			Opportunity.AccountId,
-			new List<List<Opportunity>>{ new List<Opportunity>{ opp } }
-		))[0];
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Opportunity.AccountId, new List<List<Opportunity>>{ new List<Opportunity>{ opp } }))[0];
 
 		// When
 		Test.startTest();
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<SObjectField, Object>{ Account.CreatedById => userId }
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => userId });
 		Test.stopTest();
 
 		// Then
@@ -434,37 +322,21 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(opp.Name, acc.Opportunities[0].Name);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_WithChildren_PreservesWritableFields()
 	{
 		// Given - Name and NumberOfEmployees are updateable=true; CreatedById is updateable=false (the injected field)
-		Contact cont = new Contact(
-			Id = fflib_IDGenerator.generate(Contact.SObjectType),
-			LastName = 'ContactName'
-		);
+		Contact cont = new Contact(Id = fflib_IDGenerator.generate(Contact.SObjectType), LastName = 'ContactName');
 
-		Account acc = new Account(
-			Id = fflib_IDGenerator.generate(Account.SObjectType),
-			Name = 'AccName',
-			NumberOfEmployees = 7
-		);
+		Account acc = new Account(Id = fflib_IDGenerator.generate(Account.SObjectType), Name = 'AccName', NumberOfEmployees = 7);
 
 		Id userId = fflib_IDGenerator.generate((new User()).getSObjectType());
 
-		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account>{ acc },
-			Contact.AccountId,
-			new List<List<Contact>>{ new List<Contact>{ cont } }
-		))[0];
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Contact.AccountId, new List<List<Contact>>{ new List<Contact>{ cont } }))[0];
 
 		// When
 		Test.startTest();
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<SObjectField, Object>{ Account.CreatedById => userId }
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => userId });
 		Test.stopTest();
 
 		// Then - writable fields (updateable=true) must survive the round-trip
@@ -475,7 +347,7 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(cont.LastName, acc.Contacts[0].LastName);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_OverwritesExistingNonUpdateableField()
 	{
 		// Given - CreatedById is updateable=false; second call should replace the injected value
@@ -483,54 +355,30 @@ public class fflib_ApexMocksUtilsTest
 		Id firstUserId = fflib_IDGenerator.generate((new User()).getSObjectType());
 		Id secondUserId = fflib_IDGenerator.generate((new User()).getSObjectType());
 
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<SObjectField, Object>{ Account.CreatedById => firstUserId }
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => firstUserId });
 
 		// When - field already present in serialized JSON; properties map should overwrite it
 		Test.startTest();
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<SObjectField, Object>{ Account.CreatedById => secondUserId }
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => secondUserId });
 		Test.stopTest();
 
 		// Then
 		System.Assert.areEqual(secondUserId, acc.CreatedById);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_EmptyProperties_PreservesRecord()
 	{
 		// Given
-		Contact cont = new Contact(
-			Id = fflib_IDGenerator.generate(Contact.SObjectType),
-			LastName = 'ContactName'
-		);
+		Contact cont = new Contact(Id = fflib_IDGenerator.generate(Contact.SObjectType), LastName = 'ContactName');
 
-		Account acc = new Account(
-			Id = fflib_IDGenerator.generate(Account.SObjectType),
-			Name = 'AccName',
-			NumberOfEmployees = 7
-		);
+		Account acc = new Account(Id = fflib_IDGenerator.generate(Account.SObjectType), Name = 'AccName', NumberOfEmployees = 7);
 
-		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(
-			List<Account>.class,
-			new List<Account>{ acc },
-			Contact.AccountId,
-			new List<List<Contact>>{ new List<Contact>{ cont } }
-		))[0];
+		acc = ((List<Account>) fflib_ApexMocksUtils.makeRelationship(List<Account>.class, new List<Account>{ acc }, Contact.AccountId, new List<List<Contact>>{ new List<Contact>{ cont } }))[0];
 
 		// When
 		Test.startTest();
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<String, Object>()
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<String, Object>());
 		Test.stopTest();
 
 		// Then
@@ -540,38 +388,22 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(cont.LastName, acc.Contacts[0].LastName);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_WithChildren_NonUpdateableNumericFieldSetSuccessfully()
 	{
 		// Given - mirrors issue #163: inject a non-updateable numeric field (ExpectedRevenue: updateable=false, type=currency)
 		// on a parent that already has children via makeRelationship
-		OpportunityLineItem oli = new OpportunityLineItem(
-			Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType),
-			UnitPrice = 10,
-			Quantity = 1
-		);
+		OpportunityLineItem oli = new OpportunityLineItem(Id = fflib_IDGenerator.generate(OpportunityLineItem.SObjectType), UnitPrice = 10, Quantity = 1);
 
-		Opportunity opp = new Opportunity(
-			Id = fflib_IDGenerator.generate(Opportunity.SObjectType),
-			Name = 'OpportunityName'
-		);
+		Opportunity opp = new Opportunity(Id = fflib_IDGenerator.generate(Opportunity.SObjectType), Name = 'OpportunityName');
 
 		Decimal expectedRevenue = 4200;
 
-		opp = ((List<Opportunity>) fflib_ApexMocksUtils.makeRelationship(
-			List<Opportunity>.class,
-			new List<Opportunity>{ opp },
-			OpportunityLineItem.OpportunityId,
-			new List<List<OpportunityLineItem>>{ new List<OpportunityLineItem>{ oli } }
-		))[0];
+		opp = ((List<Opportunity>) fflib_ApexMocksUtils.makeRelationship(List<Opportunity>.class, new List<Opportunity>{ opp }, OpportunityLineItem.OpportunityId, new List<List<OpportunityLineItem>>{ new List<OpportunityLineItem>{ oli } }))[0];
 
 		// When
 		Test.startTest();
-		opp = (Opportunity) fflib_ApexMocksUtils.setReadOnlyFields(
-			opp,
-			Opportunity.class,
-			new Map<SObjectField, Object>{ Opportunity.ExpectedRevenue => expectedRevenue }
-		);
+		opp = (Opportunity) fflib_ApexMocksUtils.setReadOnlyFields(opp, Opportunity.class, new Map<SObjectField, Object>{ Opportunity.ExpectedRevenue => expectedRevenue });
 		Test.stopTest();
 
 		// Then
@@ -581,7 +413,7 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(oli.Id, opp.OpportunityLineItems[0].Id);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_MultipleProperties_AllFieldsSet()
 	{
 		// Given
@@ -591,15 +423,7 @@ public class fflib_ApexMocksUtilsTest
 
 		// When
 		Test.startTest();
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<SObjectField, Object>{
-				Account.CreatedById => userId,
-				Account.LastReferencedDate => lastRefDate,
-				Account.IsDeleted => true
-			}
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.CreatedById => userId, Account.LastReferencedDate => lastRefDate, Account.IsDeleted => true });
 		Test.stopTest();
 
 		// Then
@@ -608,7 +432,7 @@ public class fflib_ApexMocksUtilsTest
 		System.Assert.areEqual(true, acc.IsDeleted);
 	}
 
-	@isTest
+	@IsTest
 	static void setReadOnlyFields_NullPropertyValue_FieldSetToNull()
 	{
 		// Given - LastReferencedDate is updateable=false; null must round-trip via writeNullField
@@ -616,11 +440,7 @@ public class fflib_ApexMocksUtilsTest
 
 		// When
 		Test.startTest();
-		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(
-			acc,
-			Account.class,
-			new Map<SObjectField, Object>{ Account.LastReferencedDate => null }
-		);
+		acc = (Account) fflib_ApexMocksUtils.setReadOnlyFields(acc, Account.class, new Map<SObjectField, Object>{ Account.LastReferencedDate => null });
 		Test.stopTest();
 
 		// Then

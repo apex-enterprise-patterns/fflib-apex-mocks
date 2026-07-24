@@ -1,10 +1,10 @@
 /*
- Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- * @group Core
- */
+* @group Core
+*/
 @NamespaceAccessible
 public with sharing class fflib_QualifiedMethodAndArgValues
 {

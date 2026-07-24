@@ -1,10 +1,10 @@
 /*
- Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
- */
+Copyright (c) 2014-2017 FinancialForce.com, inc.  All rights reserved.
+*/
 
 /**
- * @group Core
- */
+* @group Core
+*/
 @NamespaceAccessible
 public with sharing class fflib_ApexMocks implements System.StubProvider
 {
@@ -17,7 +17,8 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	private fflib_VerificationMode verificationMode;
 	private fflib_Answer myAnswer;
 
-	public Boolean verifying { get; set; }
+	public Boolean verifying
+	{ get; set; }
 
 	public Boolean Stubbing
 	{
@@ -25,7 +26,6 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		{
 			return methodReturnValueRecorder.Stubbing;
 		}
-
 		private set;
 	}
 
@@ -35,7 +35,6 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		{
 			return methodReturnValueRecorder.DoThrowWhenExceptions;
 		}
-
 		set
 		{
 			methodReturnValueRecorder.DoThrowWhenExceptions = value;
@@ -43,8 +42,8 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Construct an ApexMocks instance.
-	 */
+	* Construct an ApexMocks instance.
+	*/
 	@NamespaceAccessible
 	public fflib_ApexMocks()
 	{
@@ -60,10 +59,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-     * Creates mock object of given class or interface.
-     * @param classToMock class or interface to mock.
-     * @return mock object.
-     */
+	* Creates mock object of given class or interface.
+	* @param classToMock class or interface to mock.
+	* @return mock object.
+	*/
 	@NamespaceAccessible
 	public Object mock(Type classToMock)
 	{
@@ -71,21 +70,20 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Inherited from StubProvider.
-	 * @param stubbedObject The stubbed object.
-	 * @param stubbedMethodName The name of the invoked method.
-	 * @param returnType The return type of the invoked method.
-	 * @param listOfParamTypes A list of the parameter types of the invoked method.
-	 * @param listOfParamNames A list of the parameter names of the invoked method.
-	 * @param listOfArgs The actual argument values passed into this method at runtime.
-	 * @return The stubbed return value. Null by default, unless you prepared one that matches this method and argument values in stubbing.
-	 */
+	* Inherited from StubProvider.
+	* @param stubbedObject The stubbed object.
+	* @param stubbedMethodName The name of the invoked method.
+	* @param returnType The return type of the invoked method.
+	* @param listOfParamTypes A list of the parameter types of the invoked method.
+	* @param listOfParamNames A list of the parameter names of the invoked method.
+	* @param listOfArgs The actual argument values passed into this method at runtime.
+	* @return The stubbed return value. Null by default, unless you prepared one that matches this method and argument values in stubbing.
+	*/
 	@NamespaceAccessible
-	public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-		List<type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs)
-    {
-        return mockNonVoidMethod(stubbedObject, stubbedMethodName, listOfParamTypes, listOfArgs);
-    }
+	public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType, List<type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs)
+	{
+		return mockNonVoidMethod(stubbedObject, stubbedMethodName, listOfParamTypes, listOfArgs);
+	}
 
 	@NamespaceAccessible
 	public static String extractTypeName(Object mockInstance)
@@ -94,10 +92,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @return The mock object instance.
-	 */
+	* Verify a method was called on a mock object.
+	* @param mockInstance The mock object instance.
+	* @return The mock object instance.
+	*/
 	@NamespaceAccessible
 	public Object verify(Object mockInstance)
 	{
@@ -105,11 +103,11 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
-	 * @return The mock object instance.
-	 */
+	* Verify a method was called on a mock object.
+	* @param mockInstance The mock object instance.
+	* @param verificationMode Defines the constraints for performing the verification (e.g. the minimum and maximum expected invocation counts).
+	* @return The mock object instance.
+	*/
 	@NamespaceAccessible
 	public Object verify(Object mockInstance, fflib_VerificationMode verificationMode)
 	{
@@ -120,11 +118,11 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Verify a method was called on a mock object.
-	 * @param mockInstance The mock object instance.
-	 * @param times The number of times you expect the method to have been called.
-	 * @return The mock object instance.
-	 */
+	* Verify a method was called on a mock object.
+	* @param mockInstance The mock object instance.
+	* @param times The number of times you expect the method to have been called.
+	* @return The mock object instance.
+	*/
 	@NamespaceAccessible
 	public Object verify(Object mockInstance, Integer times)
 	{
@@ -132,9 +130,9 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Verfiy a method was called on a mock object.
-	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
-	 */
+	* Verfiy a method was called on a mock object.
+	* @param mockInvocation The invocation on the mock containing information about the method and the arguments.
+	*/
 	public void verifyMethodCall(fflib_InvocationOnMock mockInvocation)
 	{
 		this.methodVerifier.verifyMethodCall(mockInvocation, verificationMode);
@@ -144,8 +142,8 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Tell ApexMocks framework you are about to start stubbing using when() calls.
-	 */
+	* Tell ApexMocks framework you are about to start stubbing using when() calls.
+	*/
 	@NamespaceAccessible
 	public void startStubbing()
 	{
@@ -153,8 +151,8 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Tell ApexMocks framework you are about to stop stubbing using when() calls.
-	 */
+	* Tell ApexMocks framework you are about to stop stubbing using when() calls.
+	*/
 	@NamespaceAccessible
 	public void stopStubbing()
 	{
@@ -162,10 +160,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Setup when stubbing for a mock object instance.
-	 * @param ignoredRetVal This is the return value from the method called on the mockInstance, and is ignored here since we are about to setup
-	 *        the stubbed return value using thenReturn() (see MethodReturnValue class below).
-	 */
+	* Setup when stubbing for a mock object instance.
+	* @param ignoredRetVal This is the return value from the method called on the mockInstance, and is ignored here since we are about to setup
+	* the stubbed return value using thenReturn() (see MethodReturnValue class below).
+	*/
 	@NamespaceAccessible
 	public fflib_MethodReturnValue when(Object ignoredRetVal)
 	{
@@ -173,59 +171,60 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Record a method was called on a mock object.
-	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
-	 */
+	* Record a method was called on a mock object.
+	* @param mockInvocation The invocation on the mock containing information about the method and the arguments.
+	*/
 	public void recordMethod(fflib_InvocationOnMock mockInvocation)
 	{
 		methodCountRecorder.recordMethod(mockInvocation);
 	}
 
 	/**
-	 * Retrieve method calls on mock objects that were recorded, in the order in which they were recorded.
-	 * @return The list of methods called in order.
-	 */
-	public List<fflib_InvocationOnMock> getOrderedMethodCalls() {
+	* Retrieve method calls on mock objects that were recorded, in the order in which they were recorded.
+	* @return The list of methods called in order.
+	*/
+	public List<fflib_InvocationOnMock> getOrderedMethodCalls()
+	{
 		return methodCountRecorder.getInstanceOrderedMethodCalls();
 	}
 
 	/**
-	 * Prepare a stubbed method return value.
-	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
-	 * @return The MethodReturnValue instance.
-	 */
+	* Prepare a stubbed method return value.
+	* @param mockInvocation The invocation on the mock containing information about the method and the arguments.
+	* @return The MethodReturnValue instance.
+	*/
 	public fflib_MethodReturnValue prepareMethodReturnValue(fflib_InvocationOnMock mockInvocation)
 	{
 		return methodReturnValueRecorder.prepareMethodReturnValue(mockInvocation);
 	}
 
 	/**
-	 * Get the method return value for the given method call.
-	 * @param mockInvocation The invocation on the mock containing information about the method and the arguments.
-	 * @return The MethodReturnValue instance.
-	 */
+	* Get the method return value for the given method call.
+	* @param mockInvocation The invocation on the mock containing information about the method and the arguments.
+	* @return The MethodReturnValue instance.
+	*/
 	public fflib_MethodReturnValue getMethodReturnValue(fflib_InvocationOnMock mockInvocation)
 	{
 		return methodReturnValueRecorder.getMethodReturnValue(mockInvocation);
 	}
 
 	/**
-	 * Setup exception stubbing for a void method.
-	 * @param e The exception to throw.
-	 * @param mockInstance The mock object instance.
-	 */
+	* Setup exception stubbing for a void method.
+	* @param e The exception to throw.
+	* @param mockInstance The mock object instance.
+	*/
 	@NamespaceAccessible
 	public Object doThrowWhen(Exception e, Object mockInstance)
 	{
-		methodReturnValueRecorder.prepareDoThrowWhenExceptions(new List<Exception>{e});
+		methodReturnValueRecorder.prepareDoThrowWhenExceptions(new List<Exception>{ e });
 		return mockInstance;
 	}
 
 	/**
-	 * Setup exception stubbing for a void method.
-	 * @param exps The list of exceptions to throw.
-	 * @param mockInstance The mock object instance.
-	 */
+	* Setup exception stubbing for a void method.
+	* @param exps The list of exceptions to throw.
+	* @param mockInstance The mock object instance.
+	*/
 	@NamespaceAccessible
 	public Object doThrowWhen(List<Exception> exps, Object mockInstance)
 	{
@@ -234,10 +233,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Setup answer stubbing for a void method.
-	 * @param answer The answer to invoke.
-	 * @param mockInstance The mock object instance.
-	 */
+	* Setup answer stubbing for a void method.
+	* @param answer The answer to invoke.
+	* @param mockInstance The mock object instance.
+	*/
 	@NamespaceAccessible
 	public Object doAnswer(fflib_Answer answer, Object mockInstance)
 	{
@@ -246,26 +245,26 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Mock a void method. Called by generated mock instance classes, not directly by a developers
-	 * code.
-	 * @param mockInstance The mock object instance.
-	 * @param methodName The method for which to prepare a return value.
-	 * @param methodArgTypes The method argument types for which to prepare a return value.
-	 * @param methodArgValues The method argument values for which to prepare a return value.
-	 */
+	* Mock a void method. Called by generated mock instance classes, not directly by a developers
+	* code.
+	* @param mockInstance The mock object instance.
+	* @param methodName The method for which to prepare a return value.
+	* @param methodArgTypes The method argument types for which to prepare a return value.
+	* @param methodArgValues The method argument values for which to prepare a return value.
+	*/
 	public void mockVoidMethod(Object mockInstance, String methodName, List<Type> methodArgTypes, List<Object> methodArgValues)
 	{
 		mockNonVoidMethod(mockInstance, methodName, methodArgTypes, methodArgValues);
 	}
 
 	/**
-	 * Mock a non-void method. Called by generated mock instance classes, not directly by a developers
-	 * code.
-	 * @param mockInstance The mock object instance.
-	 * @param methodName The method for which to prepare a return value.
-	 * @param methodArgTypes The method argument types for which to prepare a return value.
-	 * @param methodArgValues The method argument values for which to prepare a return value.
-	 */
+	* Mock a non-void method. Called by generated mock instance classes, not directly by a developers
+	* code.
+	* @param mockInstance The mock object instance.
+	* @param methodName The method for which to prepare a return value.
+	* @param methodArgTypes The method argument types for which to prepare a return value.
+	* @param methodArgValues The method argument values for which to prepare a return value.
+	*/
 	public Object mockNonVoidMethod(Object mockInstance, String methodName, List<Type> methodArgTypes, List<Object> methodArgValues)
 	{
 		fflib_QualifiedMethod qm = new fflib_QualifiedMethod(extractTypeName(mockInstance), methodName, methodArgTypes, mockInstance);
@@ -281,14 +280,14 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 		{
 			fflib_MethodReturnValue methotReturnValue = prepareMethodReturnValue(invocation);
 
-			if(DoThrowWhenExceptions != null)
+			if (DoThrowWhenExceptions != null)
 			{
 				methotReturnValue.thenThrowMulti(DoThrowWhenExceptions);
 				DoThrowWhenExceptions = null;
 				return null;
 			}
 
-			if(this.myAnswer != null)
+			if (this.myAnswer != null)
 			{
 				methotReturnValue.thenAnswer(this.myAnswer);
 				this.myAnswer = null;
@@ -307,21 +306,21 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Creates an instance of {@link fflib_InOrder} linked to this ApexMocks instance.
-	 * @param unorderedMockInstances One or more mock implementation classes (listed in any order), whose ordered method calls require verification.
-	 * @return an {@link fflib_InOrder} instance
-	 */
-	public fflib_InOrder inOrder(List<Object> unorderedMockInstances) {
+	* Creates an instance of {@link fflib_InOrder} linked to this ApexMocks instance.
+	* @param unorderedMockInstances One or more mock implementation classes (listed in any order), whose ordered method calls require verification.
+	* @return an {@link fflib_InOrder} instance
+	*/
+	public fflib_InOrder inOrder(List<Object> unorderedMockInstances)
+	{
 		return new fflib_InOrder(this, unorderedMockInstances);
 	}
 
 	/**
-	 * Custom exception class for ApexMocks
-	 */
+	* Custom exception class for ApexMocks
+	*/
 	@NamespaceAccessible
 	public class ApexMocksException extends Exception
 	{
-
 	}
 
 	private Object returnValue(fflib_InvocationOnMock invocation)
@@ -330,15 +329,14 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 
 		if (methodReturnValue != null)
 		{
-			if(methodReturnValue.Answer == null)
+			if (methodReturnValue.Answer == null)
 			{
-				throw new fflib_ApexMocks.ApexMocksException(
-  					'The stubbing is not correct, no return values have been set.');
+				throw new fflib_ApexMocks.ApexMocksException('The stubbing is not correct, no return values have been set.');
 			}
 
 			Object returnedValue = methodReturnValue.Answer.answer(invocation);
 
-			if(returnedValue == null)
+			if (returnedValue == null)
 			{
 				return null;
 			}
@@ -355,17 +353,17 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets how many times the method is expected to be called.
-	 * For InOrder verification we copy Mockito behavior which is as follows;
-	 * <ul>
-	 * <li>Consume the specified number of matching invocations, ignoring non-matching invocations in between</li>
-	 * <li>Fail an assert if the very next invocation matches, but additional matches can still exist so long as at least one non-matching invocation exists before them</li>
-	 * </ul>
-	 * For example if you had a(); a(); b(); a();
-	 * then inOrder.verify(myMock, 2)).a(); or inOrder.verify(myMock, 3)).a(); would pass but not inOrder.verify(myMock, 1)).a();
-	 * @param times The number of times you expect the method to have been called.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets how many times the method is expected to be called.
+	* For InOrder verification we copy Mockito behavior which is as follows;
+	* <ul>
+	* <li>Consume the specified number of matching invocations, ignoring non-matching invocations in between</li>
+	* <li>Fail an assert if the very next invocation matches, but additional matches can still exist so long as at least one non-matching invocation exists before them</li>
+	* </ul>
+	* For example if you had a(); a(); b(); a();
+	* then inOrder.verify(myMock, 2)).a(); or inOrder.verify(myMock, 3)).a(); would pass but not inOrder.verify(myMock, 1)).a();
+	* @param times The number of times you expect the method to have been called.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode times(Integer times)
 	{
@@ -373,11 +371,11 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets how many times the method is expected to be called for an InOrder verifier. Available Only with the InOrder verification.
-	 * A verification mode using calls will not fail if the method is called more times than expected.
-	 * @param times The number of times you expect the method to have been called in the InOrder verifying ( no greedy verify).
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets how many times the method is expected to be called for an InOrder verifier. Available Only with the InOrder verification.
+	* A verification mode using calls will not fail if the method is called more times than expected.
+	* @param times The number of times you expect the method to have been called in the InOrder verifying ( no greedy verify).
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode calls(Integer times)
 	{
@@ -385,10 +383,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets a custom assert message for the verify.
-	 * @param customAssertMessage The custom message for the assert in case the assert is false. The custom message is queued to the default message.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets a custom assert message for the verify.
+	* @param customAssertMessage The custom message for the assert in case the assert is false. The custom message is queued to the default message.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode description(String customAssertMessage)
 	{
@@ -396,11 +394,11 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets the minimum number of times the method is expected to be called.
-	 * With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
-	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets the minimum number of times the method is expected to be called.
+	* With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
+	* @param atLeastTimes The minimum number of times you expect the method to have been called.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode atLeast(Integer atLeastTimes)
 	{
@@ -408,10 +406,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets the maximum number of times the method is expected to be called. Not available in the InOrder verification.
-	 * @param atMostTimes The maximum number of times the method is expected to be called.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets the maximum number of times the method is expected to be called. Not available in the InOrder verification.
+	* @param atMostTimes The maximum number of times the method is expected to be called.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode atMost(Integer atMostTimes)
 	{
@@ -419,10 +417,10 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets that the method is called at least once.
-	 * With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets that the method is called at least once.
+	* With the InOrder verification it performs a greedy verification, which means it would consume all the instances of the method verified.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode atLeastOnce()
 	{
@@ -430,11 +428,11 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets the range of how many times the method is expected to be called. Not available in the InOrder verification.
-	 * @param atLeastTimes The minimum number of times you expect the method to have been called.
-	 * @param atMostTimes The maximum number of times the method is expected to be called.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets the range of how many times the method is expected to be called. Not available in the InOrder verification.
+	* @param atLeastTimes The minimum number of times you expect the method to have been called.
+	* @param atMostTimes The maximum number of times the method is expected to be called.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode between(Integer atLeastTimes, Integer atMostTimes)
 	{
@@ -442,9 +440,9 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets that the method is not expected to be called.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets that the method is not expected to be called.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	@NamespaceAccessible
 	public fflib_VerificationMode never()
 	{
@@ -452,22 +450,22 @@ public with sharing class fflib_ApexMocks implements System.StubProvider
 	}
 
 	/**
-	 * Sets the fflib_VerificationMode object.
-	 * To internal use only.
-	 * Used to pass the verification mode that has been set in the  verify of the fflib_InOrder class.
-	 * @return The fflib_VerificationMode object instance with the proper settings.
-	 */
+	* Sets the fflib_VerificationMode object.
+	* To internal use only.
+	* Used to pass the verification mode that has been set in the  verify of the fflib_InOrder class.
+	* @return The fflib_VerificationMode object instance with the proper settings.
+	*/
 	public void setOrderedVerifier(fflib_InOrder verifyOrderingMode)
 	{
 		this.methodVerifier = verifyOrderingMode;
 	}
-	
+
 	/**
-	 * A simple override to suppress the default toString logic, which is noisy and rarely useful.
-	 * In some cases, the Salesforce default implementation of toString here can cause internal Salesforce errors
-	 * if it has circular references.
-	 * @return "fflib_ApexMocks" String literal
-	 */
+	* A simple override to suppress the default toString logic, which is noisy and rarely useful.
+	* In some cases, the Salesforce default implementation of toString here can cause internal Salesforce errors
+	* if it has circular references.
+	* @return "fflib_ApexMocks" String literal
+	*/
 	public override String toString()
 	{
 		return 'fflib_ApexMocks';
