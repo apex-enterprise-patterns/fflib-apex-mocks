@@ -7,6 +7,7 @@
  * @group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.AvoidDeeplyNestedIfStmts, PMD.ClassNamingConventions, PMD.ExcessiveParameterList')
 public with sharing class fflib_InOrder extends fflib_MethodVerifier
 {
 	private final List<Object> unorderedMockInstances;

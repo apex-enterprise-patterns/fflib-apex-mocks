@@ -2,6 +2,7 @@
  * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
  */
 @isTest
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexUnitTestClassShouldHaveRunAs')
 public with sharing class fflib_QualifiedMethodTest
 {
 	@isTest

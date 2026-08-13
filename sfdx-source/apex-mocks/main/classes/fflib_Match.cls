@@ -24,6 +24,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.AvoidBooleanMethodParameters, PMD.ExcessiveParameterList, PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.ExcessivePublicCount, PMD.ClassNamingConventions, PMD.FieldNamingConventions, PMD.ApexDoc, PMD.ExcessiveClassLength')
 public class fflib_Match
 {
 	private static List<fflib_IMatcher> matchers = new List<fflib_IMatcher>();

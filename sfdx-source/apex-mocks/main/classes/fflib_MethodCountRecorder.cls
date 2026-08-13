@@ -6,6 +6,7 @@
  * @group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions')
 public with sharing class fflib_MethodCountRecorder
 {
 	/*

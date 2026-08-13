@@ -24,6 +24,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @isTest
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.MethodNamingConventions, PMD.ApexUnitTestClassShouldHaveRunAs, PMD.ApexDoc')
 public class fflib_ApexMocksUtilsTest
 {
 	public static Schema.FieldSet findAnyFieldSet()

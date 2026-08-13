@@ -31,6 +31,7 @@
  * E.g. Don't construct Eq(Object toMatch), instead call fflib_Match.eq(Object toMatch).
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.AvoidBooleanMethodParameters, PMD.ExcessiveParameterList, PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.AvoidDeeplyNestedIfStmts, PMD.ClassNamingConventions, PMD.ApexDoc, PMD.ExcessiveClassLength')
 public with sharing class fflib_MatcherDefinitions
 {
 	/**

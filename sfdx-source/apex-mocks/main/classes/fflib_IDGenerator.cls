@@ -24,6 +24,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_IDGenerator
 {
 	private static Integer fakeIdCount = 0;

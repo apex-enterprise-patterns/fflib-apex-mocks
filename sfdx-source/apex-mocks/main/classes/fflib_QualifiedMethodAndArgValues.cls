@@ -6,6 +6,7 @@
  * @group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_QualifiedMethodAndArgValues
 {
 	private final fflib_QualifiedMethod qm;

@@ -24,6 +24,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ExcessiveParameterList, PMD.ClassNamingConventions, PMD.ApexDoc')
 public class fflib_ApexMocksUtils
 {
 	/**

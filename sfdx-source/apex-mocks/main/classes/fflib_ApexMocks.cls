@@ -6,6 +6,7 @@
  * @group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.AvoidBooleanMethodParameters, PMD.ExcessiveParameterList, PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.ExcessivePublicCount, PMD.ClassNamingConventions, PMD.PropertyNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_ApexMocks implements System.StubProvider
 {
 	public static final Integer NEVER = 0;

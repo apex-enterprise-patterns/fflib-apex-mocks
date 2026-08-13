@@ -8,6 +8,7 @@
  *	@group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions')
 public interface fflib_Answer
 {
 	/**

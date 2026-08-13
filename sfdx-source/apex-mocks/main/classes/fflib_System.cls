@@ -8,6 +8,7 @@
  */
 
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions')
 public class fflib_System
 {
 	/**

@@ -30,6 +30,7 @@
  */
 @isTest
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.FieldNamingConventions, PMD.PropertyNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_MethodReturnValue
 {
 	private StandardAnswer basicAnswer = new StandardAnswer();

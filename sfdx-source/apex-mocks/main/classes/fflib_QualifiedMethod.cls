@@ -2,6 +2,7 @@
  * Copyright (c) 2016-2017 FinancialForce.com, inc.  All rights reserved.
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ExcessiveParameterList, PMD.CognitiveComplexity, PMD.ClassNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_QualifiedMethod
 {
 	public final Object mockInstance;

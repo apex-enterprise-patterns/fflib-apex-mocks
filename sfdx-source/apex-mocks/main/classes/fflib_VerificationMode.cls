@@ -8,6 +8,7 @@
  *	@group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.FieldNamingConventions, PMD.PropertyNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_VerificationMode
 {
 	public Integer VerifyMin {get; set;}

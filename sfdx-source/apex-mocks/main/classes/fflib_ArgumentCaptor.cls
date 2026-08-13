@@ -32,6 +32,7 @@
  * 	@group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_ArgumentCaptor
 {
 	protected List<Object> argumentsCaptured = new List<Object>();

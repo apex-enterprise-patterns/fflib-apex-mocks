@@ -1,4 +1,5 @@
 @isTest
+@SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexUnitTestClassShouldHaveRunAs')
 public class fflib_QualifiedMethodAndArgValuesTest
 {
     @isTest

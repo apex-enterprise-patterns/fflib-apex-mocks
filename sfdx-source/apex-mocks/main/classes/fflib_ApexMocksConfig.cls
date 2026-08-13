@@ -3,6 +3,7 @@
  */
 @IsTest
 @NamespaceAccessible
+@SuppressWarnings('PMD.AvoidBooleanMethodParameters, PMD.ClassNamingConventions, PMD.PropertyNamingConventions')
 public class fflib_ApexMocksConfig
 {
 	/**

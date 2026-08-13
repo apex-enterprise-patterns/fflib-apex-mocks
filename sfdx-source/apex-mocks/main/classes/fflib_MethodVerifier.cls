@@ -7,6 +7,7 @@
  *	@group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ExcessiveParameterList, PMD.ClassNamingConventions')
 public abstract class fflib_MethodVerifier
 {
 	/**

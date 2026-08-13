@@ -8,6 +8,7 @@
  *	@group Core
  */
 @NamespaceAccessible
+@SuppressWarnings('PMD.ClassNamingConventions')
 public class fflib_AnyOrder extends fflib_MethodVerifier
 {
 
