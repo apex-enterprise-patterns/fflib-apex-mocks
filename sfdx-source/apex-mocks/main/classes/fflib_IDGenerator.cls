@@ -27,25 +27,25 @@
 @SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexDoc')
 public with sharing class fflib_IDGenerator
 {
-    private static Integer fakeIdCount = 0;
-    private static final String ID_PATTERN = '000000000000';
-    private static Map<SObjectType, String> prefixCacheMap = new Map<SObjectType, String>();
+	private static Integer fakeIdCount = 0;
+	private static final String ID_PATTERN = '000000000000';
+	private static Map<SObjectType, String> prefixCacheMap = new Map<SObjectType, String>();
 
-    /**
-     * Generate a fake Salesforce Id for the given SObjectType
-     */
-    @NamespaceAccessible
-    public static Id generate(Schema.SObjectType sObjectType)
-    {
-        // Avoid describing sObject multiple times
-        String keyPrefix = prefixCacheMap.get(sObjectType);
-        if(keyPrefix == null){
-            keyPrefix = sObjectType.getDescribe().getKeyPrefix();
-            prefixCacheMap.put(sObjectType, keyPrefix);
-        }
+	/**
+	 * Generate a fake Salesforce Id for the given SObjectType
+	 */
+	@NamespaceAccessible
+	public static Id generate(Schema.SObjectType sObjectType)
+	{
+		// Avoid describing sObject multiple times
+		String keyPrefix = prefixCacheMap.get(sObjectType);
+		if(keyPrefix == null){
+			keyPrefix = sObjectType.getDescribe().getKeyPrefix();
+			prefixCacheMap.put(sObjectType, keyPrefix);
+		}
 
-        fakeIdCount++;
-        String fakeIdPrefix = ID_PATTERN.substring(0, ID_PATTERN.length() - String.valueOf(fakeIdCount).length());
-        return Id.valueOf(keyPrefix + fakeIdPrefix + fakeIdCount);
-    }
+		fakeIdCount++;
+		String fakeIdPrefix = ID_PATTERN.substring(0, ID_PATTERN.length() - String.valueOf(fakeIdCount).length());
+		return Id.valueOf(keyPrefix + fakeIdPrefix + fakeIdCount);
+	}
 }
