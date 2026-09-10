@@ -23,12 +23,12 @@
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-@isTest
-@SuppressWarnings('PMD.ClassNamingConventions, PMD.ApexUnitTestClassShouldHaveRunAs')
+@IsTest(isParallel = true)
+@SuppressWarnings('PMD.AvoidHardcodingId, PMD.ClassNamingConventions, PMD.ApexUnitTestClassShouldHaveRunAs')
 private class fflib_IDGeneratorTest
 {
-	@isTest
-	static void itShouldGenerateValidIDs()
+	@IsTest
+	private static void itShouldGenerateValidIDs()
 	{
 		String id1 = fflib_IDGenerator.generate(Account.SObjectType);
 		String id2 = fflib_IDGenerator.generate(Account.SObjectType);
