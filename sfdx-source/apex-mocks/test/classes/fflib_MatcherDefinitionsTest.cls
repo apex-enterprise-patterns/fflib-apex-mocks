@@ -523,7 +523,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeAfterWithInclusiveToStringReturnsExpectedString()
 	{
 		// Given
-		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		DateTime fromDate = DateTime.valueOfGmt('2019-01-01 12:00:00');
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(fromDate, true);
 
 		// When
@@ -537,7 +537,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeAfterWithNotInclusiveToStringReturnsExpectedString()
 	{
 		// Given
-		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		DateTime fromDate = DateTime.valueOfGmt('2019-01-01 12:00:00');
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeAfter(fromDate, false);
 
 		// When
@@ -601,7 +601,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBeforeWithInclusiveToStringReturnsExpectedString()
 	{
 		// Given
-		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		DateTime toDate = DateTime.valueOfGmt('2019-01-01 12:00:00');
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(toDate, true);
 
 		// When
@@ -615,7 +615,7 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBeforeWithNotInclusiveToStringReturnsExpectedString()
 	{
 		// Given
-		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
+		DateTime toDate = DateTime.valueOfGmt('2019-01-01 12:00:00');
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBefore(toDate, false);
 
 		// When
@@ -709,8 +709,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBetweenWithInclusiveToStringReturnsExpectedString()
 	{
 		// Given
-		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
-		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 3, 12, 0, 0);
+		DateTime fromDate = DateTime.valueOfGmt('2019-01-01 12:00:00');
+		DateTime toDate = DateTime.valueOfGmt('2019-01-03 12:00:00');
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(fromDate, true, toDate, true);
 
 		// When
@@ -724,8 +724,8 @@ public class fflib_MatcherDefinitionsTest
 	private static void whenDatetimeBetweenWithNotInclusiveToStringReturnsExpectedString()
 	{
 		// Given
-		DateTime fromDate = DateTime.newInstanceGmt(2019, 1, 1, 12, 0, 0);
-		DateTime toDate = DateTime.newInstanceGmt(2019, 1, 3, 12, 0, 0);
+		DateTime fromDate = DateTime.valueOfGmt('2019-01-01 12:00:00');
+		DateTime toDate = DateTime.valueOfGmt('2019-01-03 12:00:00');
 		fflib_IMatcher matcher = new fflib_MatcherDefinitions.DatetimeBetween(fromDate, false, toDate, false);
 
 		// When
